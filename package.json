@@ -1,0 +1,40 @@
+{
+    "name": "universal-comments",
+    "version": "1.0.0",
+    "description": "Take only memories, leave only comments",
+    "main": "index.js",
+    "dependencies": {
+        "apollo": "^2.21.3",
+        "apollo-boost": "^0.4.7",
+        "graphql": "^14.5.8",
+        "isomorphic-unfetch": "^3.0.0",
+        "micro-cors": "^0.1.1",
+        "next": "^9.2.0",
+        "react": "^16.12.0",
+        "react-dom": "^16.12.0",
+        "react-markdown": "^4.3.1",
+        "resub": "^2.0.0-rc.2"
+    },
+    "devDependencies": {
+        "@babel/plugin-proposal-decorators": "^7.8.3",
+        "@types/graphql": "^14.5.0",
+        "@types/micro-cors": "^0.1.0",
+        "@types/react": "^16.9.17",
+        "@types/react-dom": "^16.9.4",
+        "@typescript-eslint/eslint-plugin": "^2.16.0",
+        "@typescript-eslint/parser": "^2.16.0",
+        "eslint": "^6.8.0",
+        "eslint-config-prettier": "^6.9.0",
+        "eslint-plugin-prettier": "^3.1.2",
+        "eslint-plugin-react": "^7.18.0",
+        "prettier": "^1.19.1",
+        "typescript": "^3.7.4"
+    },
+    "scripts": {
+        "build": "next build",
+        "dev": "next dev",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Willem Liu",
+    "license": "ISC"
+}

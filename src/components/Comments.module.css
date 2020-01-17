@@ -1,0 +1,22 @@
+.comments {
+    font-family: tahoma, Arial, sans-serif;
+}
+
+.comments h2 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.loginContainer {
+    margin: 1rem 0;
+    font-family: tahoma, Arial, sans-serif;
+    display: flex;
+}
+.loginContainer button {
+    flex: 1 1 auto;
+}
+
+.loginContainer h2 {
+    display: flex;
+    justify-content: space-between;
+}

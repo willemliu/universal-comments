@@ -1,0 +1,12 @@
+.commentsScore {
+    user-select: none;
+}
+
+.commentsScore a {
+    cursor: pointer;
+}
+
+.commentScore,
+.commentScoreButton {
+    padding: 1rem;
+}

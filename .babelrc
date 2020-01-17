@@ -1,0 +1,21 @@
+{
+    "plugins": [
+        [
+            "@babel/plugin-proposal-decorators",
+            {
+                "legacy": true
+            }
+        ]
+    ],
+    "presets": [
+        [
+            "next/babel",
+            {
+                "preset-env": {},
+                "transform-runtime": {},
+                "styled-jsx": { "optimizeForSpeed": true },
+                "class-properties": {}
+            }
+        ]
+    ]
+}

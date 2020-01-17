@@ -1,0 +1,15 @@
+.commentForm {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.commentForm textarea {
+    flex: 1 1 auto;
+    height: 75px;
+    padding: 1rem;
+}
+.commentForm button {
+    cursor: pointer;
+    padding: 0.5rem;
+}

@@ -1,0 +1,22 @@
+{
+    "name": "universal-comments",
+    "version": 2,
+    "regions": ["dub1"],
+    "routes": [
+        {
+            "src": "/.*",
+            "headers": {
+                "Cache-Control": "max-age=0, s-maxage=1, stale-while-revalidate"
+            },
+            "continue": true
+        }
+    ],
+    "build": {
+        "env": {
+            "CLIENT_SIDE_VARIABLE": "client side variable LOCAL"
+        }
+    },
+    "env": {
+        "SERVER_SIDE_VARIABLE": "server side variable LOCAL"
+    }
+}
