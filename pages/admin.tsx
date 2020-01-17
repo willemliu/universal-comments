@@ -62,18 +62,6 @@ export default function admin() {
         <>
             <Head>
                 <title>Admin - Universal Comments</title>
-                <meta
-                    name="viewport"
-                    content="width=device-width, initial-scale=1"
-                />
-                <meta name="uc:disabled" content="true" />
-                <FBSDK key="facebook" />
-                <GoogleSDK key="google" />
-
-                <link
-                    rel="stylesheet"
-                    href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.css"
-                />
             </Head>
             {loading ? <div className="blink">Loading...</div> : <Comments />}
             <Comments
