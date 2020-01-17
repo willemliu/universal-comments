@@ -1,9 +1,11 @@
 import 'isomorphic-unfetch';
 import ApolloClient, { gql } from 'apollo-boost';
 
+declare let process: any;
+
 // the Apollo cache is set up automatically
 const client = new ApolloClient({
-    uri: 'https://universal-comments.herokuapp.com/v1/graphql',
+    uri: process.env.GRAPHQL_ENDPOINT,
     name: 'hasura-test',
     credentials: 'include',
     headers: {
