@@ -37,6 +37,7 @@ export default function admin() {
                             }
                         ) {
                             name
+                            password
                         }
                     }
                 `,
