@@ -66,6 +66,7 @@ export default function admin() {
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
+                <meta name="uc:disabled" content="true" />
                 <FBSDK key="facebook" />
                 <GoogleSDK key="google" />
 

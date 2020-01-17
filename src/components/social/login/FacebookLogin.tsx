@@ -30,28 +30,29 @@ function FacebookLogin(props: Props) {
 
     useEffect(() => {
         if (loggedIn && accessToken) {
-            FB.api('/me', { fields: 'id,name,email,picture' }, (response) => {
-                console.log(response);
-                UserStore.setId(response.id);
-                UserStore.setName(response.name);
-                UserStore.setEmail(response.email);
-                UserStore.setImage(response.picture?.data?.url);
-                UserStore.setToken(accessToken);
-                createUser(
-                    response.id,
-                    response.name,
-                    response.email,
-                    response.picture?.data?.url,
-                    accessToken
-                );
-            });
+            FB.api(
+                '/me',
+                { fields: 'id,name,email,picture' },
+                async (response: any) => {
+                    console.log(response);
+                    UserStore.setId(response.id);
+                    UserStore.setName(response.name);
+                    UserStore.setEmail(response.email);
+                    UserStore.setImage(response.picture?.data?.url);
+                    UserStore.setToken(accessToken);
+                    await createUser(
+                        response.id,
+                        response.name,
+                        response.email,
+                        response.picture?.data?.url,
+                        accessToken
+                    );
+                }
+            );
             props?.onLogin(provider);
             if (props?.onAccess) {
                 props?.onAccess(accessToken);
             }
-        } else {
-            UserStore.clear();
-            props?.onLogout();
         }
     }, [loggedIn, accessToken]);
 
@@ -60,6 +61,8 @@ function FacebookLogin(props: Props) {
     }
 
     function logout() {
+        UserStore.clear();
+        props?.onLogout();
         FB.logout();
     }
 

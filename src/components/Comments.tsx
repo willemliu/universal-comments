@@ -6,7 +6,7 @@ import { GoogleLogin } from './social/login/GoogleLogin';
 import CommentsStore, { Comment } from '../stores/CommentsStore';
 import styles from './Comments.module.css';
 
-type Provider = 'facebook' | 'google';
+export type Provider = 'facebook' | 'google';
 
 function assembleDescendents(comments: Comment[]) {
     try {

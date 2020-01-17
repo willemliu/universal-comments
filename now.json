@@ -14,7 +14,8 @@
     "build": {
         "env": {
             "CLIENT_SIDE_VARIABLE": "client side variable LOCAL",
-            "GRAPHQL_ENDPOINT": "@universal-comments-graphql-endpoint"
+            "GRAPHQL_ENDPOINT": "@universal-comments-graphql-endpoint",
+            "HASURA_ROLE": "@universal-comments-role"
         }
     },
     "env": {

@@ -67,6 +67,7 @@ function Index() {
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
+                <meta name="uc:disabled" content="true" />
                 <FBSDK key="facebook" />
                 <GoogleSDK key="google" />
                 {canonical ? <link rel="canonical" href={canonical} /> : null}

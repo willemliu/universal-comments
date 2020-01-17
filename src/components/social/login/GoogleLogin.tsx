@@ -30,7 +30,7 @@ function GoogleLogin(props: Props) {
 
     useEffect(() => {
         if (GoogleAuth) {
-            GoogleAuth.isSignedIn.listen((signedIn: boolean) => {
+            GoogleAuth.isSignedIn.listen(async (signedIn: boolean) => {
                 setLoggedIn(signedIn);
                 if (signedIn) {
                     const profile = GoogleAuth.currentUser
@@ -42,7 +42,7 @@ function GoogleLogin(props: Props) {
 
                     console.log(profile, authResponse);
 
-                    createUser(
+                    await createUser(
                         profile.getId(),
                         profile.getName(),
                         profile.getEmail(),
@@ -66,9 +66,9 @@ function GoogleLogin(props: Props) {
                 }
             });
 
-            GoogleAuth.isSignedIn.get()
-                ? props?.onLogin(provider)
-                : props?.onLogout();
+            if (GoogleAuth.isSignedIn.get()) {
+                props?.onLogin(provider);
+            }
         }
     }, [GoogleAuth]);
 
@@ -77,6 +77,7 @@ function GoogleLogin(props: Props) {
     }
 
     function logout() {
+        props?.onLogout();
         GoogleAuth?.signOut();
     }
 
@@ -102,7 +103,7 @@ function GoogleSDK() {
                 name="google-signin-client_id"
                 content="426807433984-fjqermuq3moa27vho9he9dr9upjqafro.apps.googleusercontent.com"
             />
-            <script src="//apis.google.com/js/platform.js" async defer />
+            <script src="//apis.google.com/js/platform.js" />
         </>
     );
 }

@@ -3,14 +3,19 @@ import ApolloClient, { gql } from 'apollo-boost';
 
 declare let process: any;
 
+const headers = {
+    'X-Hasura-Role': process.env.HASURA_ROLE,
+};
+if (process.env.HASURA_ADMIN_SECRET) {
+    headers['x-hasura-admin-secret'] = process.env.HASURA_ADMIN_SECRET;
+}
+
 // the Apollo cache is set up automatically
 const client = new ApolloClient({
     uri: process.env.GRAPHQL_ENDPOINT,
     name: 'hasura-test',
     credentials: 'include',
-    headers: {
-        'X-Hasura-Role': 'universal-comments',
-    },
+    headers,
 });
 
 client.defaultOptions.watchQuery = {
@@ -26,7 +31,7 @@ export function getApolloClient() {
     return client;
 }
 
-export function createUser(
+export async function createUser(
     id: string,
     name: string,
     email: string,
@@ -34,7 +39,7 @@ export function createUser(
     token: string
 ) {
     const client = getApolloClient();
-    client
+    await client
         .mutate({
             variables: {
                 email,
