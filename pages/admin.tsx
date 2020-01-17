@@ -61,12 +61,15 @@ export default function admin() {
             <Head>
                 <title>Admin - Universal Comments</title>
             </Head>
-            {loading ? <div className="blink">Loading...</div> : <Comments />}
-            <Comments
-                title={'Comments Admin'}
-                onAccess={onAccess}
-                noForm={true}
-            />
+            {loading ? (
+                <div className="blink">Loading...</div>
+            ) : (
+                <Comments
+                    title={'Comments Admin'}
+                    onAccess={onAccess}
+                    noForm={true}
+                />
+            )}
             <small>Universal comments admin</small>
         </>
     );

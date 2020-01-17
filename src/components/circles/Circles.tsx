@@ -49,7 +49,7 @@ function Circles(props: Props) {
                         onClick={handleDelete.bind(null, circle.name)}
                         title="Delete"
                     >
-                        🗑️
+                        ☠️
                     </button>
                 </li>
             ))}
