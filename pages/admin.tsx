@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
-import { FBSDK } from '../src/components/social/login/FacebookLogin';
-import { GoogleSDK } from '../src/components/social/login/GoogleLogin';
 import CommentsStore from '../src/stores/CommentsStore';
 import { getApolloClient } from '../src/utils/apolloClient';
 import { gql } from 'apollo-boost';

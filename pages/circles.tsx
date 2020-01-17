@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
-import {
-    FBSDK,
-    FacebookLogin,
-} from '../src/components/social/login/FacebookLogin';
-import {
-    GoogleSDK,
-    GoogleLogin,
-} from '../src/components/social/login/GoogleLogin';
+import { FacebookLogin } from '../src/components/social/login/FacebookLogin';
+import { GoogleLogin } from '../src/components/social/login/GoogleLogin';
 import { getApolloClient } from '../src/utils/apolloClient';
 import { gql } from 'apollo-boost';
 import { Provider } from '../src/components/Comments';
