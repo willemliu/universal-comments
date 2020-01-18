@@ -1,0 +1,23 @@
+This Privacy Policy was last modified on June 28, 2018.
+
+WilliM ("us", "we", or "our") operates Universal Comments (the "Site" and " Browser plugin"). This page informs you of our policies regarding the collection, use and disclosure of Personal Information we receive from users of the Site.
+
+We use your Personal Information only for providing and improving the Site. By using the Site, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at universal-comments.willemliu.now.sh.
+
+Information Collection And Use
+ While using our Site, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you. Personally identifiable information may include, but is not limited to, your name, email address, postal address and phone number ("Personal Information").
+Collected information is only used by our Site to provide functionality or for statistical analysis. All collected information is never given or sold to a third party. Our site does not make use of any third party analytics tools/software for information collection. Our Site is ad-free and therefor we do not use your data to, for example, provide you with more relevant ads.
+When you have an account on the Site your e-mail address be used in the following ways:
+- You may receive an e-mail when another user writes a comment for a URL you've previously written a comment for.
+
+Security
+ The security of your Personal Information is important to us, but remember that no method of transmission over the Internet, or method of electronic storage, is 100% secure. While we strive to use commercially acceptable means to protect your Personal Information, we cannot guarantee its absolute security.
+Your password is stored in our database, encrypted by a one-way hash with a salt. It is therefor impossible for anyone to retrieve the original password from it. Which is also the reason why, when you've forgotten your password, you will have to reset it rather than being able to retrieve it.
+
+Links To Other Sites
+ Our Site may contain links to other sites that are not operated by us. If you click on a third party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit.
+
+WilliM has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party sites or services.
+
+Changes To This Privacy Policy
+ WilliM may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on the Site. You are advised to review this Privacy Policy periodically for any changes.
