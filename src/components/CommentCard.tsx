@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import CommentsStore, { Comment } from '../stores/CommentsStore';
 import { useState } from 'react';
 import { CommentScore } from './CommentScore';
-import { gql } from 'apollo-boost';
-import { getApolloClient } from '../utils/apolloClient';
+import { insertScore, removeComment } from '../utils/apolloClient';
 import { CommentForm } from './CommentForm';
 import UserStore from '../stores/UserStore';
 import ReactMarkdown from 'react-markdown';
@@ -52,90 +51,16 @@ function CommentCard(props: Props) {
         setCollapsed(!collapsed);
     }
 
-    function vote(vote: number) {
-        const client = getApolloClient();
-        client
-            .mutate({
-                variables: {
-                    userId,
-                    vote,
-                    commentId: props.id,
-                },
-                mutation: gql`
-                    mutation(
-                        $userId: String!
-                        $vote: Int!
-                        $commentId: bigint!
-                    ) {
-                        insert_scores(
-                            objects: {
-                                user_id: $userId
-                                score: $vote
-                                comment_id: $commentId
-                            }
-                            on_conflict: {
-                                constraint: scores_comment_id_user_id_key
-                                update_columns: score
-                            }
-                        ) {
-                            returning {
-                                comment {
-                                    scores_aggregate {
-                                        aggregate {
-                                            sum {
-                                                score
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                `,
-            })
-            .then(({ data }: any) => {
-                setScore(
-                    data?.insert_scores?.returning?.[0]?.comment
-                        ?.scores_aggregate?.aggregate?.sum?.score || 0
-                );
-            })
-            .catch(console.error);
+    async function vote(vote: number) {
+        try {
+            setScore(await insertScore(userId, vote, props.id));
+        } catch (e) {
+            console.error(e);
+        }
     }
 
-    function removeComment() {
-        const client = getApolloClient();
-        client
-            .mutate({
-                variables: {
-                    commentId: props.id,
-                    userId,
-                },
-                mutation: gql`
-                    mutation($commentId: bigint!, $userId: String!) {
-                        update_comments(
-                            where: {
-                                id: { _eq: $commentId }
-                                user_id: { _eq: $userId }
-                            }
-                            _set: { removed: true, updated: "now()" }
-                        ) {
-                            returning {
-                                id
-                                updated
-                                comment
-                                removed
-                            }
-                        }
-                    }
-                `,
-            })
-            .then(({ data }: any) => {
-                console.log(data?.update_comments?.returning?.[0]);
-                CommentsStore.updateComment(
-                    data?.update_comments?.returning?.[0]
-                );
-            })
-            .catch(console.error);
+    async function handleRemoveComment() {
+        CommentsStore.updateComment(await removeComment(props.id, userId));
     }
 
     function toggleReply() {
@@ -195,7 +120,7 @@ function CommentCard(props: Props) {
                         `${props.userId}` === userId && (
                             <span
                                 className={styles.removeButton}
-                                onClick={removeComment}
+                                onClick={handleRemoveComment}
                                 title="Remove comment"
                             >
                                 ☠️

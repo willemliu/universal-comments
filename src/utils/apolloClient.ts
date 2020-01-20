@@ -346,3 +346,83 @@ export async function insertComment(
             return data?.insert_comments?.returning?.[0];
         });
 }
+
+export async function insertScore(
+    userId: string,
+    vote: number,
+    commentId: number
+) {
+    return await client
+        .mutate({
+            variables: {
+                userId,
+                vote,
+                commentId,
+            },
+            mutation: gql`
+                mutation($userId: String!, $vote: Int!, $commentId: bigint!) {
+                    insert_scores(
+                        objects: {
+                            user_id: $userId
+                            score: $vote
+                            comment_id: $commentId
+                        }
+                        on_conflict: {
+                            constraint: scores_comment_id_user_id_key
+                            update_columns: score
+                        }
+                    ) {
+                        returning {
+                            comment {
+                                scores_aggregate {
+                                    aggregate {
+                                        sum {
+                                            score
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            `,
+        })
+        .then(({ data }: any) => {
+            return (
+                data?.insert_scores?.returning?.[0]?.comment?.scores_aggregate
+                    ?.aggregate?.sum?.score || 0
+            );
+        });
+}
+
+export async function removeComment(commentId: number, userId: string) {
+    return client
+        .mutate({
+            variables: {
+                commentId,
+                userId,
+            },
+            mutation: gql`
+                mutation($commentId: bigint!, $userId: String!) {
+                    update_comments(
+                        where: {
+                            id: { _eq: $commentId }
+                            user_id: { _eq: $userId }
+                        }
+                        _set: { removed: true, updated: "now()" }
+                    ) {
+                        returning {
+                            id
+                            updated
+                            comment
+                            removed
+                        }
+                    }
+                }
+            `,
+        })
+        .then(({ data }: any) => {
+            console.log(data?.update_comments?.returning?.[0]);
+            return data?.update_comments?.returning?.[0];
+        });
+}
