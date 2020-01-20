@@ -16,7 +16,7 @@ export default function MyApp({ Component, pageProps }: any) {
                 />
                 <meta
                     httpEquiv="Content-Security-Policy"
-                    content="default-src *; img-src * data:; style-src 'self' 'unsafe-inline'; script-src 'self' https://connect.facebook.net/en_US/sdk.js 'unsafe-inline' 'unsafe-eval'; script-src 'self' https://apis.google.com/js/platform.js 'unsafe-inline' 'unsafe-eval'; script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.css 'unsafe-inline' 'unsafe-eval'"
+                    content="default-src *; img-src * data:; style-src 'self' 'unsafe-inline'; script-src 'self' https://connect.facebook.net/en_US/sdk.js https://apis.google.com/js/platform.js https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.css 'unsafe-inline' 'unsafe-eval';"
                 />
                 <meta name="uc:disabled" content="true" />
                 <FBSDK key="facebook" />
