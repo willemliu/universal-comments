@@ -31,6 +31,12 @@ You can pass a canonical url by passing the `canonical` URL-parameter like so:
 
 When you pass a canonical URL then your comments will be attached to that specific URL.
 
+## Circles
+
+You can administer your circles by navigating to:
+
+-   `localhost:3000/circles`
+
 ## Admin
 
 You can administer all your own comments by navigating to:
