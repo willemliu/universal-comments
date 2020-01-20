@@ -570,7 +570,12 @@ export async function getCommentCount(url: string) {
             },
             query: gql`
                 query($url: String!) {
-                    comments_aggregate(where: { url: { _eq: $url } }) {
+                    comments_aggregate(
+                        where: {
+                            url: { _eq: $url }
+                            circle_id: { _is_null: true }
+                        }
+                    ) {
                         aggregate {
                             count
                         }
