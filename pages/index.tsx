@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { getCommentsByUrl } from '../src/utils/apolloClient';
+import {
+    getCommentsByUrl,
+    getCommentsByCircleId,
+} from '../src/utils/apolloClient';
 import { Comments } from '../src/components/Comments';
 import Head from 'next/head';
 import CommentsStore from '../src/stores/CommentsStore';
@@ -26,8 +29,25 @@ function Index() {
         }
     }, []);
 
-    function handleCircleChange(circleId: number) {
-        console.log(circleId);
+    function handleCircleChange(circleId?: number) {
+        const url = getCanonical();
+        setCanonical(url);
+        try {
+            if (circleId) {
+                getCommentsByCircleId(url, circleId).then((comments) => {
+                    CommentsStore.setComments(comments);
+                });
+            } else {
+                getCommentsByUrl(url).then((comments) => {
+                    CommentsStore.setComments(comments);
+                });
+            }
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setCommentUrl(url);
+            setLoading(false);
+        }
     }
 
     return (

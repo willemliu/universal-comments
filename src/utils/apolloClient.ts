@@ -590,13 +590,59 @@ export async function getCommentsByUrl(url: string) {
             query: gql`
                 query($url: String!) {
                     comments(
-                        where: { url: { _eq: $url } }
+                        where: {
+                            url: { _eq: $url }
+                            circle_id: { _is_null: true }
+                        }
                         order_by: { timestamp: asc }
                     ) {
                         id
                         url
                         comment
                         parent_id
+                        circle_id
+                        timestamp
+                        updated
+                        removed
+                        user {
+                            id
+                            display_name
+                            image
+                        }
+                        scores_aggregate {
+                            aggregate {
+                                sum {
+                                    score
+                                }
+                            }
+                        }
+                    }
+                }
+            `,
+        })
+        .then((value) => {
+            return value?.data?.comments;
+        });
+}
+
+export async function getCommentsByCircleId(url: string, circleId?: number) {
+    return await client
+        .query({
+            variables: { url, circleId },
+            query: gql`
+                query($url: String!, $circleId: bigint) {
+                    comments(
+                        where: {
+                            url: { _eq: $url }
+                            circle_id: { _eq: $circleId }
+                        }
+                        order_by: { timestamp: asc }
+                    ) {
+                        id
+                        url
+                        comment
+                        parent_id
+                        circle_id
                         timestamp
                         updated
                         removed
