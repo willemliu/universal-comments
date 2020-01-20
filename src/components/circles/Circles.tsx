@@ -63,6 +63,15 @@ function Circles(props: Props) {
         setNewPassword(e.currentTarget.value);
     }
 
+    function handleLeave(
+        id: number,
+        name: string,
+        password: string,
+        e: React.MouseEvent<HTMLButtonElement>
+    ) {
+        console.log(id, name, password, e);
+    }
+
     return (
         <ul>
             {props.circles.map((circle: Circle) => (
@@ -98,6 +107,17 @@ function Circles(props: Props) {
                         title="Delete"
                     >
                         ☠️
+                    </button>
+                    <button
+                        onClick={handleLeave.bind(
+                            null,
+                            circle.id,
+                            circle.name,
+                            circle.password
+                        )}
+                        title="Leave"
+                    >
+                        🏃💨
                     </button>
                 </li>
             ))}

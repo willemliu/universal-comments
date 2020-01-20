@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import { FacebookLogin } from '../src/components/social/login/FacebookLogin';
 import { GoogleLogin } from '../src/components/social/login/GoogleLogin';
-import { getCircles, addCircle } from '../src/utils/apolloClient';
+import { getCircles, addCircle, joinCircle } from '../src/utils/apolloClient';
 import { Provider } from '../src/components/Comments';
 import { Circles } from '../src/components/circles/Circles';
 import UserStore from '../src/stores/UserStore';
@@ -37,6 +37,20 @@ export default function circles() {
         }
         formEl.reset();
         window.location.reload();
+    }
+
+    async function handleJoinSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const formEl = e.currentTarget;
+        const formData = new FormData(formEl);
+        const name = formData.get('name').toString();
+        const password = formData.get('password').toString();
+
+        if (name && password) {
+            await joinCircle(UserStore.getId(), name, password);
+        }
+        formEl.reset();
+        // window.location.reload();
     }
 
     function login(provider: Provider) {
@@ -76,7 +90,7 @@ export default function circles() {
             {loggedIn ? (
                 <form onSubmit={handleSubmit}>
                     <fieldset>
-                        <legend>Add circle</legend>
+                        <legend>Create circle</legend>
                         <input
                             type="text"
                             name="name"
@@ -87,7 +101,26 @@ export default function circles() {
                             name="password"
                             placeholder="Circle password"
                         />
-                        <button>➕</button>
+                        <button title="Create circle">➕</button>
+                    </fieldset>
+                </form>
+            ) : null}
+
+            {loggedIn ? (
+                <form onSubmit={handleJoinSubmit}>
+                    <fieldset>
+                        <legend>Join circle</legend>
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Circle name"
+                        />
+                        <input
+                            type="text"
+                            name="password"
+                            placeholder="Circle password"
+                        />
+                        <button title="Join circle">🤝</button>
                     </fieldset>
                 </form>
             ) : null}

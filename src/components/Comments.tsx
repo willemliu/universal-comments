@@ -117,7 +117,6 @@ function Comments(props: Props) {
                                 </option>
                             ))}
                         </select>
-                        <button title="Join a circle">🤝</button>
                         {loggedIn && (
                             <a
                                 href="/circles"
