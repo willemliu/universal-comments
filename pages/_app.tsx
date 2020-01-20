@@ -14,6 +14,10 @@ export default function MyApp({ Component, pageProps }: any) {
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
+                <meta
+                    httpEquiv="Content-Security-Policy"
+                    content="default-src *; img-src * data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'"
+                />
                 <meta name="uc:disabled" content="true" />
                 <FBSDK key="facebook" />
                 <GoogleSDK key="google" />
