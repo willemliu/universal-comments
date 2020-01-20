@@ -71,7 +71,7 @@ function Comments(props: Props) {
     return (
         <section className={`${styles.comments} universal-comments`}>
             {loggedIn && (
-                <section className="adminLinks">
+                <section className={styles.adminLinks}>
                     <a
                         href="/circles"
                         target="_blank"
