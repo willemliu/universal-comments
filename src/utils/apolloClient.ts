@@ -87,7 +87,7 @@ export async function getCircles(accessToken: string) {
                 accessToken,
             },
             query: gql`
-                query($accessToken: String!) {
+                query GetCircles($accessToken: String!) {
                     circles(
                         where: {
                             users_circles: {
