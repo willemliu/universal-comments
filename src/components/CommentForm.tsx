@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import styles from './CommentForm.module.css';
-import { gql } from 'apollo-boost';
-import { getApolloClient } from '../utils/apolloClient';
+import { insertComment } from '../utils/apolloClient';
 import { useState } from 'react';
 import UserStore from '../stores/UserStore';
 import CommentsStore from '../stores/CommentsStore';
@@ -17,7 +16,7 @@ function CommentForm(props: Props) {
     const textareaRef = useRef(null);
     const [comment, setComment] = useState('');
 
-    function handleSubmit(e: React.FormEvent) {
+    async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         if (!comment || !comment.length) {
             return;
@@ -31,70 +30,26 @@ function CommentForm(props: Props) {
         }
 
         const url = getCanonical();
-        const client = getApolloClient();
-
-        client
-            .mutate({
-                variables: {
-                    comment: encodeURI(comment),
+        try {
+            CommentsStore.addComment(
+                await insertComment(
+                    UserStore.getId(),
                     url,
-                    userId: UserStore.getId(),
-                    parentId: props.parentId ?? null,
-                },
-                mutation: gql`
-                    mutation(
-                        $comment: String!
-                        $url: String!
-                        $userId: String!
-                        $parentId: bigint
-                    ) {
-                        insert_comments(
-                            objects: {
-                                comment: $comment
-                                url: $url
-                                user_id: $userId
-                                parent_id: $parentId
-                            }
-                        ) {
-                            returning {
-                                id
-                                url
-                                comment
-                                parent_id
-                                removed
-                                timestamp
-                                updated
-                                scores_aggregate {
-                                    aggregate {
-                                        sum {
-                                            score
-                                        }
-                                    }
-                                }
-                                user {
-                                    id
-                                    display_name
-                                    image
-                                }
-                            }
-                        }
-                    }
-                `,
-            })
-            .then(({ data }: any) => {
-                console.log(data?.insert_comments?.returning?.[0]);
-                CommentsStore.addComment(data?.insert_comments?.returning?.[0]);
-            })
-            .catch(console.error)
-            .finally(() => {
-                /**
-                 * Empty the comment field
-                 */
-                if (textareaRef && textareaRef.current) {
-                    setComment('');
-                    textareaRef.current.value = '';
-                }
-            });
+                    encodeURI(comment),
+                    props.parentId ?? null
+                )
+            );
+        } catch (e) {
+            console.error(e);
+        } finally {
+            /**
+             * Empty the comment field
+             */
+            if (textareaRef && textareaRef.current) {
+                setComment('');
+                textareaRef.current.value = '';
+            }
+        }
     }
 
     function handleCommentChange(e: React.ChangeEvent<HTMLTextAreaElement>) {

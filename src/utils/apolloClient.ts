@@ -286,3 +286,63 @@ export async function getAllUserComments(accessToken: string) {
             return value?.data?.comments;
         });
 }
+
+export async function insertComment(
+    userId: string,
+    url: string,
+    comment: string,
+    parentId?: number
+) {
+    return await client
+        .mutate({
+            variables: {
+                comment,
+                url,
+                userId,
+                parentId,
+            },
+            mutation: gql`
+                mutation(
+                    $comment: String!
+                    $url: String!
+                    $userId: String!
+                    $parentId: bigint
+                ) {
+                    insert_comments(
+                        objects: {
+                            comment: $comment
+                            url: $url
+                            user_id: $userId
+                            parent_id: $parentId
+                        }
+                    ) {
+                        returning {
+                            id
+                            url
+                            comment
+                            parent_id
+                            removed
+                            timestamp
+                            updated
+                            scores_aggregate {
+                                aggregate {
+                                    sum {
+                                        score
+                                    }
+                                }
+                            }
+                            user {
+                                id
+                                display_name
+                                image
+                            }
+                        }
+                    }
+                }
+            `,
+        })
+        .then(({ data }: any) => {
+            console.log(data?.insert_comments?.returning?.[0]);
+            return data?.insert_comments?.returning?.[0];
+        });
+}
