@@ -1,3 +1,11 @@
+.adminLinks {
+    margin: 1rem 0;
+}
+
+.adminLinks a {
+    margin: 0 1rem 0 0;
+}
+
 .blink {
     animation: 1s linear infinite condemned_blink_effect;
 }
