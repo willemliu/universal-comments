@@ -188,7 +188,7 @@ function CommentCard(props: Props) {
             >
                 <header>
                     <div className={styles.collapser} onClick={toggleCollapse}>
-                        {collapsed ? `[+] Show` : `[-] Hide`}
+                        {collapsed ? `➕ Show` : `➖ Hide`}
                     </div>
                     {!props.removed &&
                         props.loggedIn &&
