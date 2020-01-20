@@ -22,9 +22,7 @@ function Circles(props: Props) {
         password: string,
         e: React.MouseEvent<HTMLButtonElement>
     ) {
-        console.log(id, name, password, e);
         if (confirm(`Remove [${name}] circle and all related comments?`)) {
-            console.log('DELETE', id, name, password);
             const client = getApolloClient();
             client
                 .mutate({
@@ -55,8 +53,8 @@ function Circles(props: Props) {
                     console.log(value?.data);
                     window.location.reload();
                 })
-                .catch((e) => {
-                    console.error(e);
+                .catch((err) => {
+                    console.error(e, err);
                     alert(
                         `Couldn't remove the [${name}] circle. Please notify the administrator of this error.`
                     );
