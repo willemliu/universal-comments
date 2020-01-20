@@ -142,6 +142,7 @@ function Comments(props: Props) {
                     <CommentCard
                         key={comment?.id}
                         id={comment?.id}
+                        circleId={circleId}
                         displayName={comment?.user?.display_name}
                         generation={0}
                         userId={comment?.user?.id}

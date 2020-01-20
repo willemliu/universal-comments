@@ -10,6 +10,7 @@ import styles from './CommentCard.module.css';
 
 interface Props {
     comment: string;
+    circleId?: number;
     displayName: string;
     id: number;
     generation?: number;
@@ -189,6 +190,7 @@ function CommentCard(props: Props) {
                     <CommentForm
                         parentId={props.id}
                         onSubmit={handleReplySubmit}
+                        circleId={props.circleId}
                     />
                 ) : null}
             </article>
