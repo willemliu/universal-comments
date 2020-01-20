@@ -88,23 +88,20 @@ function Comments(props: Props) {
 
     return (
         <section className={`${styles.comments} universal-comments`}>
-            {loggedIn && (
-                <section className={styles.adminLinks}>
-                    <a
-                        href="/circles"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Manage Circles⚙️
-                    </a>
-                    <a href="/admin" target="_blank" rel="noopener noreferrer">
-                        Manage Your Comments⚙️
-                    </a>
-                </section>
-            )}
-
             <h2>
-                <span>{props.title || 'Comments'}</span>
+                <span>
+                    {props.title || 'Comments'}
+                    {loggedIn && (
+                        <a
+                            href="/admin"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Manage your comments"
+                        >
+                            ⚙️
+                        </a>
+                    )}
+                </span>
                 {circles.length ? (
                     <section className={styles.circle}>
                         <label htmlFor="circle">Circle:</label>
@@ -120,6 +117,17 @@ function Comments(props: Props) {
                                 </option>
                             ))}
                         </select>
+                        <button title="Join a circle">🤝</button>
+                        {loggedIn && (
+                            <a
+                                href="/circles"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title="Manage your circles"
+                            >
+                                ⚙️
+                            </a>
+                        )}
                     </section>
                 ) : null}
             </h2>
