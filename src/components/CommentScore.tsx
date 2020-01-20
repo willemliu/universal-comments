@@ -13,7 +13,7 @@ function CommentScore(props: Props) {
             <a
                 onClick={props.onVoteUp}
                 className={styles.commentScoreButton}
-                title="vote up"
+                title="Relevant"
             >
                 👍
             </a>
@@ -27,7 +27,7 @@ function CommentScore(props: Props) {
             <a
                 onClick={props.onVoteDown}
                 className={styles.commentScoreButton}
-                title="vote down"
+                title="Irrelevant"
             >
                 👎
             </a>
