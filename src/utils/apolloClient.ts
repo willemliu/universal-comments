@@ -163,3 +163,83 @@ export async function addCircle(
         );
     }
 }
+
+export async function removeCircle(id: number, name: string, password: string) {
+    client
+        .mutate({
+            variables: {
+                id,
+                name,
+                password,
+            },
+            mutation: gql`
+                mutation($id: bigint!, $name: String!, $password: String!) {
+                    delete_circles(
+                        where: {
+                            id: { _eq: $id }
+                            name: { _eq: $name }
+                            password: { _eq: $password }
+                        }
+                    ) {
+                        affected_rows
+                    }
+                }
+            `,
+        })
+        .then((value: any) => {
+            console.log(value?.data);
+            window.location.reload();
+        })
+        .catch((err) => {
+            console.error(err);
+            alert(
+                `Couldn't remove the [${name}] circle. Please notify the administrator of this error.`
+            );
+        });
+}
+
+export async function updateCircle(
+    id: number,
+    name: string,
+    password: string,
+    newPassword: string
+) {
+    client
+        .mutate({
+            variables: {
+                id,
+                name,
+                password,
+                newPassword,
+            },
+            mutation: gql`
+                mutation(
+                    $id: bigint!
+                    $name: String!
+                    $password: String!
+                    $newPassword: String!
+                ) {
+                    update_circles(
+                        where: {
+                            id: { _eq: $id }
+                            name: { _eq: $name }
+                            password: { _eq: $password }
+                        }
+                        _set: { password: $newPassword }
+                    ) {
+                        affected_rows
+                    }
+                }
+            `,
+        })
+        .then((value: any) => {
+            console.log(value?.data);
+            window.location.reload();
+        })
+        .catch((err) => {
+            console.error(err);
+            alert(
+                `Couldn't save changes for the [${name}] circle. Please notify the administrator of this error.`
+            );
+        });
+}

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { getApolloClient } from '../../utils/apolloClient';
-import { gql } from 'apollo-boost';
+import { removeCircle, updateCircle } from '../../utils/apolloClient';
 
 type Circle = {
     id: number;
@@ -22,43 +21,9 @@ function Circles(props: Props) {
         password: string,
         e: React.MouseEvent<HTMLButtonElement>
     ) {
+        console.debug(e);
         if (confirm(`Remove [${name}] circle and all related comments?`)) {
-            const client = getApolloClient();
-            client
-                .mutate({
-                    variables: {
-                        id,
-                        name,
-                        password,
-                    },
-                    mutation: gql`
-                        mutation(
-                            $id: bigint!
-                            $name: String!
-                            $password: String!
-                        ) {
-                            delete_circles(
-                                where: {
-                                    id: { _eq: $id }
-                                    name: { _eq: $name }
-                                    password: { _eq: $password }
-                                }
-                            ) {
-                                affected_rows
-                            }
-                        }
-                    `,
-                })
-                .then((value: any) => {
-                    console.log(value?.data);
-                    window.location.reload();
-                })
-                .catch((err) => {
-                    console.error(e, err);
-                    alert(
-                        `Couldn't remove the [${name}] circle. Please notify the administrator of this error.`
-                    );
-                });
+            removeCircle(id, name, password);
         }
     }
 
@@ -72,6 +37,7 @@ function Circles(props: Props) {
         password: string,
         e: React.MouseEvent<HTMLButtonElement>
     ) {
+        console.debug(e);
         if (
             confirm(
                 readOnly
@@ -83,45 +49,7 @@ function Circles(props: Props) {
 
             // Store the changes when user clicks save.
             if (!readOnly && newPassword) {
-                const client = getApolloClient();
-                client
-                    .mutate({
-                        variables: {
-                            id,
-                            name,
-                            password,
-                            newPassword,
-                        },
-                        mutation: gql`
-                            mutation(
-                                $id: bigint!
-                                $name: String!
-                                $password: String!
-                                $newPassword: String!
-                            ) {
-                                update_circles(
-                                    where: {
-                                        id: { _eq: $id }
-                                        name: { _eq: $name }
-                                        password: { _eq: $password }
-                                    }
-                                    _set: { password: $newPassword }
-                                ) {
-                                    affected_rows
-                                }
-                            }
-                        `,
-                    })
-                    .then((value: any) => {
-                        console.log(value?.data);
-                        window.location.reload();
-                    })
-                    .catch((err) => {
-                        console.error(e, err);
-                        alert(
-                            `Couldn't save changes for the [${name}] circle. Please notify the administrator of this error.`
-                        );
-                    });
+                updateCircle(id, name, password, newPassword);
             }
         } else {
             // If in edit mode we do a page reload after user cancels the Save. We assume the user does not want to save the changes and we revert it for the user.
