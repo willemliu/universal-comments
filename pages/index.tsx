@@ -26,6 +26,10 @@ function Index() {
         }
     }, []);
 
+    function handleCircleChange(circleId: number) {
+        console.log(circleId);
+    }
+
     return (
         <>
             <Head>
@@ -33,7 +37,11 @@ function Index() {
                 {canonical ? <link rel="canonical" href={canonical} /> : null}
             </Head>
 
-            {loading ? <div className="blink">Loading...</div> : <Comments />}
+            {loading ? (
+                <div className="blink">Loading...</div>
+            ) : (
+                <Comments onCircleChange={handleCircleChange} />
+            )}
 
             <small>
                 Universal comments

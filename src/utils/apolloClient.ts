@@ -94,6 +94,7 @@ export async function getCircles(accessToken: string) {
                                 user: { token: { _eq: $accessToken } }
                             }
                         }
+                        order_by: { name: asc }
                     ) {
                         id
                         name
@@ -240,37 +241,40 @@ export async function joinCircle(
 }
 
 export async function leaveCircle(
-    userId: string,
+    token: string,
     name: string,
     password: string
 ) {
-    try {
-        await client
-            .mutate({
-                variables: {
-                    userId,
-                    name,
-                    password,
-                },
-                mutation: gql`
-                    delete_users_circles(where: {circle: {name: {_eq: $name}, password: {_eq: $password}}, user_id: {_eq: $userId}}}) {
+    return await client
+        .mutate({
+            variables: {
+                token,
+                name,
+                password,
+            },
+            mutation: gql`
+                mutation($token: String!, $name: String!, $password: String!) {
+                    delete_users_circles(
+                        where: {
+                            circle: {
+                                name: { _eq: $name }
+                                password: { _eq: $password }
+                            }
+                            user: { token: { _eq: $token } }
+                        }
+                    ) {
                         affected_rows
                     }
-                `,
-            })
-            .then((value: any) => {
-                console.log(value);
-            });
-    } catch (err) {
-        console.error(err);
-        alert(
-            `Couldn't leave the [${name}] circle. Please notify the administrator of this error.`
-        );
-    }
+                }
+            `,
+        })
+        .then((value: any) => {
+            console.log(value);
+        });
 }
 
 export async function removeCircle(id: number, name: string, password: string) {
-    client
+    return await client
         .mutate({
             variables: {
                 id,
@@ -292,14 +296,7 @@ export async function removeCircle(id: number, name: string, password: string) {
             `,
         })
         .then((value: any) => {
-            console.log(value?.data);
-            window.location.reload();
-        })
-        .catch((err) => {
-            console.error(err);
-            alert(
-                `Couldn't remove the [${name}] circle. Please notify the administrator of this error.`
-            );
+            return value;
         });
 }
 
@@ -309,7 +306,7 @@ export async function updateCircle(
     password: string,
     newPassword: string
 ) {
-    client
+    return await client
         .mutate({
             variables: {
                 id,
@@ -338,14 +335,8 @@ export async function updateCircle(
             `,
         })
         .then((value: any) => {
-            console.log(value?.data);
-            window.location.reload();
-        })
-        .catch((err) => {
-            console.error(err);
-            alert(
-                `Couldn't save changes for the [${name}] circle. Please notify the administrator of this error.`
-            );
+            console.log(value);
+            return value;
         });
 }
 

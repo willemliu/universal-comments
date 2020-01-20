@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { removeCircle, updateCircle } from '../../utils/apolloClient';
+import {
+    removeCircle,
+    updateCircle,
+    leaveCircle,
+} from '../../utils/apolloClient';
+import UserStore from '../../stores/UserStore';
 
 type Circle = {
     id: number;
@@ -23,7 +28,16 @@ function Circles(props: Props) {
     ) {
         console.debug(e);
         if (confirm(`Remove [${name}] circle and all related comments?`)) {
-            removeCircle(id, name, password);
+            try {
+                removeCircle(id, name, password).then(() => {
+                    window.location.reload();
+                });
+            } catch (err) {
+                console.error(err);
+                alert(
+                    `Couldn't remove the [${name}] circle. Please notify the administrator of this error.`
+                );
+            }
         }
     }
 
@@ -49,7 +63,16 @@ function Circles(props: Props) {
 
             // Store the changes when user clicks save.
             if (!readOnly && newPassword) {
-                updateCircle(id, name, password, newPassword);
+                try {
+                    updateCircle(id, name, password, newPassword).then(() => {
+                        window.location.reload();
+                    });
+                } catch (err) {
+                    console.error(err);
+                    alert(
+                        `Couldn't save changes for the [${name}] circle. Please notify the administrator of this error.`
+                    );
+                }
             }
         } else {
             // If in edit mode we do a page reload after user cancels the Save. We assume the user does not want to save the changes and we revert it for the user.
@@ -69,7 +92,17 @@ function Circles(props: Props) {
         password: string,
         e: React.MouseEvent<HTMLButtonElement>
     ) {
-        console.log(id, name, password, e);
+        try {
+            console.log(e);
+            leaveCircle(UserStore.getToken(), name, password).then(() => {
+                window.location.reload();
+            });
+        } catch (err) {
+            console.error(err);
+            alert(
+                `Couldn't leave the [${name}] circle. Please notify the administrator of this error.`
+            );
+        }
     }
 
     return (

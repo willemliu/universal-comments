@@ -35,6 +35,7 @@ function assembleDescendents(comments: Comment[]) {
 interface Props {
     noForm?: boolean;
     onAccess?: (accessToken: string) => void;
+    onCircleChange?: (circleId?: number) => void;
     title?: string;
 }
 
@@ -83,7 +84,13 @@ function Comments(props: Props) {
     }
 
     function handleCircleChange(e: React.ChangeEvent<HTMLSelectElement>) {
-        setCircleId(e.currentTarget.value || null);
+        const tmpCircleId = e.currentTarget.value || null;
+        setCircleId(tmpCircleId);
+        if (tmpCircleId) {
+            props?.onCircleChange(Number.parseInt(tmpCircleId, 10));
+        } else {
+            props?.onCircleChange(null);
+        }
     }
 
     return (

@@ -50,7 +50,7 @@ export default function circles() {
             await joinCircle(UserStore.getId(), name, password);
         }
         formEl.reset();
-        // window.location.reload();
+        window.location.reload();
     }
 
     function login(provider: Provider) {
@@ -74,11 +74,11 @@ export default function circles() {
                 You can manage your circles here. When you have one or more
                 circles you can write comments within these circles. Only users
                 who are also accepted within a circle can read your comments in
-                that circle vice versa. When you are writing a comment you'll
-                have the option to place that comment in a circle or open. Open
-                comments can be read by everyone. Replies to another message
-                placed in a circle will automatically be placed within that
-                circle.
+                that circle and vice versa. When you are writing a comment
+                you'll have the option to place that comment in a circle or
+                open. Open comments can be read by everyone. Replies to another
+                message placed in a circle will automatically be placed within
+                that circle.
             </p>
 
             {loading ? (
