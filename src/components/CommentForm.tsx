@@ -60,6 +60,7 @@ function CommentForm(props: Props) {
 
     return (
         <form className={styles.commentForm} onSubmit={handleSubmit}>
+            CircleID: {props.circleId}
             <textarea
                 ref={textareaRef}
                 minLength={5}
