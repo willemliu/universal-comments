@@ -16,7 +16,7 @@ export default function MyApp({ Component, pageProps }: any) {
                 />
                 <meta
                     httpEquiv="Content-Security-Policy"
-                    content="default-src *; img-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval';"
+                    content="default-src 'self' * data:; img-src * data:; style-src 'self' * 'unsafe-inline'; script-src 'self' * 'unsafe-inline' 'unsafe-eval';"
                 />
                 <meta name="uc:disabled" content="true" />
                 <FBSDK key="facebook" />

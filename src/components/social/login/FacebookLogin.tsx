@@ -3,6 +3,7 @@ import UserStore from '../../../stores/UserStore';
 import { createUser } from '../../../utils/apolloClient';
 import { SecondaryButton } from '../../buttons/buttons';
 
+declare let window: any;
 declare let FB: any;
 
 interface Props {
@@ -18,18 +19,20 @@ function FacebookLogin(props: Props) {
     const [accessToken, setAccessToken] = useState(null);
 
     useEffect(() => {
-        FB.Event.subscribe('auth.statusChange', (response) => {
-            setLoggedIn(response.status === 'connected');
-            setAccessToken(response?.authResponse?.accessToken);
-        });
-        FB.getLoginStatus((response) => {
-            setLoggedIn(response.status === 'connected');
-            setAccessToken(response?.authResponse?.accessToken);
-        });
+        if (window?.FB) {
+            FB.Event.subscribe('auth.statusChange', (response) => {
+                setLoggedIn(response.status === 'connected');
+                setAccessToken(response?.authResponse?.accessToken);
+            });
+            FB.getLoginStatus((response) => {
+                setLoggedIn(response.status === 'connected');
+                setAccessToken(response?.authResponse?.accessToken);
+            });
+        }
     }, []);
 
     useEffect(() => {
-        if (loggedIn && accessToken) {
+        if (window?.FB && loggedIn && accessToken) {
             FB.api(
                 '/me',
                 { fields: 'id,name,email,picture' },
