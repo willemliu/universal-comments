@@ -6,6 +6,8 @@ import { getApolloClient } from '../src/utils/apolloClient';
 import { gql } from 'apollo-boost';
 import { Provider } from '../src/components/Comments';
 import { Circles } from '../src/components/circles/Circles';
+import UserStore from '../src/stores/UserStore';
+import styles from './circles.module.css';
 
 export default function admin() {
     const [loading, setLoading] = useState(false);
@@ -48,6 +50,77 @@ export default function admin() {
             });
     }
 
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        const formEl = e.currentTarget;
+        const formData = new FormData(formEl);
+        const name = formData.get('name');
+        const password = formData.get('password');
+
+        if (name && password) {
+            const client = getApolloClient();
+            try {
+                const id = await client
+                    .mutate({
+                        variables: {
+                            name,
+                            password,
+                        },
+                        mutation: gql`
+                            mutation($name: String!, $password: String!) {
+                                insert_circles(
+                                    objects: {
+                                        name: $name
+                                        password: $password
+                                    }
+                                ) {
+                                    returning {
+                                        id
+                                    }
+                                }
+                            }
+                        `,
+                    })
+                    .then((value: any) => {
+                        console.log(
+                            value?.data?.insert_circles?.returning?.[0]
+                        );
+                        return value?.data?.insert_circles?.returning?.[0]?.id;
+                    });
+
+                await client
+                    .mutate({
+                        variables: {
+                            userId: UserStore.getId(),
+                            circleId: id,
+                        },
+                        mutation: gql`
+                            mutation($userId: String!, $circleId: bigint!) {
+                                insert_users_circles(
+                                    objects: {
+                                        user_id: $userId
+                                        circle_id: $circleId
+                                    }
+                                ) {
+                                    affected_rows
+                                }
+                            }
+                        `,
+                    })
+                    .then((value: any) => {
+                        console.log(value);
+                    });
+            } catch (err) {
+                console.error(e, err);
+                alert(
+                    `Couldn't add the [${name}] circle. Please notify the administrator of this error.`
+                );
+            }
+        }
+        formEl.reset();
+        window.location.reload();
+    }
+
     function login(provider: Provider) {
         setProvider(provider);
         setLoggedIn(true);
@@ -56,11 +129,11 @@ export default function admin() {
     function logout() {
         setLoggedIn(false);
         setProvider(null);
-        setCircles([]);
+        setCircles(() => []);
     }
 
     return (
-        <>
+        <section className={styles.circles}>
             <Head>
                 <title>Circles - Universal Comments</title>
             </Head>
@@ -79,8 +152,27 @@ export default function admin() {
             {loading ? (
                 <div className="blink">Loading...</div>
             ) : (
-                <Circles circles={circles} />
+                <>{loggedIn ? <Circles circles={circles} /> : null}</>
             )}
+
+            {loggedIn ? (
+                <form onSubmit={handleSubmit}>
+                    <fieldset>
+                        <legend>Add circle</legend>
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Circle name"
+                        />
+                        <input
+                            type="text"
+                            name="password"
+                            placeholder="Circle password"
+                        />
+                        <button>➕</button>
+                    </fieldset>
+                </form>
+            ) : null}
 
             <div>
                 {!loggedIn || provider === 'facebook' ? (
@@ -99,6 +191,6 @@ export default function admin() {
                 ) : null}
             </div>
             <small>Universal comments circles</small>
-        </>
+        </section>
     );
 }

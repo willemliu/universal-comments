@@ -32,7 +32,7 @@ function Circles(props: Props) {
                         password,
                     },
                     mutation: gql`
-                        mutation MyMutation(
+                        mutation(
                             $id: bigint!
                             $name: String!
                             $password: String!
@@ -93,7 +93,7 @@ function Circles(props: Props) {
                             newPassword,
                         },
                         mutation: gql`
-                            mutation MyMutation(
+                            mutation(
                                 $id: bigint!
                                 $name: String!
                                 $password: String!
