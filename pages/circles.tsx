@@ -30,6 +30,7 @@ export default function admin() {
                                 }
                             }
                         ) {
+                            id
                             name
                             password
                         }
