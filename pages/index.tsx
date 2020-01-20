@@ -66,10 +66,10 @@ function Index() {
 
             <section className="adminLinks">
                 <a href="/circles" target="_blank" rel="noopener noreferrer">
-                    Manage Circles
+                    Manage Circles⚙️
                 </a>
                 <a href="/admin" target="_blank" rel="noopener noreferrer">
-                    Manage Your Comments
+                    Manage Your Comments⚙️
                 </a>
             </section>
 
