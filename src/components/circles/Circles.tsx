@@ -86,17 +86,15 @@ function Circles(props: Props) {
         setNewPassword(e.currentTarget.value);
     }
 
-    function handleLeave(
-        id: number,
-        name: string,
-        password: string,
-        e: React.MouseEvent<HTMLButtonElement>
-    ) {
+    function handleLeave(name: string, password: string) {
         try {
-            console.log(e);
-            leaveCircle(UserStore.getToken(), name, password).then(() => {
-                window.location.reload();
-            });
+            leaveCircle(UserStore.getToken(), name, password)
+                .then(() => {
+                    // window.location.reload();
+                })
+                .catch((err) => {
+                    alert(`${err}`);
+                });
         } catch (err) {
             console.error(err);
             alert(
@@ -144,7 +142,6 @@ function Circles(props: Props) {
                     <button
                         onClick={handleLeave.bind(
                             null,
-                            circle.id,
                             circle.name,
                             circle.password
                         )}

@@ -245,6 +245,39 @@ export async function leaveCircle(
     name: string,
     password: string
 ) {
+    const count = await client
+        .query({
+            variables: {
+                name,
+                password,
+            },
+            query: gql`
+                query($name: String!, $password: String!) {
+                    users_circles_aggregate(
+                        where: {
+                            circle: {
+                                name: { _eq: $name }
+                                password: { _eq: $password }
+                            }
+                        }
+                    ) {
+                        aggregate {
+                            count
+                        }
+                    }
+                }
+            `,
+        })
+        .then((value: any) => {
+            return value?.data?.users_circles_aggregate?.aggregate?.count;
+        });
+
+    if (count <= 1) {
+        return Promise.reject(
+            `You can't leave the circle because you are its last member!`
+        );
+    }
+
     return await client
         .mutate({
             variables: {
@@ -270,6 +303,7 @@ export async function leaveCircle(
         })
         .then((value: any) => {
             console.log(value);
+            return value;
         });
 }
 
