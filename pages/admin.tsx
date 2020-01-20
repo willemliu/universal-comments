@@ -1,59 +1,21 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import CommentsStore from '../src/stores/CommentsStore';
-import { getApolloClient } from '../src/utils/apolloClient';
-import { gql } from 'apollo-boost';
+import { getAllUserComments } from '../src/utils/apolloClient';
 import { Comments } from '../src/components/Comments';
 
 export default function admin() {
     const [loading, setLoading] = useState(false);
 
-    function onAccess(accessToken: string) {
+    async function onAccess(accessToken: string) {
         setLoading(true);
-        const client = getApolloClient();
-        client
-            .query({
-                variables: {
-                    accessToken,
-                },
-                query: gql`
-                    query($accessToken: String!) {
-                        comments(
-                            where: {
-                                user: { token: { _eq: $accessToken } }
-                                removed: { _eq: false }
-                            }
-                            order_by: { timestamp: asc }
-                        ) {
-                            id
-                            url
-                            comment
-                            parent_id
-                            timestamp
-                            updated
-                            removed
-                            user {
-                                id
-                                display_name
-                                image
-                            }
-                            scores_aggregate {
-                                aggregate {
-                                    sum {
-                                        score
-                                    }
-                                }
-                            }
-                        }
-                    }
-                `,
-            })
-            .then((value) => {
-                CommentsStore.setComments(value?.data?.comments);
-            })
-            .finally(() => {
-                setLoading(false);
-            });
+        try {
+            CommentsStore.setComments(await getAllUserComments(accessToken));
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (

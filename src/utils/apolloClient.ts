@@ -243,3 +243,46 @@ export async function updateCircle(
             );
         });
 }
+
+export async function getAllUserComments(accessToken: string) {
+    return await client
+        .query({
+            variables: {
+                accessToken,
+            },
+            query: gql`
+                query($accessToken: String!) {
+                    comments(
+                        where: {
+                            user: { token: { _eq: $accessToken } }
+                            removed: { _eq: false }
+                        }
+                        order_by: { timestamp: asc }
+                    ) {
+                        id
+                        url
+                        comment
+                        parent_id
+                        timestamp
+                        updated
+                        removed
+                        user {
+                            id
+                            display_name
+                            image
+                        }
+                        scores_aggregate {
+                            aggregate {
+                                sum {
+                                    score
+                                }
+                            }
+                        }
+                    }
+                }
+            `,
+        })
+        .then((value) => {
+            return value?.data?.comments;
+        });
+}
