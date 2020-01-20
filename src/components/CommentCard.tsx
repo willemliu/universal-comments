@@ -196,9 +196,9 @@ function CommentCard(props: Props) {
                             <span
                                 className={styles.removeButton}
                                 onClick={removeComment}
-                                title="remove comment"
+                                title="Remove comment"
                             >
-                                Remove
+                                ☠️
                             </span>
                         )}
                 </header>
@@ -250,9 +250,9 @@ function CommentCard(props: Props) {
                                         <a
                                             className={styles.replyToggle}
                                             onClick={toggleReply}
-                                            title="reply"
+                                            title="Reply"
                                         >
-                                            Reply
+                                            📥
                                         </a>
                                     )}
                                 </>
