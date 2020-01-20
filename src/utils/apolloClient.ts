@@ -396,7 +396,7 @@ export async function insertScore(
 }
 
 export async function removeComment(commentId: number, userId: string) {
-    return client
+    return await client
         .mutate({
             variables: {
                 commentId,
@@ -424,5 +424,64 @@ export async function removeComment(commentId: number, userId: string) {
         .then(({ data }: any) => {
             console.log(data?.update_comments?.returning?.[0]);
             return data?.update_comments?.returning?.[0];
+        });
+}
+
+export async function getCommentCount(url: string) {
+    return await client
+        .query({
+            variables: {
+                url,
+            },
+            query: gql`
+                query($url: String!) {
+                    comments_aggregate(where: { url: { _eq: $url } }) {
+                        aggregate {
+                            count
+                        }
+                    }
+                }
+            `,
+        })
+        .then(({ data }: any) => {
+            return data?.comments_aggregate?.aggregate?.count || 0;
+        });
+}
+
+export async function getCommentsByUrl(url: string) {
+    return await client
+        .query({
+            variables: { url },
+            query: gql`
+                query($url: String!) {
+                    comments(
+                        where: { url: { _eq: $url } }
+                        order_by: { timestamp: asc }
+                    ) {
+                        id
+                        url
+                        comment
+                        parent_id
+                        timestamp
+                        updated
+                        removed
+                        user {
+                            id
+                            display_name
+                            image
+                        }
+                        scores_aggregate {
+                            aggregate {
+                                sum {
+                                    score
+                                }
+                            }
+                        }
+                    }
+                }
+            `,
+        })
+        .then((value) => {
+            return value?.data?.comments;
         });
 }
