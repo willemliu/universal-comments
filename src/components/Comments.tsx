@@ -5,6 +5,8 @@ import { FacebookLogin } from './social/login/FacebookLogin';
 import { GoogleLogin } from './social/login/GoogleLogin';
 import CommentsStore, { Comment } from '../stores/CommentsStore';
 import styles from './Comments.module.css';
+import { getCircles } from '../utils/apolloClient';
+import UserStore from '../stores/UserStore';
 
 export type Provider = 'facebook' | 'google';
 
@@ -37,6 +39,9 @@ interface Props {
 }
 
 function Comments(props: Props) {
+    const [circles, setCircles] = useState([]);
+    const [circleId, setCircleId] = useState(null);
+
     const [provider, setProvider] = useState<Provider>(null);
     const [loggedIn, setLoggedIn] = useState(false);
     const [comments, setComments] = useState(
@@ -53,10 +58,19 @@ function Comments(props: Props) {
                 )
             );
         });
+
         return () => {
             CommentsStore.unsubscribe(subscriptionId);
         };
     }, []);
+
+    useEffect(() => {
+        if (loggedIn) {
+            getCircles(UserStore.getToken()).then((fetchedCircles) => {
+                setCircles(fetchedCircles);
+            });
+        }
+    }, [loggedIn]);
 
     function login(provider: Provider) {
         setProvider(provider);
@@ -66,6 +80,10 @@ function Comments(props: Props) {
     function logout() {
         setLoggedIn(false);
         setProvider(null);
+    }
+
+    function handleCircleChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        setCircleId(e.currentTarget.value || null);
     }
 
     return (
@@ -87,6 +105,23 @@ function Comments(props: Props) {
 
             <h2>
                 <span>{props.title || 'Comments'}</span>
+                {circles.length ? (
+                    <section className={styles.circle}>
+                        <label htmlFor="circle">Circle:</label>
+                        <select
+                            id="circle"
+                            name="circle"
+                            onChange={handleCircleChange}
+                        >
+                            <option value="">Public</option>
+                            {circles.map((circle: any) => (
+                                <option value={circle.id} key={circle.id}>
+                                    {circle.name}
+                                </option>
+                            ))}
+                        </select>
+                    </section>
+                ) : null}
             </h2>
             {comments.map((comment) => {
                 return (
@@ -110,7 +145,7 @@ function Comments(props: Props) {
                     />
                 );
             })}
-            {loggedIn && !props.noForm && <CommentForm />}
+            {loggedIn && !props.noForm && <CommentForm circleId={circleId} />}
             <div className={styles.loginContainer}>
                 {!loggedIn || provider === 'facebook' ? (
                     <FacebookLogin

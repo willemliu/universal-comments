@@ -36,4 +36,20 @@
 .adminLinks a {
     text-decoration: none;
     margin: 0 1rem 0 0;
+    white-space: nowrap;
+}
+
+.circle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.circle label {
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.circle select {
+    flex: 1 1 auto;
 }

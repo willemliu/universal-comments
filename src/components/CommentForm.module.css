@@ -13,12 +13,3 @@
     cursor: pointer;
     padding: 0.5rem;
 }
-
-.circle {
-    display: flex;
-    flex-direction: row;
-}
-
-.circle select {
-    flex: 1 1 auto;
-}
