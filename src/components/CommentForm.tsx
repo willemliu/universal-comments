@@ -114,7 +114,7 @@ function CommentForm(props: Props) {
                 }
                 onChange={handleCommentChange}
             />
-            <PrimaryButton>Submit</PrimaryButton>
+            <PrimaryButton title="Submit message">🖅</PrimaryButton>
         </form>
     );
 }
