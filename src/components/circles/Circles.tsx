@@ -27,10 +27,15 @@ function Circles(props: Props) {
             confirm(
                 readOnly
                     ? 'Are you sure you want to change the password? Other members will be removed from the circle and you have to re-invite manually.'
-                    : `Are you sure to save any changes you may have made? If you are unsure and want to revert then press Cancel and reload this page.`
+                    : `Are you sure to save any changes you may have made? Pressing Cancel will reload this page and revert your changes.`
             )
         ) {
             setReadOnly(!readOnly);
+        } else {
+            // If in edit mode we do a page reload after user cancels the Save. We assume the user does not want to save the changes and we revert it for the user.
+            if (!readOnly) {
+                window.location.reload();
+            }
         }
     }
 
