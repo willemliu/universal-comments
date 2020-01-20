@@ -87,6 +87,15 @@ function Index() {
                         {commentUrl}
                     </a>
                 </div>
+                <div>
+                    <a
+                        href="https://raw.githubusercontent.com/willemliu/universal-comments/master/20200118privacy.txt"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Privacy statement
+                    </a>
+                </div>
             </small>
         </>
     );
