@@ -23,7 +23,15 @@ function Circles(props: Props) {
     }
 
     function toggleReadOnly() {
-        setReadOnly(!readOnly);
+        if (
+            confirm(
+                readOnly
+                    ? 'Are you sure you want to change the password? Other members will be removed from the circle and you have to re-invite manually.'
+                    : `Are you sure to save any changes you may have made? If you are unsure and want to revert then press Cancel and reload this page.`
+            )
+        ) {
+            setReadOnly(!readOnly);
+        }
     }
 
     return (
@@ -41,9 +49,9 @@ function Circles(props: Props) {
                     />
                     <button
                         onClick={toggleReadOnly}
-                        title={readOnly ? 'Read only' : 'Editable'}
+                        title={readOnly ? 'Read only' : 'Save changes'}
                     >
-                        {readOnly ? `🔐` : `🔓`}
+                        {readOnly ? `🔐` : `💾`}
                     </button>
                     <button
                         onClick={handleDelete.bind(null, circle.name)}
