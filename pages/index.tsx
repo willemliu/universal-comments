@@ -63,7 +63,6 @@ function Index() {
                 <title>Universal Comments</title>
                 {canonical ? <link rel="canonical" href={canonical} /> : null}
             </Head>
-            {loading ? <div className="blink">Loading...</div> : <Comments />}
 
             <section className="adminLinks">
                 <a href="/circles" target="_blank" rel="noopener noreferrer">
@@ -73,6 +72,8 @@ function Index() {
                     Manage Your Comments
                 </a>
             </section>
+
+            {loading ? <div className="blink">Loading...</div> : <Comments />}
 
             <small>
                 Universal comments
