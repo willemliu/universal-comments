@@ -109,33 +109,31 @@ function Comments(props: Props) {
                         </a>
                     )}
                 </span>
-                {circles.length ? (
-                    <section className={styles.circle}>
-                        <label htmlFor="circle">Circle:</label>
-                        <select
-                            id="circle"
-                            name="circle"
-                            onChange={handleCircleChange}
+                <section className={styles.circle}>
+                    <label htmlFor="circle">Circle:</label>
+                    <select
+                        id="circle"
+                        name="circle"
+                        onChange={handleCircleChange}
+                    >
+                        <option value="">Public</option>
+                        {circles.map((circle: any) => (
+                            <option value={circle.id} key={circle.id}>
+                                {circle.name}
+                            </option>
+                        ))}
+                    </select>
+                    {loggedIn && (
+                        <a
+                            href="/circles"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            title="Manage your circles"
                         >
-                            <option value="">Public</option>
-                            {circles.map((circle: any) => (
-                                <option value={circle.id} key={circle.id}>
-                                    {circle.name}
-                                </option>
-                            ))}
-                        </select>
-                        {loggedIn && (
-                            <a
-                                href="/circles"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                title="Manage your circles"
-                            >
-                                ⚙️
-                            </a>
-                        )}
-                    </section>
-                ) : null}
+                            ⚙️
+                        </a>
+                    )}
+                </section>
             </h2>
             {comments.map((comment) => {
                 return (
