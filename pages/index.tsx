@@ -64,15 +64,6 @@ function Index() {
                 {canonical ? <link rel="canonical" href={canonical} /> : null}
             </Head>
 
-            <section className="adminLinks">
-                <a href="/circles" target="_blank" rel="noopener noreferrer">
-                    Manage Circles⚙️
-                </a>
-                <a href="/admin" target="_blank" rel="noopener noreferrer">
-                    Manage Your Comments⚙️
-                </a>
-            </section>
-
             {loading ? <div className="blink">Loading...</div> : <Comments />}
 
             <small>

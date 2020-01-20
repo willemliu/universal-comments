@@ -70,6 +70,21 @@ function Comments(props: Props) {
 
     return (
         <section className={`${styles.comments} universal-comments`}>
+            {loggedIn && (
+                <section className="adminLinks">
+                    <a
+                        href="/circles"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Manage Circles⚙️
+                    </a>
+                    <a href="/admin" target="_blank" rel="noopener noreferrer">
+                        Manage Your Comments⚙️
+                    </a>
+                </section>
+            )}
+
             <h2>
                 <span>{props.title || 'Comments'}</span>
             </h2>
