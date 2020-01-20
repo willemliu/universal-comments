@@ -291,7 +291,8 @@ export async function insertComment(
     userId: string,
     url: string,
     comment: string,
-    parentId?: number
+    parentId?: number,
+    circleId?: number
 ) {
     return await client
         .mutate({
@@ -300,6 +301,7 @@ export async function insertComment(
                 url,
                 userId,
                 parentId,
+                circleId,
             },
             mutation: gql`
                 mutation(
@@ -307,6 +309,7 @@ export async function insertComment(
                     $url: String!
                     $userId: String!
                     $parentId: bigint
+                    $circleId: bigint
                 ) {
                     insert_comments(
                         objects: {
@@ -314,6 +317,7 @@ export async function insertComment(
                             url: $url
                             user_id: $userId
                             parent_id: $parentId
+                            circle_id: $circleId
                         }
                     ) {
                         returning {
@@ -321,6 +325,7 @@ export async function insertComment(
                             url
                             comment
                             parent_id
+                            circle_id
                             removed
                             timestamp
                             updated

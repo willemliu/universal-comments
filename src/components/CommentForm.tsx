@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styles from './CommentForm.module.css';
-import { insertComment } from '../utils/apolloClient';
+import { insertComment, getCircles } from '../utils/apolloClient';
 import { useState } from 'react';
 import UserStore from '../stores/UserStore';
 import CommentsStore from '../stores/CommentsStore';
@@ -15,8 +15,16 @@ interface Props {
 function CommentForm(props: Props) {
     const textareaRef = useRef(null);
     const [comment, setComment] = useState('');
+    const [circles, setCircles] = useState([]);
+    const [circleId, setCircleId] = useState(null);
 
-    async function handleSubmit(e: React.FormEvent) {
+    useEffect(() => {
+        getCircles(UserStore.getToken()).then((fetchedCircles) => {
+            setCircles(fetchedCircles);
+        });
+    }, []);
+
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (!comment || !comment.length) {
             return;
@@ -36,7 +44,8 @@ function CommentForm(props: Props) {
                     UserStore.getId(),
                     url,
                     encodeURI(comment),
-                    props.parentId ?? null
+                    props.parentId ?? null,
+                    circleId
                 )
             );
         } catch (e) {
@@ -56,8 +65,29 @@ function CommentForm(props: Props) {
         setComment(e.currentTarget.value);
     }
 
+    function handleCircleChange(e: React.ChangeEvent<HTMLSelectElement>) {
+        setCircleId(e.currentTarget.value || null);
+    }
+
     return (
         <form className={styles.commentForm} onSubmit={handleSubmit}>
+            {circles.length ? (
+                <section className={styles.circle}>
+                    <label htmlFor="circle">Circle:</label>
+                    <select
+                        id="circle"
+                        name="circle"
+                        onChange={handleCircleChange}
+                    >
+                        <option value="">Public</option>
+                        {circles.map((circle: any) => (
+                            <option value={circle.id} key={circle.id}>
+                                {circle.name}
+                            </option>
+                        ))}
+                    </select>
+                </section>
+            ) : null}
             <textarea
                 ref={textareaRef}
                 minLength={5}
