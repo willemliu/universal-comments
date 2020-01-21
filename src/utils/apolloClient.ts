@@ -92,7 +92,7 @@ export async function getCircles(uuid: string) {
                 uuid,
             },
             query: gql`
-                query GetCircles($uuid: String!) {
+                query GetCircles($uuid: uuid!) {
                     circles(
                         where: {
                             users_circles: { user: { uuid: { _eq: $uuid } } }
@@ -236,7 +236,7 @@ export async function joinCircle(
 }
 
 export async function leaveCircle(
-    token: string,
+    uuid: string,
     name: string,
     password: string
 ) {
@@ -277,13 +277,13 @@ export async function leaveCircle(
     return await client
         .mutate({
             variables: {
-                token,
+                uuid,
                 name,
                 password,
             },
             mutation: gql`
                 mutation LeaveCircle(
-                    $token: String!
+                    $uuid: uuid!
                     $name: String!
                     $password: String!
                 ) {
@@ -293,7 +293,7 @@ export async function leaveCircle(
                                 name: { _eq: $name }
                                 password: { _eq: $password }
                             }
-                            user: { uuid: { _eq: $token } }
+                            user: { uuid: { _eq: $uuid } }
                         }
                     ) {
                         affected_rows
@@ -381,7 +381,7 @@ export async function getAllUserComments(uuid: string) {
                 uuid,
             },
             query: gql`
-                query GetAllUserComments($uuid: String!) {
+                query GetAllUserComments($uuid: uuid!) {
                     comments(
                         where: {
                             user: { uuid: { _eq: $uuid } }
