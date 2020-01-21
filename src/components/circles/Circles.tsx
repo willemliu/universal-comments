@@ -5,6 +5,7 @@ import {
     leaveCircle,
 } from '../../utils/apolloClient';
 import UserStore from '../../stores/UserStore';
+import styles from './Circles.module.css';
 
 type Circle = {
     id: number;
@@ -104,54 +105,68 @@ function Circles(props: Props) {
     }
 
     return (
-        <ul>
+        <table className={styles.circles}>
+            <tr>
+                <th>Circle name</th>
+                <th>Password</th>
+                <th>Remove</th>
+                <th>Leave</th>
+            </tr>
+
             {props.circles.map((circle: Circle) => (
-                <li key={circle.name}>
-                    <label>{circle.name}</label>
-                    <span> - </span>
-                    <input
-                        type="text"
-                        onChange={handlePasswordChange}
-                        onClick={handlePwClick}
-                        defaultValue={circle.password}
-                        readOnly={readOnly}
-                        title="password"
-                    />
-                    <button
-                        onClick={toggleReadOnly.bind(
-                            null,
-                            circle.id,
-                            circle.name,
-                            circle.password
-                        )}
-                        title={readOnly ? 'Read only' : 'Save changes'}
-                    >
-                        {readOnly ? `🔐` : `💾`}
-                    </button>
-                    <button
-                        onClick={handleDelete.bind(
-                            null,
-                            circle.id,
-                            circle.name,
-                            circle.password
-                        )}
-                        title="Delete"
-                    >
-                        ☠️
-                    </button>
-                    <button
-                        onClick={handleLeave.bind(
-                            null,
-                            circle.name,
-                            circle.password
-                        )}
-                        title="Leave"
-                    >
-                        🏃💨
-                    </button>
-                </li>
+                <tr key={circle.name}>
+                    <td>
+                        <label>{circle.name}</label>
+                    </td>
+                    <td>
+                        <input
+                            type="text"
+                            onChange={handlePasswordChange}
+                            onClick={handlePwClick}
+                            defaultValue={circle.password}
+                            readOnly={readOnly}
+                            title="password"
+                        />
+                        <button
+                            onClick={toggleReadOnly.bind(
+                                null,
+                                circle.id,
+                                circle.name,
+                                circle.password
+                            )}
+                            title={readOnly ? 'Read only' : 'Save changes'}
+                        >
+                            {readOnly ? `🔐` : `💾`}
+                        </button>
+                    </td>
+                    <td>
+                        <button
+                            onClick={handleDelete.bind(
+                                null,
+                                circle.id,
+                                circle.name,
+                                circle.password
+                            )}
+                            title="Delete"
+                        >
+                            ☠️
+                        </button>
+                    </td>
+                    <td>
+                        <button
+                            onClick={handleLeave.bind(
+                                null,
+                                circle.name,
+                                circle.password
+                            )}
+                            title="Leave"
+                        >
+                            🏃💨
+                        </button>
+                    </td>
+                </tr>
             ))}
-        </ul>
+        </table>
     );
 }
 

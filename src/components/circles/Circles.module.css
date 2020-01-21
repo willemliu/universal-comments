@@ -1,0 +1,27 @@
+.circles {
+    font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.circles td,
+.circles th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.circles tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.circles tr:hover {
+    background-color: #ddd;
+}
+
+.circles th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4caf50;
+    color: white;
+}

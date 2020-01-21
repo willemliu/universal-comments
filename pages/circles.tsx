@@ -80,6 +80,11 @@ export default function circles() {
                 message placed in a circle will automatically be placed within
                 that circle.
             </p>
+            <p>
+                To add other users to your circle you can share the Circle name
+                and password with them. They can use that info to join the
+                circle.
+            </p>
 
             {loading ? (
                 <div className="blink">Loading...</div>
