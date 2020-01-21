@@ -179,7 +179,7 @@ export async function joinCircle(
                 password,
             },
             query: gql`
-                query($name: String!, $password: String!) {
+                query GetCircleId($name: String!, $password: String!) {
                     circles(
                         where: {
                             name: { _eq: $name }
@@ -495,7 +495,11 @@ export async function insertScore(
                 commentId,
             },
             mutation: gql`
-                mutation($userId: String!, $vote: Int!, $commentId: bigint!) {
+                mutation Vote(
+                    $userId: String!
+                    $vote: Int!
+                    $commentId: bigint!
+                ) {
                     insert_scores(
                         objects: {
                             user_id: $userId
