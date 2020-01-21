@@ -80,6 +80,7 @@ export async function createUser(
 }
 
 export async function getCircles(accessToken: string) {
+    console.log('getCircle', accessToken);
     if (!accessToken) {
         return [];
     }

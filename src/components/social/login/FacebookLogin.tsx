@@ -21,12 +21,12 @@ function FacebookLogin(props: Props) {
     useEffect(() => {
         if (window?.FB) {
             FB.Event.subscribe('auth.statusChange', (response) => {
-                setLoggedIn(response.status === 'connected');
                 setAccessToken(response?.authResponse?.accessToken);
+                setLoggedIn(response.status === 'connected');
             });
             FB.getLoginStatus((response) => {
-                setLoggedIn(response.status === 'connected');
                 setAccessToken(response?.authResponse?.accessToken);
+                setLoggedIn(response.status === 'connected');
             });
         }
     }, []);
