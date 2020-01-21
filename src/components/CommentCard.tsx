@@ -147,7 +147,7 @@ function CommentCard(props: Props) {
                                 ) : (
                                     <ReactMarkdown
                                         className="markdown-body"
-                                        source={decodeURI(props.comment)}
+                                        source={props.comment}
                                         linkTarget="_blank"
                                     />
                                 )}

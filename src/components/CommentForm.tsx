@@ -36,7 +36,7 @@ function CommentForm(props: Props) {
                 await insertComment(
                     UserStore.getId(),
                     url,
-                    encodeURI(comment),
+                    comment,
                     props.parentId ?? null,
                     props.circleId ?? null
                 )
