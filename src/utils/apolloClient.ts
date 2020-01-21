@@ -48,7 +48,7 @@ export async function createUser(
                 token,
             },
             mutation: gql`
-                mutation(
+                mutation insertUsers(
                     $email: String!
                     $id: String!
                     $name: String!
@@ -68,7 +68,9 @@ export async function createUser(
                             update_columns: [id, display_name, image, token]
                         }
                     ) {
-                        affected_rows
+                        returning {
+                            uuid
+                        }
                     }
                 }
             `,
