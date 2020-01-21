@@ -119,7 +119,10 @@ function Comments(props: Props) {
                         <option value="">Public</option>
                         {circles.map((circle: any) => (
                             <option value={circle.id} key={circle.id}>
-                                {circle.name}
+                                {circle.name}{' '}
+                                {circle?.comments_aggregate?.aggregate?.count
+                                    ? `(${circle?.comments_aggregate?.aggregate?.count})`
+                                    : null}
                             </option>
                         ))}
                     </select>
