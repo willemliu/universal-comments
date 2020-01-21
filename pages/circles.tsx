@@ -14,10 +14,10 @@ export default function circles() {
     const [provider, setProvider] = useState(null);
     const [circles, setCircles] = useState([]);
 
-    async function onAccess(accessToken: string) {
+    async function onAccess(accessToken: string, uuid: string) {
         setLoading(true);
         try {
-            setCircles(await getCircles(accessToken));
+            setCircles(await getCircles(uuid));
         } catch (e) {
             console.error(e);
         } finally {

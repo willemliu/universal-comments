@@ -34,7 +34,7 @@ function assembleDescendents(comments: Comment[]) {
 
 interface Props {
     noForm?: boolean;
-    onAccess?: (accessToken: string) => void;
+    onAccess?: (accessToken: string, uuid: string) => void;
     onCircleChange?: (circleId?: number) => void;
     title?: string;
 }
@@ -66,8 +66,8 @@ function Comments(props: Props) {
     }, []);
 
     useEffect(() => {
-        if (loggedIn && UserStore.getToken()) {
-            getCircles(UserStore.getToken()).then((fetchedCircles) => {
+        if (loggedIn && UserStore.getUuid()) {
+            getCircles(UserStore.getUuid()).then((fetchedCircles) => {
                 setCircles(fetchedCircles);
             });
         } else {

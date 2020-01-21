@@ -7,10 +7,10 @@ import { Comments } from '../src/components/Comments';
 export default function admin() {
     const [loading, setLoading] = useState(false);
 
-    async function onAccess(accessToken: string) {
+    async function onAccess(accessToken: string, uuid: string) {
         setLoading(true);
         try {
-            CommentsStore.setComments(await getAllUserComments(accessToken));
+            CommentsStore.setComments(await getAllUserComments(uuid));
         } catch (e) {
             console.error(e);
         } finally {

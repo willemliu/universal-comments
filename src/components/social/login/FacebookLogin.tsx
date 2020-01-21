@@ -7,7 +7,7 @@ declare let window: any;
 declare let FB: any;
 
 interface Props {
-    onAccess?: (accessToken: string) => void;
+    onAccess?: (accessToken: string, uuid: string) => void;
     onLogin?: (provider: string) => void;
     onLogout?: () => void;
 }
@@ -21,11 +21,11 @@ function FacebookLogin(props: Props) {
     useEffect(() => {
         if (window?.FB) {
             FB.Event.subscribe('auth.statusChange', (response) => {
-                setAccessToken(response?.authResponse?.userID);
+                setAccessToken(response?.authResponse?.accessToken);
                 setLoggedIn(response.status === 'connected');
             });
             FB.getLoginStatus((response) => {
-                setAccessToken(response?.authResponse?.userID);
+                setAccessToken(response?.authResponse?.accessToken);
                 setLoggedIn(response.status === 'connected');
             });
         }
@@ -33,28 +33,31 @@ function FacebookLogin(props: Props) {
 
     useEffect(() => {
         if (window?.FB && loggedIn && accessToken) {
+            let uuid = '';
             FB.api(
                 '/me',
                 { fields: 'id,name,email,picture' },
                 async (response: any) => {
                     console.log('FB /me', response);
-                    UserStore.setId(response.id);
-                    UserStore.setName(response.name);
-                    UserStore.setEmail(response.email);
-                    UserStore.setImage(response.picture?.data?.url);
-                    UserStore.setToken(accessToken);
-                    await createUser(
+                    uuid = await createUser(
                         response.id,
                         response.name,
                         response.email,
                         response.picture?.data?.url,
                         accessToken
-                    ).catch(console.error);
+                    );
+
+                    UserStore.setId(response.id);
+                    UserStore.setName(response.name);
+                    UserStore.setEmail(response.email);
+                    UserStore.setImage(response.picture?.data?.url);
+                    UserStore.setToken(accessToken);
+                    UserStore.setUuid(uuid);
                 }
             );
             props?.onLogin(provider);
             if (props?.onAccess) {
-                props?.onAccess(accessToken);
+                props?.onAccess(accessToken, uuid);
             }
         }
     }, [loggedIn, accessToken]);

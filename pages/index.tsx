@@ -60,7 +60,10 @@ function Index() {
             {loading ? (
                 <div className="blink">Loading...</div>
             ) : (
-                <Comments onCircleChange={handleCircleChange} />
+                <Comments
+                    onAccess={console.log}
+                    onCircleChange={handleCircleChange}
+                />
             )}
 
             <small>

@@ -6,6 +6,7 @@ class UserStore extends StoreBase {
     private name: string;
     private email: string;
     private token: string;
+    private uuid: string;
     private image = '//place-hold.it/50x50';
 
     setId(id: string) {
@@ -30,6 +31,11 @@ class UserStore extends StoreBase {
 
     setToken(token: string) {
         this.token = token;
+        this.trigger();
+    }
+
+    setUuid(uuid: string) {
+        this.uuid = uuid;
         this.trigger();
     }
 
@@ -67,6 +73,11 @@ class UserStore extends StoreBase {
     @autoSubscribe
     getToken() {
         return this.token;
+    }
+
+    @autoSubscribe
+    getUuid() {
+        return this.uuid;
     }
 }
 

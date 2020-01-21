@@ -89,7 +89,7 @@ function Circles(props: Props) {
 
     function handleLeave(name: string, password: string) {
         try {
-            leaveCircle(UserStore.getToken(), name, password)
+            leaveCircle(UserStore.getUuid(), name, password)
                 .then(() => {
                     // window.location.reload();
                 })

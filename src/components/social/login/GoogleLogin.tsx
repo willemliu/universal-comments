@@ -7,7 +7,7 @@ import { SecondaryButton } from '../../buttons/buttons';
 declare let gapi: any;
 
 interface Props {
-    onAccess?: (accessToken: string) => void;
+    onAccess?: (accessToken: string, uuid: string) => void;
     onLogin?: (provider: string) => void;
     onLogout?: () => void;
 }
@@ -42,23 +42,24 @@ function GoogleLogin(props: Props) {
 
                     console.log('GoogleAuth', profile, authResponse);
 
-                    await createUser(
+                    const uuid = await createUser(
                         profile.getId(),
                         profile.getName(),
                         profile.getEmail(),
                         profile.getImageUrl(),
                         authResponse?.access_token
-                    ).catch(console.error);
+                    );
 
                     UserStore.setId(profile.getId());
                     UserStore.setName(profile.getName());
                     UserStore.setEmail(profile.getEmail());
                     UserStore.setImage(profile.getImageUrl());
                     UserStore.setToken(authResponse?.access_token);
+                    UserStore.setUuid(uuid);
 
                     props?.onLogin(provider);
                     if (props?.onAccess) {
-                        props?.onAccess(authResponse.access_token);
+                        props?.onAccess(authResponse.access_token, uuid);
                     }
                 } else {
                     UserStore.clear();
