@@ -39,6 +39,9 @@ export default function circles() {
                 window.location.reload();
             } catch (err) {
                 console.error(err);
+                alert(
+                    `Couldn't add the [${name}] circle. Please notify the administrator of this error.`
+                );
             }
         }
     }

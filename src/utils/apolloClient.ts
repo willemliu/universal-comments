@@ -122,55 +122,48 @@ export async function addCircle(
     name: string,
     password: string
 ) {
-    try {
-        const id = await client
-            .mutate({
-                variables: {
-                    name,
-                    password,
-                },
-                mutation: gql`
-                    mutation($name: String!, $password: String!) {
-                        insert_circles(
-                            objects: { name: $name, password: $password }
-                        ) {
-                            returning {
-                                id
-                            }
+    const id = await client
+        .mutate({
+            variables: {
+                name,
+                password,
+            },
+            mutation: gql`
+                mutation($name: String!, $password: String!) {
+                    insert_circles(
+                        objects: { name: $name, password: $password }
+                    ) {
+                        returning {
+                            id
                         }
                     }
-                `,
-            })
-            .then((value: any) => {
-                console.log(value);
-                return value?.data?.insert_circles?.returning?.[0]?.id;
-            });
+                }
+            `,
+        })
+        .then((value: any) => {
+            console.log(value);
+            return value?.data?.insert_circles?.returning?.[0]?.id;
+        });
 
-        await client
-            .mutate({
-                variables: {
-                    userId,
-                    circleId: id,
-                },
-                mutation: gql`
-                    mutation($userId: String!, $circleId: bigint!) {
-                        insert_users_circles(
-                            objects: { user_id: $userId, circle_id: $circleId }
-                        ) {
-                            affected_rows
-                        }
+    return await client
+        .mutate({
+            variables: {
+                userId,
+                circleId: id,
+            },
+            mutation: gql`
+                mutation($userId: String!, $circleId: bigint!) {
+                    insert_users_circles(
+                        objects: { user_id: $userId, circle_id: $circleId }
+                    ) {
+                        affected_rows
                     }
-                `,
-            })
-            .then((value: any) => {
-                console.log(value);
-            });
-    } catch (err) {
-        console.error(err);
-        alert(
-            `Couldn't add the [${name}] circle. Please notify the administrator of this error.`
-        );
-    }
+                }
+            `,
+        })
+        .then((value: any) => {
+            console.log(value);
+        });
 }
 
 export async function joinCircle(
