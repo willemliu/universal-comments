@@ -33,10 +33,14 @@ export default function circles() {
         const password = formData.get('password').toString();
 
         if (name && password) {
-            await addCircle(UserStore.getId(), name, password);
+            try {
+                await addCircle(UserStore.getId(), name, password);
+                formEl.reset();
+                window.location.reload();
+            } catch (err) {
+                console.error(err);
+            }
         }
-        formEl.reset();
-        window.location.reload();
     }
 
     async function handleJoinSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -47,10 +51,14 @@ export default function circles() {
         const password = formData.get('password').toString();
 
         if (name && password) {
-            await joinCircle(UserStore.getId(), name, password);
+            try {
+                await joinCircle(UserStore.getId(), name, password);
+                formEl.reset();
+                window.location.reload();
+            } catch (err) {
+                console.error(err);
+            }
         }
-        formEl.reset();
-        window.location.reload();
     }
 
     function login(provider: Provider) {
