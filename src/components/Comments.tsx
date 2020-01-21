@@ -70,6 +70,8 @@ function Comments(props: Props) {
             getCircles(UserStore.getToken()).then((fetchedCircles) => {
                 setCircles(fetchedCircles);
             });
+        } else {
+            setCircles([]);
         }
     }, [loggedIn]);
 
