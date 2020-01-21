@@ -171,74 +171,66 @@ export async function joinCircle(
     name: string,
     password: string
 ) {
-    try {
-        console.log();
-        const id = await client
-            .query({
-                variables: {
-                    name,
-                    password,
-                },
-                query: gql`
-                    query($name: String!, $password: String!) {
-                        circles(
-                            where: {
-                                name: { _eq: $name }
-                                password: { _eq: $password }
-                            }
-                        ) {
-                            id
+    const id = await client
+        .query({
+            variables: {
+                name,
+                password,
+            },
+            query: gql`
+                query($name: String!, $password: String!) {
+                    circles(
+                        where: {
+                            name: { _eq: $name }
+                            password: { _eq: $password }
                         }
-                    }
-                `,
-            })
-            .then((value: any) => {
-                console.log(value);
-                return value?.data?.circles?.[0]?.id;
-            });
-
-        await client
-            .mutate({
-                variables: {
-                    userId,
-                    circleId: id,
-                    name,
-                    password,
-                },
-                mutation: gql`
-                    mutation(
-                        $userId: String!
-                        $circleId: bigint!
-                        $name: String!
-                        $password: String!
                     ) {
-                        insert_users_circles(
-                            on_conflict: {
-                                where: {
-                                    circle: {
-                                        name: { _eq: $name }
-                                        password: { _eq: $password }
-                                    }
-                                }
-                                constraint: users_circles_circle_id_user_id_key
-                                update_columns: user_id
-                            }
-                            objects: { circle_id: $circleId, user_id: $userId }
-                        ) {
-                            affected_rows
-                        }
+                        id
                     }
-                `,
-            })
-            .then((value: any) => {
-                console.log(value);
-            });
-    } catch (err) {
-        console.error(err);
-        alert(
-            `Couldn't join the [${name}] circle. Please notify the administrator of this error.`
-        );
-    }
+                }
+            `,
+        })
+        .then((value: any) => {
+            console.log(value);
+            return value?.data?.circles?.[0]?.id;
+        });
+
+    return await client
+        .mutate({
+            variables: {
+                userId,
+                circleId: id,
+                name,
+                password,
+            },
+            mutation: gql`
+                mutation(
+                    $userId: String!
+                    $circleId: bigint!
+                    $name: String!
+                    $password: String!
+                ) {
+                    insert_users_circles(
+                        on_conflict: {
+                            where: {
+                                circle: {
+                                    name: { _eq: $name }
+                                    password: { _eq: $password }
+                                }
+                            }
+                            constraint: users_circles_circle_id_user_id_key
+                            update_columns: user_id
+                        }
+                        objects: { circle_id: $circleId, user_id: $userId }
+                    ) {
+                        affected_rows
+                    }
+                }
+            `,
+        })
+        .then((value: any) => {
+            console.log(value);
+        });
 }
 
 export async function leaveCircle(
