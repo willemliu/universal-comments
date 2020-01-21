@@ -5,7 +5,7 @@ import { FacebookLogin } from './social/login/FacebookLogin';
 import { GoogleLogin } from './social/login/GoogleLogin';
 import CommentsStore, { Comment } from '../stores/CommentsStore';
 import styles from './Comments.module.css';
-import { getCirclesByUrl } from '../utils/apolloClient';
+import { getCirclesByUrl, getCircles } from '../utils/apolloClient';
 import UserStore from '../stores/UserStore';
 
 export type Provider = 'facebook' | 'google';
@@ -33,7 +33,7 @@ function assembleDescendents(comments: Comment[]) {
 }
 
 interface Props {
-    canonical: string;
+    canonical?: string;
     noForm?: boolean;
     onAccess?: (accessToken: string, uuid: string) => void;
     onCircleChange?: (circleId?: number) => void;
@@ -68,11 +68,17 @@ function Comments(props: Props) {
 
     useEffect(() => {
         if (loggedIn && UserStore.getUuid()) {
-            getCirclesByUrl(props.canonical, UserStore.getUuid()).then(
-                (fetchedCircles) => {
+            if (props.canonical) {
+                getCirclesByUrl(props.canonical, UserStore.getUuid()).then(
+                    (fetchedCircles) => {
+                        setCircles(fetchedCircles);
+                    }
+                );
+            } else {
+                getCircles(UserStore.getUuid()).then((fetchedCircles) => {
                     setCircles(fetchedCircles);
-                }
-            );
+                });
+            }
         } else {
             setCircles([]);
         }
