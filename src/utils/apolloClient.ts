@@ -117,6 +117,43 @@ export async function getCircles(uuid: string) {
         });
 }
 
+export async function getCirclesByUrl(url: string, uuid: string) {
+    console.log('getCircleByUrl', uuid);
+    if (!uuid) {
+        return [];
+    }
+    return await client
+        .query({
+            variables: {
+                uuid,
+                url,
+            },
+            query: gql`
+                query GetCirclesByUrl($uuid: uuid!, $url: String!) {
+                    circles(
+                        where: {
+                            users_circles: { user: { uuid: { _eq: $uuid } } }
+                        }
+                        order_by: { name: asc }
+                    ) {
+                        id
+                        name
+                        password
+                        comments_aggregate(where: { url: { _eq: $url } }) {
+                            aggregate {
+                                count(columns: id)
+                            }
+                        }
+                    }
+                }
+            `,
+        })
+        .then((value) => {
+            console.log('getCircles', value);
+            return value?.data?.circles;
+        });
+}
+
 export async function addCircle(
     userId: string,
     name: string,

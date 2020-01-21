@@ -61,6 +61,7 @@ function Index() {
                 <div className="blink">Loading...</div>
             ) : (
                 <Comments
+                    canonical={canonical}
                     onAccess={console.log}
                     onCircleChange={handleCircleChange}
                 />
