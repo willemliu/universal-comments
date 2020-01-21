@@ -38,8 +38,7 @@ export async function createUser(
     image: string,
     token: string
 ) {
-    const client = getApolloClient();
-    await client
+    return await client
         .mutate({
             variables: {
                 email,
@@ -74,10 +73,10 @@ export async function createUser(
                 }
             `,
         })
-        .then(({ data }: any) => {
-            console.log(data);
-        })
-        .catch(console.error);
+        .then((value: any) => {
+            console.log('createUser', value);
+            return value;
+        });
 }
 
 export async function getCircles(accessToken: string) {
@@ -112,7 +111,7 @@ export async function getCircles(accessToken: string) {
             `,
         })
         .then((value) => {
-            console.log(value?.data?.circles);
+            console.log('getCircles', value);
             return value?.data?.circles;
         });
 }
@@ -141,7 +140,7 @@ export async function addCircle(
             `,
         })
         .then((value: any) => {
-            console.log(value);
+            console.log('addCircle', value);
             return value?.data?.insert_circles?.returning?.[0]?.id;
         });
 
@@ -162,7 +161,8 @@ export async function addCircle(
             `,
         })
         .then((value: any) => {
-            console.log(value);
+            console.log('addCircle', value);
+            return value;
         });
 }
 
@@ -191,7 +191,7 @@ export async function joinCircle(
             `,
         })
         .then((value: any) => {
-            console.log(value);
+            console.log('joinCircle', value);
             return value?.data?.circles?.[0]?.id;
         });
 
@@ -229,7 +229,8 @@ export async function joinCircle(
             `,
         })
         .then((value: any) => {
-            console.log(value);
+            console.log('joinCircle', value);
+            return value;
         });
 }
 
@@ -262,6 +263,7 @@ export async function leaveCircle(
             `,
         })
         .then((value: any) => {
+            console.log('leaveCircle', value);
             return value?.data?.users_circles_aggregate?.aggregate?.count;
         });
 
@@ -295,7 +297,7 @@ export async function leaveCircle(
             `,
         })
         .then((value: any) => {
-            console.log(value);
+            console.log('leaveCircle', value);
             return value;
         });
 }
@@ -362,7 +364,7 @@ export async function updateCircle(
             `,
         })
         .then((value: any) => {
-            console.log(value);
+            console.log('updateCircle', value);
             return value;
         });
 }
@@ -470,7 +472,7 @@ export async function insertComment(
             `,
         })
         .then(({ data }: any) => {
-            console.log(data?.insert_comments?.returning?.[0]);
+            console.log('insertComment', data);
             return data?.insert_comments?.returning?.[0];
         });
 }
@@ -549,9 +551,9 @@ export async function removeComment(commentId: number, userId: string) {
                 }
             `,
         })
-        .then(({ data }: any) => {
-            console.log(data?.update_comments?.returning?.[0]);
-            return data?.update_comments?.returning?.[0];
+        .then((value) => {
+            console.log('removeComment', value);
+            return value?.data?.update_comments?.returning?.[0];
         });
 }
 

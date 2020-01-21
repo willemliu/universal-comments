@@ -37,7 +37,7 @@ function FacebookLogin(props: Props) {
                 '/me',
                 { fields: 'id,name,email,picture' },
                 async (response: any) => {
-                    console.log(response);
+                    console.log('FB /me', response);
                     UserStore.setId(response.id);
                     UserStore.setName(response.name);
                     UserStore.setEmail(response.email);
@@ -49,7 +49,7 @@ function FacebookLogin(props: Props) {
                         response.email,
                         response.picture?.data?.url,
                         accessToken
-                    );
+                    ).catch(console.error);
                 }
             );
             props?.onLogin(provider);

@@ -40,7 +40,7 @@ function GoogleLogin(props: Props) {
                         .get()
                         .getAuthResponse(true);
 
-                    console.log(profile, authResponse);
+                    console.log('GoogleAuth', profile, authResponse);
 
                     await createUser(
                         profile.getId(),
@@ -48,7 +48,7 @@ function GoogleLogin(props: Props) {
                         profile.getEmail(),
                         profile.getImageUrl(),
                         authResponse?.access_token
-                    );
+                    ).catch(console.error);
 
                     UserStore.setId(profile.getId());
                     UserStore.setName(profile.getName());
