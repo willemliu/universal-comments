@@ -81,6 +81,9 @@ export async function createUser(
 }
 
 export async function getCircles(accessToken: string) {
+    if (!accessToken) {
+        return [];
+    }
     return await client
         .query({
             variables: {

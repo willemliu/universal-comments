@@ -66,7 +66,7 @@ function Comments(props: Props) {
     }, []);
 
     useEffect(() => {
-        if (loggedIn) {
+        if (loggedIn && UserStore.getToken()) {
             getCircles(UserStore.getToken()).then((fetchedCircles) => {
                 setCircles(fetchedCircles);
             });
