@@ -99,6 +99,11 @@ export async function getCircles(accessToken: string) {
                         id
                         name
                         password
+                        comments_aggregate {
+                            aggregate {
+                                count(columns: id)
+                            }
+                        }
                     }
                 }
             `,
