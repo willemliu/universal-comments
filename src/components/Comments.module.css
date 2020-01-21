@@ -13,6 +13,7 @@
 .comments h2 {
     display: flex;
     justify-content: space-between;
+    font-size: 1rem;
 }
 
 .comments h2 a {
@@ -20,7 +21,7 @@
 }
 
 .loginContainer {
-    margin: 1rem 0;
+    margin: 0.5rem 0;
     font-family: tahoma, Arial, sans-serif;
     display: flex;
 }
@@ -34,12 +35,12 @@
 }
 
 .adminLinks {
-    margin: 1rem 0;
+    margin: 0.5rem 0;
 }
 
 .adminLinks a {
     text-decoration: none;
-    margin: 0 1rem 0 0;
+    margin: 0 0.5rem 0 0;
     white-space: nowrap;
 }
 
@@ -56,4 +57,18 @@
 
 .circle select {
     flex: 1 1 auto;
+}
+
+@media only screen and (min-width: 860px) {
+    .loginContainer {
+        margin: 1rem 0;
+    }
+
+    .adminLinks {
+        margin: 1rem 0;
+    }
+
+    .adminLinks a {
+        margin: 0 1rem 0 0;
+    }
 }

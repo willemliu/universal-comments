@@ -1,25 +1,37 @@
 .comment {
     font-family: Tahoma, Helvetica, sans-serif;
-    padding: 1rem;
+    padding: 0.5rem;
     background-color: rgba(0, 0, 0, 0.04);
     box-shadow: 0 2px 0.2px rgba(0, 0, 0, 0.1);
     margin-bottom: 0.5rem;
 }
 
+.meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+}
+
+.meta *:last-child {
+    padding-right: 0.1rem;
+}
+
 .indent1 {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
 }
 .indent2 {
-    margin-left: 2rem;
+    margin-left: 1rem;
 }
 .indent3 {
-    margin-left: 3rem;
+    margin-left: 1.5rem;
 }
 .indent4 {
-    margin-left: 4rem;
+    margin-left: 1.5rem;
 }
 .indent5 {
-    margin-left: 5rem;
+    margin-left: 1.5rem;
 }
 
 .comment.highlight {
@@ -37,22 +49,27 @@
     justify-content: space-between;
 }
 .comment footer:not(:last-child) {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .collapser {
     cursor: pointer;
     user-select: none;
+    font-size: 0.8rem;
+    color: #222;
 }
 
 .content {
     display: flex;
+    margin: 1rem 0;
+    overflow: auto;
 }
 
 .content figure {
     flex: 0 0 50px;
     overflow: hidden;
-    margin: 1rem 1rem 0 0;
+    margin: 0;
+    margin-right: 1rem;
 }
 .content figure img {
     width: 100%;
@@ -69,6 +86,7 @@
 }
 .content section h2 {
     font-size: 1rem;
+    margin: 0;
 }
 
 .removeButton {
@@ -86,5 +104,36 @@
     }
     to {
         background-color: rgba(0, 255, 0, 0);
+    }
+}
+
+@media only screen and (min-width: 860px) {
+    .comment {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .meta {
+        margin-bottom: 1rem;
+    }
+
+    .indent1 {
+        margin-left: 1rem;
+    }
+    .indent2 {
+        margin-left: 2rem;
+    }
+    .indent3 {
+        margin-left: 3rem;
+    }
+    .indent4 {
+        margin-left: 4rem;
+    }
+    .indent5 {
+        margin-left: 5rem;
+    }
+
+    .comment footer:not(:last-child) {
+        margin-bottom: 1rem;
     }
 }

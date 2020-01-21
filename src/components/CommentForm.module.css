@@ -6,10 +6,18 @@
 
 .commentForm textarea {
     flex: 1 1 auto;
-    height: 75px;
-    padding: 1rem;
+    height: 40px;
+    padding: 0.5rem;
 }
+
 .commentForm button {
     cursor: pointer;
     padding: 0.5rem;
+}
+
+@media only screen and (min-width: 860px) {
+    .commentForm textarea {
+        height: 75px;
+        padding: 1rem;
+    }
 }

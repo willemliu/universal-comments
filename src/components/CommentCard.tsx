@@ -139,9 +139,20 @@ function CommentCard(props: Props) {
                                         title={props.displayName}
                                     />
                                 </picture>
-                                <figcaption>{props.displayName}</figcaption>
                             </figure>
                             <section>
+                                <div className={styles.meta}>
+                                    <span>{props.displayName}:</span>
+                                    <span>
+                                        <div>{`${timestamp.toLocaleTimeString()} ${timestamp.toLocaleDateString()}`}</div>
+                                        {updated ? (
+                                            <div>
+                                                Update:{' '}
+                                                {`${updated.toLocaleTimeString()} ${updated.toLocaleDateString()}`}
+                                            </div>
+                                        ) : null}
+                                    </span>
+                                </div>
                                 {props.removed ? (
                                     <h2>[Removed]</h2>
                                 ) : (
@@ -153,37 +164,32 @@ function CommentCard(props: Props) {
                                 )}
                             </section>
                         </section>
-                        <footer>
-                            <span>{`${timestamp.toLocaleTimeString()} ${timestamp.toLocaleDateString()}`}</span>
-                            {updated ? (
-                                <span>
-                                    Update:{' '}
-                                    {`${updated.toLocaleTimeString()} ${updated.toLocaleDateString()}`}
-                                </span>
-                            ) : null}
-                            {!props.loggedIn ? (
-                                <div>Score: {score ?? 0}</div>
-                            ) : null}
-                            {!props.removed && props.loggedIn && (
-                                <>
-                                    <CommentScore
-                                        score={score}
-                                        onVoteUp={voteUp}
-                                        onVoteNeutral={voteNeutral}
-                                        onVoteDown={voteDown}
-                                    />
-                                    {!props.noForm && (
-                                        <a
-                                            className={styles.replyToggle}
-                                            onClick={toggleReply}
-                                            title="Reply"
-                                        >
-                                            📥
-                                        </a>
-                                    )}
-                                </>
-                            )}
-                        </footer>
+                        {!props.removed && (
+                            <footer>
+                                {!props.loggedIn ? (
+                                    <div>Score: {score ?? 0}</div>
+                                ) : null}
+                                {props.loggedIn && (
+                                    <>
+                                        <CommentScore
+                                            score={score}
+                                            onVoteUp={voteUp}
+                                            onVoteNeutral={voteNeutral}
+                                            onVoteDown={voteDown}
+                                        />
+                                        {!props.noForm && (
+                                            <a
+                                                className={styles.replyToggle}
+                                                onClick={toggleReply}
+                                                title="Reply"
+                                            >
+                                                📥
+                                            </a>
+                                        )}
+                                    </>
+                                )}
+                            </footer>
+                        )}
                     </>
                 )}
                 {reply && !props.noForm ? (
