@@ -61,7 +61,13 @@ function CommentCard(props: Props) {
     }
 
     async function handleRemoveComment() {
-        CommentsStore.updateComment(await removeComment(props.id, userId));
+        if (
+            confirm(
+                'Are you sure you want to remove this comment? This action is not reversible.'
+            )
+        ) {
+            CommentsStore.updateComment(await removeComment(props.id, userId));
+        }
     }
 
     function toggleReply() {
