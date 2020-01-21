@@ -61,7 +61,7 @@
 
 .content {
     display: flex;
-    margin: 1rem 0;
+    margin: 0.5rem 0;
     overflow: auto;
 }
 
@@ -111,6 +111,10 @@
     .comment {
         padding: 1rem;
         margin-bottom: 1rem;
+    }
+
+    .content {
+        margin: 0.5rem 0;
     }
 
     .meta {
