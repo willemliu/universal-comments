@@ -1,3 +1,28 @@
+::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-border-radius: 0.25rem;
+    border-radius: 0.25rem;
+    background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 0.25rem;
+    border-radius: 0.25rem;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0, 0, 0, 0.05);
+}
+
 .blink {
     animation: 1s linear infinite condemned_blink_effect;
 }
