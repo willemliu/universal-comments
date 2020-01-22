@@ -251,7 +251,7 @@ export async function joinCircle(
                     $userId: String!
                     $circleId: uuid!
                     $name: String!
-                    $password: String!
+                    $password: uuid!
                 ) {
                     insert_users_circles(
                         on_conflict: {
