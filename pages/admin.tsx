@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Head from 'next/head';
 import CommentsStore from '../src/stores/CommentsStore';
 import { getAllUserComments } from '../src/utils/apolloClient';
-import { Comments } from '../src/components/Comments';
+import { AdminComments } from '../src/components/AdminComments';
 
 export default function admin() {
     const [loading, setLoading] = useState(false);
@@ -30,12 +30,7 @@ export default function admin() {
             {loading ? (
                 <div className="blink">Loading...</div>
             ) : (
-                <Comments
-                    title={'Comments Admin'}
-                    onAccess={onAccess}
-                    onLogout={onLogout}
-                    noForm={true}
-                />
+                <AdminComments onAccess={onAccess} onLogout={onLogout} />
             )}
             <small>Universal comments admin</small>
         </>

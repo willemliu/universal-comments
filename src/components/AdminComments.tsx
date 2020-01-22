@@ -10,54 +10,27 @@ import UserStore from '../stores/UserStore';
 
 export type Provider = 'facebook' | 'google';
 
-function assembleDescendents(comments: Comment[]) {
-    try {
-        let roots = [...comments];
-        roots.forEach((comment) => {
-            if (comment.parent_id) {
-                const parent = roots.find(
-                    (ancestor) => ancestor.id === comment.parent_id
-                );
-                if (parent.subComments) {
-                    parent.subComments.push(comment);
-                } else {
-                    parent.subComments = [comment];
-                }
-            }
-        });
-        roots = roots.filter((dupe) => dupe.parent_id === null);
-        return roots;
-    } catch (e) {
-        return comments;
-    }
-}
-
 interface Props {
     canonical?: string;
     onAccess?: (accessToken: string, uuid: string) => void;
     onLogout?: () => void;
     onCircleChange?: (circleId?: number) => void;
-    title?: string;
 }
 
-function Comments(props: Props) {
+function AdminComments(props: Props) {
     const [circles, setCircles] = useState([]);
     const [circleId, setCircleId] = useState(null);
 
     const [provider, setProvider] = useState<Provider>(null);
     const [loggedIn, setLoggedIn] = useState(false);
     const [comments, setComments] = useState(
-        assembleDescendents(
-            JSON.parse(JSON.stringify(CommentsStore.getComments()))
-        )
+        JSON.parse(JSON.stringify(CommentsStore.getComments()))
     );
 
     useEffect(() => {
         const subscriptionId = CommentsStore.subscribe(() => {
             setComments(
-                assembleDescendents(
-                    JSON.parse(JSON.stringify(CommentsStore.getComments()))
-                )
+                JSON.parse(JSON.stringify(CommentsStore.getComments()))
             );
         });
 
@@ -109,47 +82,7 @@ function Comments(props: Props) {
     return (
         <section className={`${styles.comments} universal-comments`}>
             <h2>
-                <span>
-                    {props.title || 'Comments'}
-                    {loggedIn && (
-                        <a
-                            href="/admin"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="Manage your comments"
-                        >
-                            ⚙️
-                        </a>
-                    )}
-                </span>
-                <section className={styles.circle}>
-                    <label htmlFor="circle">Circle:</label>
-                    <select
-                        id="circle"
-                        name="circle"
-                        onChange={handleCircleChange}
-                    >
-                        <option value="">Public</option>
-                        {circles.map((circle: any) => (
-                            <option value={circle.id} key={circle.id}>
-                                {circle.name}{' '}
-                                {circle?.comments_aggregate?.aggregate?.count
-                                    ? `(${circle?.comments_aggregate?.aggregate?.count})`
-                                    : null}
-                            </option>
-                        ))}
-                    </select>
-                    {loggedIn && (
-                        <a
-                            href="/circles"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="Manage your circles"
-                        >
-                            ⚙️
-                        </a>
-                    )}
-                </section>
+                <span>Comments Admin</span>
             </h2>
             {comments.map((comment) => {
                 return (
@@ -170,11 +103,10 @@ function Comments(props: Props) {
                         comment={comment?.comment}
                         subComments={comment?.subComments || []}
                         loggedIn={loggedIn}
-                        noForm={false}
+                        noForm={true}
                     />
                 );
             })}
-            {loggedIn && <CommentForm circleId={circleId} />}
             <div className={styles.loginContainer}>
                 {!loggedIn || provider === 'facebook' ? (
                     <FacebookLogin
@@ -195,4 +127,4 @@ function Comments(props: Props) {
     );
 }
 
-export { Comments };
+export { AdminComments };
