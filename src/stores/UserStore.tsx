@@ -47,6 +47,7 @@ class UserStore extends StoreBase {
         this.name = null;
         this.email = null;
         this.image = '//place-hold.it/50x50';
+        this.uuid = null;
         this.trigger();
     }
 
