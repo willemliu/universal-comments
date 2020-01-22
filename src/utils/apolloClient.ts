@@ -194,7 +194,7 @@ export async function addCircle(userId: string, name: string) {
                 circleId: id,
             },
             mutation: gql`
-                mutation($userId: String!, $circleId: bigint!) {
+                mutation($userId: String!, $circleId: uuid!) {
                     insert_users_circles(
                         objects: { user_id: $userId, circle_id: $circleId }
                     ) {
@@ -249,7 +249,7 @@ export async function joinCircle(
             mutation: gql`
                 mutation JoinCircle(
                     $userId: String!
-                    $circleId: bigint!
+                    $circleId: uuid!
                     $name: String!
                     $password: String!
                 ) {
@@ -358,7 +358,7 @@ export async function removeCircle(id: number, name: string, password: string) {
                 password,
             },
             mutation: gql`
-                mutation($id: bigint!, $name: String!, $password: uuid!) {
+                mutation($id: uuid!, $name: String!, $password: uuid!) {
                     delete_circles(
                         where: {
                             id: { _eq: $id }
@@ -440,8 +440,8 @@ export async function insertComment(
                     $comment: String!
                     $url: String!
                     $userId: String!
-                    $parentId: bigint
-                    $circleId: bigint
+                    $parentId: uuid
+                    $circleId: uuid
                 ) {
                     insert_comments(
                         objects: {
@@ -500,7 +500,7 @@ export async function insertScore(
                 mutation Vote(
                     $userId: String!
                     $vote: Int!
-                    $commentId: bigint!
+                    $commentId: uuid!
                 ) {
                     insert_scores(
                         objects: {
@@ -544,7 +544,7 @@ export async function removeComment(commentId: number, userId: string) {
                 userId,
             },
             mutation: gql`
-                mutation($commentId: bigint!, $userId: String!) {
+                mutation($commentId: uuid!, $userId: String!) {
                     update_comments(
                         where: {
                             id: { _eq: $commentId }
@@ -641,7 +641,7 @@ export async function getCommentsByCircleId(url: string, circleId?: number) {
         .query({
             variables: { url, circleId },
             query: gql`
-                query($url: String!, $circleId: bigint) {
+                query($url: String!, $circleId: uuid) {
                     comments(
                         where: {
                             url: { _eq: $url }
