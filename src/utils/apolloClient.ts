@@ -636,7 +636,7 @@ export async function getCommentsByUrl(url: string) {
         });
 }
 
-export async function getCommentsByCircleId(url: string, circleId?: number) {
+export async function getCommentsByCircleId(url: string, circleId?: string) {
     return await client
         .query({
             variables: { url, circleId },

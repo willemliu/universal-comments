@@ -29,7 +29,7 @@ function Index() {
         }
     }, []);
 
-    function handleCircleChange(circleId?: number) {
+    function handleCircleChange(circleId?: string) {
         const url = getCanonical();
         setCanonical(url);
         try {

@@ -36,7 +36,7 @@ interface Props {
     canonical?: string;
     onAccess?: (accessToken: string, uuid: string) => void;
     onLogout?: () => void;
-    onCircleChange?: (circleId?: number) => void;
+    onCircleChange?: (circleId?: string) => void;
     title?: string;
 }
 
@@ -100,7 +100,7 @@ function Comments(props: Props) {
         const tmpCircleId = e.currentTarget.value || null;
         setCircleId(tmpCircleId);
         if (tmpCircleId) {
-            props?.onCircleChange(Number.parseInt(tmpCircleId, 10));
+            props?.onCircleChange(tmpCircleId);
         } else {
             props?.onCircleChange(null);
         }
