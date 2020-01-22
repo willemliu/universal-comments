@@ -161,7 +161,7 @@ export async function addCircle(userId: string, name: string) {
                 name,
             },
             mutation: gql`
-                mutation InsertCircles($name: String!, $password: String!) {
+                mutation InsertCircles($name: String!) {
                     insert_circles(objects: { name: $name }) {
                         returning {
                             id
@@ -277,7 +277,7 @@ export async function leaveCircle(
                 password,
             },
             query: gql`
-                query GetUsersCirclesCount($name: String!, $password: String!) {
+                query GetUsersCirclesCount($name: String!, $password: uuid!) {
                     users_circles_aggregate(
                         where: {
                             circle: {
@@ -315,7 +315,7 @@ export async function leaveCircle(
                 mutation LeaveCircle(
                     $uuid: uuid!
                     $name: String!
-                    $password: String!
+                    $password: uuid!
                 ) {
                     delete_users_circles(
                         where: {
@@ -346,7 +346,7 @@ export async function removeCircle(id: number, name: string, password: string) {
                 password,
             },
             mutation: gql`
-                mutation($id: bigint!, $name: String!, $password: String!) {
+                mutation($id: bigint!, $name: String!, $password: uuid!) {
                     delete_circles(
                         where: {
                             id: { _eq: $id }

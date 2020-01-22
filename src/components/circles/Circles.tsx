@@ -54,48 +54,52 @@ function Circles(props: Props) {
 
     return (
         <table className={styles.circles}>
-            <tr>
-                <th>Circle name</th>
-                <th>Password</th>
-                <th>Remove</th>
-                <th>Leave</th>
-            </tr>
-
-            {props.circles.map((circle: Circle) => (
-                <tr key={circle.name}>
-                    <td>
-                        <label>{circle.name}</label>
-                    </td>
-                    <td>
-                        <label>{circle.password}</label>
-                    </td>
-                    <td>
-                        <button
-                            onClick={handleDelete.bind(
-                                null,
-                                circle.id,
-                                circle.name,
-                                circle.password
-                            )}
-                            title="Delete"
-                        >
-                            ☠️
-                        </button>
-                    </td>
-                    <td>
-                        <button
-                            onClick={handleLeave.bind(
-                                null,
-                                circle.name,
-                                circle.password
-                            )}
-                            title="Leave"
-                        >
-                            🏃💨
-                        </button>
-                    </td>
+            <thead>
+                <tr>
+                    <th>Circle name</th>
+                    <th>Password</th>
+                    <th>Remove</th>
+                    <th>Leave</th>
                 </tr>
-            ))}
+            </thead>
+
+            <tbody>
+                {props.circles.map((circle: Circle) => (
+                    <tr key={circle.name}>
+                        <td>
+                            <label>{circle.name}</label>
+                        </td>
+                        <td>
+                            <label>{circle.password}</label>
+                        </td>
+                        <td>
+                            <button
+                                onClick={handleDelete.bind(
+                                    null,
+                                    circle.id,
+                                    circle.name,
+                                    circle.password
+                                )}
+                                title="Delete"
+                            >
+                                ☠️
+                            </button>
+                        </td>
+                        <td>
+                            <button
+                                onClick={handleLeave.bind(
+                                    null,
+                                    circle.name,
+                                    circle.password
+                                )}
+                                title="Leave"
+                            >
+                                🏃💨
+                            </button>
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
         </table>
     );
 }
