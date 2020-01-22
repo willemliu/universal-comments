@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { CommentCard } from './CommentCard';
-import { CommentForm } from './CommentForm';
 import { FacebookLogin } from './social/login/FacebookLogin';
 import { GoogleLogin } from './social/login/GoogleLogin';
-import CommentsStore, { Comment } from '../stores/CommentsStore';
+import CommentsStore from '../stores/CommentsStore';
 import styles from './Comments.module.css';
-import { getCirclesByUrl, getCircles } from '../utils/apolloClient';
-import UserStore from '../stores/UserStore';
 
 export type Provider = 'facebook' | 'google';
 
@@ -14,13 +11,9 @@ interface Props {
     canonical?: string;
     onAccess?: (accessToken: string, uuid: string) => void;
     onLogout?: () => void;
-    onCircleChange?: (circleId?: number) => void;
 }
 
 function AdminComments(props: Props) {
-    const [circles, setCircles] = useState([]);
-    const [circleId, setCircleId] = useState(null);
-
     const [provider, setProvider] = useState<Provider>(null);
     const [loggedIn, setLoggedIn] = useState(false);
     const [comments, setComments] = useState(
@@ -39,24 +32,6 @@ function AdminComments(props: Props) {
         };
     }, []);
 
-    useEffect(() => {
-        if (loggedIn && UserStore.getUuid()) {
-            if (props.canonical) {
-                getCirclesByUrl(props.canonical, UserStore.getUuid()).then(
-                    (fetchedCircles) => {
-                        setCircles(fetchedCircles);
-                    }
-                );
-            } else {
-                getCircles(UserStore.getUuid()).then((fetchedCircles) => {
-                    setCircles(fetchedCircles);
-                });
-            }
-        } else {
-            setCircles([]);
-        }
-    }, [loggedIn]);
-
     function login(provider: Provider) {
         console.log('Login provider', provider);
         setProvider(provider);
@@ -69,16 +44,6 @@ function AdminComments(props: Props) {
         props?.onLogout?.();
     }
 
-    function handleCircleChange(e: React.ChangeEvent<HTMLSelectElement>) {
-        const tmpCircleId = e.currentTarget.value || null;
-        setCircleId(tmpCircleId);
-        if (tmpCircleId) {
-            props?.onCircleChange(Number.parseInt(tmpCircleId, 10));
-        } else {
-            props?.onCircleChange(null);
-        }
-    }
-
     return (
         <section className={`${styles.comments} universal-comments`}>
             <h2>
@@ -89,7 +54,6 @@ function AdminComments(props: Props) {
                     <CommentCard
                         key={comment?.id}
                         id={comment?.id}
-                        circleId={circleId}
                         displayName={comment?.user?.display_name}
                         generation={0}
                         userId={comment?.user?.id}
