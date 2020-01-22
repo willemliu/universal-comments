@@ -221,7 +221,7 @@ export async function joinCircle(
                 password,
             },
             query: gql`
-                query GetCircleId($name: String!, $password: String!) {
+                query GetCircleId($name: String!, $password: uuid!) {
                     circles(
                         where: {
                             name: { _eq: $name }
