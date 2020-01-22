@@ -154,22 +154,15 @@ export async function getCirclesByUrl(url: string, uuid: string) {
         });
 }
 
-export async function addCircle(
-    userId: string,
-    name: string,
-    password: string
-) {
+export async function addCircle(userId: string, name: string) {
     const id = await client
         .mutate({
             variables: {
                 name,
-                password,
             },
             mutation: gql`
-                mutation($name: String!, $password: String!) {
-                    insert_circles(
-                        objects: { name: $name, password: $password }
-                    ) {
+                mutation InsertCircles($name: String!, $password: String!) {
+                    insert_circles(objects: { name: $name }) {
                         returning {
                             id
                         }
@@ -367,46 +360,6 @@ export async function removeCircle(id: number, name: string, password: string) {
             `,
         })
         .then((value: any) => {
-            return value;
-        });
-}
-
-export async function updateCircle(
-    id: number,
-    name: string,
-    password: string,
-    newPassword: string
-) {
-    return await client
-        .mutate({
-            variables: {
-                id,
-                name,
-                password,
-                newPassword,
-            },
-            mutation: gql`
-                mutation(
-                    $id: bigint!
-                    $name: String!
-                    $password: String!
-                    $newPassword: String!
-                ) {
-                    update_circles(
-                        where: {
-                            id: { _eq: $id }
-                            name: { _eq: $name }
-                            password: { _eq: $password }
-                        }
-                        _set: { password: $newPassword }
-                    ) {
-                        affected_rows
-                    }
-                }
-            `,
-        })
-        .then((value: any) => {
-            console.log('updateCircle', value);
             return value;
         });
 }

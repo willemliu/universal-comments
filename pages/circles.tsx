@@ -30,11 +30,10 @@ export default function circles() {
         const formEl = e.currentTarget;
         const formData = new FormData(formEl);
         const name = formData.get('name').toString();
-        const password = formData.get('password').toString();
 
-        if (name && password) {
+        if (name) {
             try {
-                await addCircle(UserStore.getId(), name, password);
+                await addCircle(UserStore.getId(), name);
                 formEl.reset();
                 window.location.reload();
             } catch (err) {
@@ -114,11 +113,6 @@ export default function circles() {
                             type="text"
                             name="name"
                             placeholder="Circle name"
-                        />
-                        <input
-                            type="text"
-                            name="password"
-                            placeholder="Circle password"
                         />
                         <button title="Create circle">➕</button>
                     </fieldset>
