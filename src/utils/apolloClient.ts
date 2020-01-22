@@ -107,6 +107,11 @@ export async function getCircles(uuid: string) {
                                 count(columns: id)
                             }
                         }
+                        users_circles_aggregate {
+                            aggregate {
+                                count
+                            }
+                        }
                     }
                 }
             `,
