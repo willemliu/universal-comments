@@ -261,7 +261,7 @@ export async function joinCircle(
                                     password: { _eq: $password }
                                 }
                             }
-                            constraint: users_circles_circle_id_user_id_key
+                            constraint: users_circles_user_id_circle_id_key
                             update_columns: user_id
                         }
                         objects: { circle_id: $circleId, user_id: $userId }
