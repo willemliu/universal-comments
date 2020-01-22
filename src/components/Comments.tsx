@@ -36,6 +36,7 @@ interface Props {
     canonical?: string;
     noForm?: boolean;
     onAccess?: (accessToken: string, uuid: string) => void;
+    onLogout?: () => void;
     onCircleChange?: (circleId?: number) => void;
     title?: string;
 }
@@ -85,6 +86,7 @@ function Comments(props: Props) {
     }, [loggedIn]);
 
     function login(provider: Provider) {
+        console.log('Login provider', provider);
         setProvider(provider);
         setLoggedIn(true);
     }
@@ -92,6 +94,7 @@ function Comments(props: Props) {
     function logout() {
         setLoggedIn(false);
         setProvider(null);
+        props?.onLogout?.();
     }
 
     function handleCircleChange(e: React.ChangeEvent<HTMLSelectElement>) {

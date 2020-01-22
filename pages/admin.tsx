@@ -18,6 +18,10 @@ export default function admin() {
         }
     }
 
+    function onLogout() {
+        CommentsStore.setComments([]);
+    }
+
     return (
         <>
             <Head>
@@ -29,6 +33,7 @@ export default function admin() {
                 <Comments
                     title={'Comments Admin'}
                     onAccess={onAccess}
+                    onLogout={onLogout}
                     noForm={true}
                 />
             )}

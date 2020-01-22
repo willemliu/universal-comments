@@ -68,6 +68,7 @@ function GoogleLogin(props: Props) {
             });
 
             if (GoogleAuth.isSignedIn.get()) {
+                setLoggedIn(true);
                 props?.onLogin(provider);
             }
         }
