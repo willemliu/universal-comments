@@ -7,6 +7,16 @@ type Circle = {
     id: number;
     name: string;
     password: string;
+    comments_aggregate: {
+        aggregate: {
+            count: number;
+        };
+    };
+    users_circles_aggregate: {
+        aggregate: {
+            count: number;
+        };
+    };
 };
 
 interface Props {
@@ -58,6 +68,7 @@ function Circles(props: Props) {
                 <tr>
                     <th>Circle name</th>
                     <th>Password</th>
+                    <th>Members</th>
                     <th>Remove</th>
                     <th>Leave</th>
                 </tr>
@@ -66,13 +77,12 @@ function Circles(props: Props) {
             <tbody>
                 {props.circles.map((circle: Circle) => (
                     <tr key={circle.name}>
-                        <td>
-                            <label>{circle.name}</label>
+                        <td>{circle.name}</td>
+                        <td>{circle.password}</td>
+                        <td className={styles.centered}>
+                            {circle?.users_circles_aggregate?.aggregate?.count}
                         </td>
-                        <td>
-                            <label>{circle.password}</label>
-                        </td>
-                        <td>
+                        <td className={styles.centered}>
                             <button
                                 onClick={handleDelete.bind(
                                     null,
@@ -85,7 +95,7 @@ function Circles(props: Props) {
                                 ☠️
                             </button>
                         </td>
-                        <td>
+                        <td className={styles.centered}>
                             <button
                                 onClick={handleLeave.bind(
                                     null,
