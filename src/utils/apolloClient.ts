@@ -358,7 +358,11 @@ export async function removeCircle(id: number, name: string, password: string) {
                 password,
             },
             mutation: gql`
-                mutation($id: uuid!, $name: String!, $password: uuid!) {
+                mutation DeleteCircles(
+                    $id: uuid!
+                    $name: String!
+                    $password: uuid!
+                ) {
                     delete_circles(
                         where: {
                             id: { _eq: $id }
