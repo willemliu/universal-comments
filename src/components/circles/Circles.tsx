@@ -7,6 +7,7 @@ type Circle = {
     id: number;
     name: string;
     password: string;
+    timestamp: string;
     comments_aggregate: {
         aggregate: {
             count: number;
@@ -69,6 +70,7 @@ function Circles(props: Props) {
                     <th>Circle name</th>
                     <th>Password</th>
                     <th>Members</th>
+                    <th>Created</th>
                     <th>Remove</th>
                     <th>Leave</th>
                 </tr>
@@ -81,6 +83,9 @@ function Circles(props: Props) {
                         <td>{circle.password}</td>
                         <td className={styles.centered}>
                             {circle?.users_circles_aggregate?.aggregate?.count}
+                        </td>
+                        <td className={styles.centered}>
+                            {new Date(circle.timestamp).toLocaleString()}
                         </td>
                         <td className={styles.centered}>
                             <button

@@ -102,6 +102,7 @@ export async function getCircles(uuid: string) {
                         id
                         name
                         password
+                        timestamp
                         comments_aggregate {
                             aggregate {
                                 count(columns: id)
