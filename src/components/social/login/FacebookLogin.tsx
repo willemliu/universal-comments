@@ -21,7 +21,7 @@ function FacebookLogin(props: Props) {
     const [apiLoaded, setApiLoaded] = useState(true);
 
     function isApiLoaded() {
-        return typeof (window != 'undefined') && window?.gapi;
+        return window?.FB;
     }
 
     useEffect(() => {
