@@ -63,7 +63,7 @@ function Auth0Login(props: Props) {
 
     async function login() {
         await auth0.loginWithPopup({
-            redirect_uri: 'http://localhost:3000/',
+            redirect_uri: window.location.href,
         });
         //logged in. you can get the user profile like this:
         const user = await auth0.getUser();
