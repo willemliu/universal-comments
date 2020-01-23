@@ -1,8 +1,6 @@
 import React from 'react';
 import './styles.css';
 import Head from 'next/head';
-import { FBSDK } from '../src/components/social/login/FacebookLogin';
-import { GoogleSDK } from '../src/components/social/login/GoogleLogin';
 
 // This default export is required in a new `pages/_app.js` file.
 export default function MyApp({ Component, pageProps }: any) {
@@ -19,8 +17,6 @@ export default function MyApp({ Component, pageProps }: any) {
                     content="default-src 'self' * data:; img-src * data:; style-src 'self' * 'unsafe-inline'; script-src 'self' * 'unsafe-inline' 'unsafe-eval';"
                 />
                 <meta name="uc:disabled" content="true" />
-                <FBSDK key="facebook" />
-                <GoogleSDK key="google" />
 
                 <link
                     rel="stylesheet"

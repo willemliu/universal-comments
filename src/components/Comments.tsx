@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { CommentCard } from './CommentCard';
 import { CommentForm } from './CommentForm';
-import { FacebookLogin } from './social/login/FacebookLogin';
-import { GoogleLogin } from './social/login/GoogleLogin';
 import CommentsStore, { Comment } from '../stores/CommentsStore';
 import styles from './Comments.module.css';
 import { getCirclesByUrl, getCircles } from '../utils/apolloClient';
 import UserStore from '../stores/UserStore';
-
-export type Provider = 'facebook' | 'google';
+import { Login, Provider } from './social/login/Login';
 
 function assembleDescendents(comments: Comment[]) {
     try {
@@ -175,22 +172,14 @@ function Comments(props: Props) {
                 );
             })}
             {loggedIn && <CommentForm circleId={circleId} />}
-            <div className={styles.loginContainer}>
-                {!loggedIn || provider === 'facebook' ? (
-                    <FacebookLogin
-                        onLogin={login}
-                        onLogout={logout}
-                        onAccess={props.onAccess}
-                    />
-                ) : null}
-                {!loggedIn || provider === 'google' ? (
-                    <GoogleLogin
-                        onLogin={login}
-                        onLogout={logout}
-                        onAccess={props.onAccess}
-                    />
-                ) : null}
-            </div>
+            <Login
+                className={styles.loginContainer}
+                onLogin={login}
+                onLogout={logout}
+                onAccess={props.onAccess}
+                loggedIn={loggedIn}
+                provider={provider}
+            />
         </section>
     );
 }

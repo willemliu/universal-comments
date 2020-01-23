@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
-import { FacebookLogin } from '../src/components/social/login/FacebookLogin';
-import { GoogleLogin } from '../src/components/social/login/GoogleLogin';
 import { getCircles, addCircle, joinCircle } from '../src/utils/apolloClient';
-import { Provider } from '../src/components/Comments';
 import { Circles } from '../src/components/circles/Circles';
 import UserStore from '../src/stores/UserStore';
 import styles from './circles.module.css';
+import { Login, Provider } from '../src/components/social/login/Login';
 
 export default function circles() {
     const [loading, setLoading] = useState(false);
@@ -138,22 +136,14 @@ export default function circles() {
                 </form>
             ) : null}
 
-            <div>
-                {!loggedIn || provider === 'facebook' ? (
-                    <FacebookLogin
-                        onLogin={login}
-                        onLogout={logout}
-                        onAccess={onAccess}
-                    />
-                ) : null}
-                {!loggedIn || provider === 'google' ? (
-                    <GoogleLogin
-                        onLogin={login}
-                        onLogout={logout}
-                        onAccess={onAccess}
-                    />
-                ) : null}
-            </div>
+            <Login
+                onLogin={login}
+                onLogout={logout}
+                onAccess={onAccess}
+                loggedIn={loggedIn}
+                provider={provider}
+            />
+
             <small>Universal comments circles</small>
         </section>
     );

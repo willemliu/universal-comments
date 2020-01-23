@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { CommentCard } from './CommentCard';
-import { FacebookLogin } from './social/login/FacebookLogin';
-import { GoogleLogin } from './social/login/GoogleLogin';
 import CommentsStore from '../stores/CommentsStore';
 import styles from './Comments.module.css';
-
-export type Provider = 'facebook' | 'google';
+import { Login, Provider } from './social/login/Login';
 
 interface Props {
     canonical?: string;
@@ -39,6 +36,7 @@ function AdminComments(props: Props) {
     }
 
     function logout() {
+        console.log('logout');
         setLoggedIn(false);
         setProvider(null);
         props?.onLogout?.();
@@ -71,22 +69,15 @@ function AdminComments(props: Props) {
                     />
                 );
             })}
-            <div className={styles.loginContainer}>
-                {!loggedIn || provider === 'facebook' ? (
-                    <FacebookLogin
-                        onLogin={login}
-                        onLogout={logout}
-                        onAccess={props.onAccess}
-                    />
-                ) : null}
-                {!loggedIn || provider === 'google' ? (
-                    <GoogleLogin
-                        onLogin={login}
-                        onLogout={logout}
-                        onAccess={props.onAccess}
-                    />
-                ) : null}
-            </div>
+
+            <Login
+                className={styles.loginContainer}
+                onLogin={login}
+                onLogout={logout}
+                onAccess={props.onAccess}
+                loggedIn={loggedIn}
+                provider={provider}
+            />
         </section>
     );
 }

@@ -27,11 +27,8 @@ export default function admin() {
             <Head>
                 <title>Admin - Universal Comments</title>
             </Head>
-            {loading ? (
-                <div className="blink">Loading...</div>
-            ) : (
-                <AdminComments onAccess={onAccess} onLogout={onLogout} />
-            )}
+            {loading ? <div className="blink">Loading...</div> : null}
+            <AdminComments onAccess={onAccess} onLogout={onLogout} />
             <small>Universal comments admin</small>
         </>
     );
