@@ -24,11 +24,12 @@ function Auth0Login(props: Props) {
     }, [props.loggedIn]);
 
     async function storeUser(accessToken: string, user: any) {
+        console.log(user);
         const userId = user?.sub?.split('|')?.[1];
         const uuid = await createUser(
             userId,
             user.name,
-            user.email,
+            user.email ?? `${userId}@unknown.email`,
             user.picture,
             accessToken
         );
