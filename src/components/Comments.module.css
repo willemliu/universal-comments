@@ -24,9 +24,7 @@
     margin: 0.5rem 0;
     font-family: tahoma, Arial, sans-serif;
     display: flex;
-}
-.loginContainer button {
-    flex: 1 1 auto;
+    flex-wrap: wrap;
 }
 
 .loginContainer h2 {

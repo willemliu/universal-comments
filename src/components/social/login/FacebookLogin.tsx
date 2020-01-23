@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import UserStore from '../../../stores/UserStore';
 import { createUser } from '../../../utils/apolloClient';
 import { SecondaryButton } from '../../buttons/buttons';
+import styles from './social.module.css';
 
 declare let window: any;
 declare let FB: any;
@@ -72,7 +73,7 @@ function FacebookLogin(props: Props) {
         FB.logout();
     }
 
-    return (
+    return window?.FB ? (
         <>
             {loggedIn ? (
                 <SecondaryButton onClick={logout}>
@@ -84,6 +85,11 @@ function FacebookLogin(props: Props) {
                 </SecondaryButton>
             )}
         </>
+    ) : (
+        <span className={styles.alert}>
+            Your browser has blocked some scripts required for Facebook login to
+            work.
+        </span>
     );
 }
 

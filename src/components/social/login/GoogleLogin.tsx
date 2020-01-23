@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 import UserStore from '../../../stores/UserStore';
 import { createUser } from '../../../utils/apolloClient';
 import { SecondaryButton } from '../../buttons/buttons';
+import styles from './social.module.css';
 
+declare let window: any;
 declare let gapi: any;
 
 interface Props {
@@ -83,7 +85,7 @@ function GoogleLogin(props: Props) {
         GoogleAuth?.signOut();
     }
 
-    return (
+    return window?.gapi ? (
         <>
             {loggedIn ? (
                 <SecondaryButton onClick={logout}>
@@ -95,6 +97,11 @@ function GoogleLogin(props: Props) {
                 </SecondaryButton>
             )}
         </>
+    ) : (
+        <span className={styles.alert}>
+            Your browser has blocked some scripts required for Google login to
+            work.
+        </span>
     );
 }
 
