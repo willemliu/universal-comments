@@ -19,15 +19,23 @@ const provider = 'google';
 function GoogleLogin(props: Props) {
     const [loggedIn, setLoggedIn] = useState(false);
     const [GoogleAuth, setGoogleAuth] = useState(null);
+    const [apiLoaded, setApiLoaded] = useState(true);
+
+    function isApiLoaded() {
+        return typeof (window != 'undefined') && window?.gapi;
+    }
 
     useEffect(() => {
-        gapi.load('auth2', function() {
-            gapi.auth2.init({
-                client_id:
-                    '426807433984-fjqermuq3moa27vho9he9dr9upjqafro.apps.googleusercontent.com',
+        setApiLoaded(isApiLoaded());
+        if (isApiLoaded()) {
+            gapi.load('auth2', function() {
+                gapi.auth2.init({
+                    client_id:
+                        '426807433984-fjqermuq3moa27vho9he9dr9upjqafro.apps.googleusercontent.com',
+                });
+                setGoogleAuth(gapi.auth2.getAuthInstance());
             });
-            setGoogleAuth(gapi.auth2.getAuthInstance());
-        });
+        }
     }, []);
 
     useEffect(() => {
@@ -85,7 +93,7 @@ function GoogleLogin(props: Props) {
         GoogleAuth?.signOut();
     }
 
-    return window?.gapi ? (
+    return apiLoaded ? (
         <>
             {loggedIn ? (
                 <SecondaryButton onClick={logout}>

@@ -18,9 +18,15 @@ const provider = 'facebook';
 function FacebookLogin(props: Props) {
     const [loggedIn, setLoggedIn] = useState(false);
     const [accessToken, setAccessToken] = useState(null);
+    const [apiLoaded, setApiLoaded] = useState(true);
+
+    function isApiLoaded() {
+        return typeof (window != 'undefined') && window?.gapi;
+    }
 
     useEffect(() => {
-        if (window?.FB) {
+        setApiLoaded(isApiLoaded());
+        if (isApiLoaded()) {
             FB.Event.subscribe('auth.statusChange', (response) => {
                 setAccessToken(response?.authResponse?.accessToken);
                 setLoggedIn(response.status === 'connected');
@@ -73,7 +79,7 @@ function FacebookLogin(props: Props) {
         FB.logout();
     }
 
-    return window?.FB ? (
+    return apiLoaded ? (
         <>
             {loggedIn ? (
                 <SecondaryButton onClick={logout}>
