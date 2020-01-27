@@ -42,3 +42,7 @@ You can administer your circles by navigating to:
 You can administer all your own comments by navigating to:
 
 -   `localhost:3000/admin`
+
+## ERD
+
+![ERD](https://github.com/willemliu/universal-comments/blob/master/screenshots/erd.jpg?raw=true 'ERD')
