@@ -4,8 +4,11 @@ Take only memories, leave only comments
 
 This is the web application powering the `Universal Comments` browser plugin ([repository](https://github.com/willemliu/universal-comments-plugin)).
 
--   FireFox [Universal Comments Plugin](https://addons.mozilla.org/nl/firefox/addon/universal-comments/)
--   Chrome / Edge (coming soon!)
+Universal Comments extension:
+
+-   [Edge](https://microsoftedge.microsoft.com/addons/detail/fakkiidfllacbdkgokbdigommkhmoeil)
+-   [FireFox](https://addons.mozilla.org/nl/firefox/addon/universal-comments/)
+-   Chrome (TBA)
 
 # Development
 
