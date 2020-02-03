@@ -50,8 +50,6 @@ function GoogleLogin(props: Props) {
                         .get()
                         .getAuthResponse(true);
 
-                    console.log('GoogleAuth', profile, authResponse);
-
                     const uuid = await createUser(
                         profile.getId(),
                         profile.getName(),

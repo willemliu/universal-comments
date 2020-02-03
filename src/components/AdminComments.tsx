@@ -30,13 +30,11 @@ function AdminComments(props: Props) {
     }, []);
 
     function login(provider: Provider) {
-        console.log('Login provider', provider);
         setProvider(provider);
         setLoggedIn(true);
     }
 
     function logout() {
-        console.log('logout');
         setLoggedIn(false);
         setProvider(null);
         props?.onLogout?.();

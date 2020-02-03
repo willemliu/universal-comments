@@ -14,7 +14,6 @@ async function count(request: any, response: any) {
         const count = await getCommentCount(url);
 
         response.status(200).json({ count });
-        console.log(count, url);
     } catch (e) {
         console.error(e);
     }

@@ -45,7 +45,6 @@ function FacebookLogin(props: Props) {
                 '/me',
                 { fields: 'id,name,email,picture' },
                 async (response: any) => {
-                    console.log('FB /me', response);
                     uuid = await createUser(
                         response.id,
                         response.name,

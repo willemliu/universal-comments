@@ -82,7 +82,6 @@ function Comments(props: Props) {
     }, [loggedIn]);
 
     function login(provider: Provider) {
-        console.log('Login provider', provider);
         setProvider(provider);
         setLoggedIn(true);
     }
