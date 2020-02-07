@@ -14,7 +14,7 @@ export default function MyApp({ Component, pageProps }: any) {
                 />
                 <meta
                     httpEquiv="Content-Security-Policy"
-                    content="default-src 'self' * data:; img-src * data:; style-src 'self' * 'unsafe-inline'; script-src 'self' * 'unsafe-inline' 'unsafe-eval'; frame-src *;"
+                    content="default-src 'self' * data:; img-src * data:; style-src 'self' * 'unsafe-inline'; script-src 'self' * 'unsafe-inline' 'unsafe-eval'; frame-src 'self' *;"
                 />
                 <meta name="uc:disabled" content="true" />
 
