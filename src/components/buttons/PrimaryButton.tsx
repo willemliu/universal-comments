@@ -1,6 +1,6 @@
 import React from 'react';
 import { ButtonProps } from './buttons';
-import styles from './Buttons.module.css';
+import styles from './Buttons.module.scss';
 
 function PrimaryButton(props: ButtonProps) {
     return (
