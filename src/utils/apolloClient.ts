@@ -668,3 +668,33 @@ export async function getCommentsByCircleId(url: string, circleId?: string) {
             return value?.data?.comments;
         });
 }
+
+export async function getLatestPublicComments(limit: number) {
+    return await client
+        .query({
+            variables: { limit },
+            query: gql`
+                query LatestComments($limit: Int!) {
+                    comments(
+                        limit: $limit
+                        where: {
+                            circle_id: { _is_null: true }
+                            parent_id: { _is_null: true }
+                        }
+                        order_by: { timestamp: desc }
+                    ) {
+                        id
+                        comment
+                        timestamp
+                        url
+                        user {
+                            display_name
+                        }
+                    }
+                }
+            `,
+        })
+        .then((value) => {
+            return value?.data?.comments;
+        });
+}

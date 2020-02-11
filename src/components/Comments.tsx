@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CommentCard } from './CommentCard';
 import { CommentForm } from './CommentForm';
 import CommentsStore, { Comment } from '../stores/CommentsStore';
-import styles from './Comments.module.css';
+import styles from './Comments.module.scss';
 import { getCirclesByUrl, getCircles } from '../utils/apolloClient';
 import UserStore from '../stores/UserStore';
 import { Login, Provider } from './social/login/Login';

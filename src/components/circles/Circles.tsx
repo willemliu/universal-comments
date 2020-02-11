@@ -1,7 +1,7 @@
 import React from 'react';
 import { removeCircle, leaveCircle } from '../../utils/apolloClient';
 import UserStore from '../../stores/UserStore';
-import styles from './Circles.module.css';
+import styles from './Circles.module.scss';
 
 type Circle = {
     id: number;

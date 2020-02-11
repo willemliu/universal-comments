@@ -6,7 +6,7 @@ import { insertScore, removeComment } from '../utils/apolloClient';
 import { CommentForm } from './CommentForm';
 import UserStore from '../stores/UserStore';
 import ReactMarkdown from 'react-markdown';
-import styles from './CommentCard.module.css';
+import styles from './CommentCard.module.scss';
 
 interface Props {
     comment: string;

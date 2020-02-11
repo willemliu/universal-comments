@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './CommentScore.module.css';
+import styles from './CommentScore.module.scss';
 
 interface Props {
     score?: number;

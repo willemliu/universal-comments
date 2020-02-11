@@ -27,6 +27,17 @@
     animation: 1s linear infinite condemned_blink_effect;
 }
 
+.comments-container {
+    display: flex;
+    flex-direction: column;
+    @media screen and (min-width: 860px) {
+        flex-direction: row;
+    }
+    > * {
+        flex: 1 1 auto;
+    }
+}
+
 @keyframes condemned_blink_effect {
     0% {
         visibility: hidden;

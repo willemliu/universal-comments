@@ -7,6 +7,7 @@ import { Comments } from '../src/components/Comments';
 import Head from 'next/head';
 import CommentsStore from '../src/stores/CommentsStore';
 import { getCanonical } from '../src/utils/url';
+import { Charts } from '../src/components/charts/Charts';
 
 function Index() {
     const [loading, setLoading] = useState(true);
@@ -60,11 +61,14 @@ function Index() {
             {loading ? (
                 <div className="blink">Loading...</div>
             ) : (
-                <Comments
-                    canonical={canonical}
-                    onAccess={console.log}
-                    onCircleChange={handleCircleChange}
-                />
+                <div className="comments-container">
+                    <Comments
+                        canonical={canonical}
+                        onAccess={console.log}
+                        onCircleChange={handleCircleChange}
+                    />
+                    <Charts />
+                </div>
             )}
 
             <small>

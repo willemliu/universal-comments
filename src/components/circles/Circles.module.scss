@@ -1,0 +1,42 @@
+.circles {
+    font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    max-width: 100vw;
+
+    button {
+        white-space: nowrap;
+    }
+
+    td,
+    th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .circles input {
+        max-width: 50px;
+        @media only screen and (min-width: 860px) {
+            max-width: auto;
+        }
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #ddd;
+    }
+
+    th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4caf50;
+        color: white;
+    }
+}
+
+.centered {
+    text-align: center;
+}

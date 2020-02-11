@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import UserStore from '../../../stores/UserStore';
 import { createUser } from '../../../utils/apolloClient';
 import { SecondaryButton } from '../../buttons/buttons';
-import styles from './social.module.css';
+import styles from './social.module.scss';
 
 declare let window: any;
 declare let FB: any;

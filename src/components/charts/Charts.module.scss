@@ -1,0 +1,39 @@
+.charts {
+    font-family: Tahoma, Helvetica, sans-serif;
+    padding: 0 0.5rem;
+    @media only screen and (min-width: 860px) {
+        padding: 0 1rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+
+    .chart {
+        ol {
+            padding: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.04);
+            box-shadow: 0 2px 0.2px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0.5rem;
+            @media only screen and (min-width: 860px) {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            list-style: none;
+            max-width: auto;
+            @media screen and (min-width: 860px) {
+                max-width: 200px;
+            }
+            li {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                padding: 0.5rem 0;
+                @media only screen and (min-width: 860px) {
+                    padding: 1rem 0;
+                }
+            }
+        }
+    }
+}

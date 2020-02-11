@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CommentCard } from './CommentCard';
 import CommentsStore from '../stores/CommentsStore';
-import styles from './Comments.module.css';
+import styles from './Comments.module.scss';
 import { Login, Provider } from './social/login/Login';
 
 interface Props {

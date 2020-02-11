@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import styles from './CommentForm.module.css';
+import styles from './CommentForm.module.scss';
 import { insertComment } from '../utils/apolloClient';
 import { useState } from 'react';
 import UserStore from '../stores/UserStore';

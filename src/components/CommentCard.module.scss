@@ -1,0 +1,135 @@
+.comment {
+    font-family: Tahoma, Helvetica, sans-serif;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.04);
+    box-shadow: 0 2px 0.2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.5rem;
+    @media only screen and (min-width: 860px) {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    footer {
+        display: flex;
+        justify-content: space-between;
+        &:not(:last-child) {
+            margin-bottom: 0.5rem;
+            @media only screen and (min-width: 860px) {
+                margin-bottom: 1rem;
+            }
+        }
+    }
+}
+
+.meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+    @media only screen and (min-width: 860px) {
+        margin-bottom: 1rem;
+    }
+}
+
+.meta *:last-child {
+    padding-right: 0.1rem;
+}
+
+.indent1 {
+    margin-left: 0.5rem;
+    @media only screen and (min-width: 860px) {
+        margin-left: 1rem;
+    }
+}
+.indent2 {
+    margin-left: 1rem;
+    @media only screen and (min-width: 860px) {
+        margin-left: 2rem;
+    }
+}
+.indent3 {
+    margin-left: 1.5rem;
+    @media only screen and (min-width: 860px) {
+        margin-left: 3rem;
+    }
+}
+.indent4 {
+    margin-left: 1.5rem;
+    @media only screen and (min-width: 860px) {
+        margin-left: 4rem;
+    }
+}
+.indent5 {
+    margin-left: 1.5rem;
+    @media only screen and (min-width: 860px) {
+        margin-left: 5rem;
+    }
+}
+
+.comment.highlight {
+    animation-name: highlight;
+    animation-duration: 4s;
+}
+
+.collapser {
+    cursor: pointer;
+    user-select: none;
+    font-size: 0.8rem;
+    color: #222;
+}
+
+.content {
+    display: flex;
+    margin: 0.5rem 0;
+    overflow: auto;
+
+    @media only screen and (min-width: 860px) {
+        margin: 0.5rem 0;
+    }
+
+    figure {
+        flex: 0 0 50px;
+        overflow: hidden;
+        margin: 0;
+        margin-right: 1rem;
+        img {
+            width: 100%;
+        }
+        figcaption {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    }
+    section {
+        flex: 1 1 auto;
+        h2 {
+            font-size: 1rem;
+            margin: 0;
+        }
+    }
+}
+
+.removeButton {
+    cursor: pointer;
+}
+
+.replyToggle {
+    cursor: pointer;
+    user-select: none;
+}
+
+@keyframes highlight {
+    from {
+        background-color: rgba(0, 255, 0, 0.3);
+    }
+    to {
+        background-color: rgba(0, 255, 0, 0);
+    }
+}

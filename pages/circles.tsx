@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { getCircles, addCircle, joinCircle } from '../src/utils/apolloClient';
 import { Circles } from '../src/components/circles/Circles';
 import UserStore from '../src/stores/UserStore';
-import styles from './circles.module.css';
+import styles from './circles.module.scss';
 import { Login, Provider } from '../src/components/social/login/Login';
 
 export default function circles() {
