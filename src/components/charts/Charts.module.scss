@@ -22,9 +22,6 @@
 
             list-style: none;
             max-width: auto;
-            @media screen and (min-width: 860px) {
-                max-width: 200px;
-            }
             li {
                 overflow: hidden;
                 text-overflow: ellipsis;

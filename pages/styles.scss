@@ -35,6 +35,12 @@
     }
     > * {
         flex: 1 1 auto;
+        &:last-child {
+            @media screen and (min-width: 860px) {
+                flex: 0 0 25vw;
+            }
+            overflow: hidden;
+        }
     }
 }
 
