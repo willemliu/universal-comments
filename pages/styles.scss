@@ -1,3 +1,11 @@
+:root {
+    --meta-color: #222;
+    --card-bgcolor: rgba(0, 0, 0, 0.04);
+    --card-border-color: rgba(0, 0, 0, 0.1);
+    --mobile-spacing: 0.5rem;
+    --desktop-spacing: 1rem;
+}
+
 ::-webkit-scrollbar {
     width: 0.5rem;
     height: 0.5rem;
@@ -21,6 +29,15 @@
 
 ::-webkit-scrollbar-thumb:window-inactive {
     background: rgba(0, 0, 0, 0.05);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    &:hover,
+    &:active {
+        text-decoration: underline;
+    }
 }
 
 .blink {

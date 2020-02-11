@@ -1,12 +1,12 @@
 .comment {
     font-family: Tahoma, Helvetica, sans-serif;
-    padding: 0.5rem;
-    background-color: rgba(0, 0, 0, 0.04);
-    box-shadow: 0 2px 0.2px rgba(0, 0, 0, 0.1);
-    margin-bottom: 0.5rem;
+    padding: var(--mobile-spacing);
+    background-color: var(--card-bgcolor);
+    box-shadow: 0 2px 0.2px var(--card-border-color);
+    margin-bottom: var(--mobile-spacing);
     @media only screen and (min-width: 860px) {
-        padding: 1rem;
-        margin-bottom: 1rem;
+        padding: var(--desktop-spacing);
+        margin-bottom: var(--desktop-spacing);
     }
 
     header {
@@ -18,9 +18,9 @@
         display: flex;
         justify-content: space-between;
         &:not(:last-child) {
-            margin-bottom: 0.5rem;
+            margin-bottom: var(--mobile-spacing);
             @media only screen and (min-width: 860px) {
-                margin-bottom: 1rem;
+                margin-bottom: var(--desktop-spacing);
             }
         }
     }
@@ -31,9 +31,9 @@
     justify-content: space-between;
     font-size: 0.8rem;
     font-style: italic;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--mobile-spacing);
     @media only screen and (min-width: 860px) {
-        margin-bottom: 1rem;
+        margin-bottom: var(--desktop-spacing);
     }
 }
 
@@ -42,33 +42,33 @@
 }
 
 .indent1 {
-    margin-left: 0.5rem;
+    margin-left: var(--mobile-spacing);
     @media only screen and (min-width: 860px) {
-        margin-left: 1rem;
+        margin-left: var(--desktop-spacing);
     }
 }
 .indent2 {
-    margin-left: 1rem;
+    margin-left: calc(var(--mobile-spacing) * 2);
     @media only screen and (min-width: 860px) {
-        margin-left: 2rem;
+        margin-left: calc(var(--desktop-spacing) * 2);
     }
 }
 .indent3 {
-    margin-left: 1.5rem;
+    margin-left: calc(var(--mobile-spacing) * 3);
     @media only screen and (min-width: 860px) {
-        margin-left: 3rem;
+        margin-left: calc(var(--desktop-spacing) * 3);
     }
 }
 .indent4 {
-    margin-left: 1.5rem;
+    margin-left: calc(var(--mobile-spacing) * 3);
     @media only screen and (min-width: 860px) {
-        margin-left: 4rem;
+        margin-left: calc(var(--desktop-spacing) * 4);
     }
 }
 .indent5 {
-    margin-left: 1.5rem;
+    margin-left: calc(var(--mobile-spacing) * 3);
     @media only screen and (min-width: 860px) {
-        margin-left: 5rem;
+        margin-left: calc(var(--desktop-spacing) * 5);
     }
 }
 
@@ -81,23 +81,23 @@
     cursor: pointer;
     user-select: none;
     font-size: 0.8rem;
-    color: #222;
+    color: var(--meta-color);
 }
 
 .content {
     display: flex;
-    margin: 0.5rem 0;
+    margin: var(--mobile-spacing) 0;
     overflow: auto;
 
     @media only screen and (min-width: 860px) {
-        margin: 0.5rem 0;
+        margin: var(--desktop-spacing) 0;
     }
 
     figure {
         flex: 0 0 50px;
         overflow: hidden;
         margin: 0;
-        margin-right: 1rem;
+        margin-right: var(--desktop-spacing);
         img {
             width: 100%;
         }

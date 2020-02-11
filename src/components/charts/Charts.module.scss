@@ -1,8 +1,8 @@
 .charts {
     font-family: Tahoma, Helvetica, sans-serif;
-    padding: 0 0.5rem;
+    margin: 2rem 0 0 0;
     @media only screen and (min-width: 860px) {
-        padding: 0 1rem;
+        margin: 0 0 0 var(--desktop-spacing);
     }
 
     h2 {
@@ -11,13 +11,13 @@
 
     .chart {
         ol {
-            padding: 0.5rem;
-            background-color: rgba(0, 0, 0, 0.04);
-            box-shadow: 0 2px 0.2px rgba(0, 0, 0, 0.1);
-            margin-bottom: 0.5rem;
+            padding: var(--mobile-spacing);
+            background-color: var(--card-bgcolor);
+            box-shadow: 0 2px 0.2px var(--card-border-color);
+            margin-bottom: var(--mobile-spacing);
             @media only screen and (min-width: 860px) {
-                padding: 1rem;
-                margin-bottom: 1rem;
+                padding: var(--desktop-spacing);
+                margin-bottom: var(--desktop-spacing);
             }
 
             list-style: none;
@@ -26,9 +26,19 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                padding: 0.5rem 0;
+                padding: var(--mobile-spacing) 0;
                 @media only screen and (min-width: 860px) {
-                    padding: 1rem 0;
+                    padding: var(--desktop-spacing) 0;
+                }
+
+                small {
+                    color: var(--meta-color);
+                    display: flex;
+                    justify-content: space-between;
+                    > :first-child {
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                    }
                 }
             }
         }

@@ -26,9 +26,24 @@ function Charts() {
                                     comment.user.display_name
                                 }`}
                             >
-                                {comment.url} -{' '}
-                                {new Date(comment.timestamp).toLocaleString()}
+                                <div title={comment.comment}>
+                                    {comment.comment}
+                                </div>
                             </a>
+                            <small>
+                                <span
+                                    title={new Date(
+                                        comment.timestamp
+                                    ).toLocaleString()}
+                                >
+                                    {new Date(
+                                        comment.timestamp
+                                    ).toLocaleString()}
+                                </span>
+                                <span title={comment.user.display_name}>
+                                    &middot; {comment.user.display_name}
+                                </span>
+                            </small>
                         </li>
                     ))}
                 </ol>

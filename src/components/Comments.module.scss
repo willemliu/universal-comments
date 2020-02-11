@@ -21,7 +21,7 @@
 }
 
 .loginContainer {
-    margin: 0.5rem 0;
+    margin: var(--mobile-spacing) 0;
     font-family: tahoma, Arial, sans-serif;
     display: flex;
     flex-wrap: wrap;
@@ -33,12 +33,12 @@
 }
 
 .adminLinks {
-    margin: 0.5rem 0;
+    margin: var(--mobile-spacing) 0;
 }
 
 .adminLinks a {
     text-decoration: none;
-    margin: 0 0.5rem 0 0;
+    margin: 0 var(--mobile-spacing) 0 0;
     white-space: nowrap;
 }
 
@@ -59,14 +59,14 @@
 
 @media only screen and (min-width: 860px) {
     .loginContainer {
-        margin: 1rem 0;
+        margin: var(--desktop-spacing) 0;
     }
 
     .adminLinks {
-        margin: 1rem 0;
+        margin: var(--desktop-spacing) 0;
     }
 
     .adminLinks a {
-        margin: 0 1rem 0 0;
+        margin: 0 var(--desktop-spacing) 0 0;
     }
 }
