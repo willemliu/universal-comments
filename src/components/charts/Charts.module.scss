@@ -23,12 +23,14 @@
             list-style: none;
             max-width: auto;
             li {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
                 padding: var(--mobile-spacing) 0;
                 @media only screen and (min-width: 860px) {
                     padding: var(--desktop-spacing) 0;
+                }
+                > a div {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                 }
 
                 small {
