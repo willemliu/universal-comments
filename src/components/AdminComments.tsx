@@ -3,6 +3,7 @@ import { CommentCard } from './CommentCard';
 import CommentsStore from '../stores/CommentsStore';
 import styles from './Comments.module.scss';
 import { Login, Provider } from './social/login/Login';
+import { PrimaryButton } from './buttons/buttons';
 
 interface Props {
     canonical?: string;
@@ -48,10 +49,16 @@ function AdminComments(props: Props) {
                 <span>Comments Admin</span>
             </h2>
 
-            <section className={styles.nextPrevButtonsContainer}>
-                <button onClick={props.onPrevPage}>Previous</button>
-                <button onClick={props.onNextPage}>Next</button>
-            </section>
+            {!!comments?.length && (
+                <section className={styles.nextPrevButtonsContainer}>
+                    <PrimaryButton onClick={props.onPrevPage}>
+                        Previous
+                    </PrimaryButton>
+                    <PrimaryButton onClick={props.onNextPage}>
+                        Next
+                    </PrimaryButton>
+                </section>
+            )}
 
             {comments.map((comment) => {
                 return (
@@ -76,10 +83,16 @@ function AdminComments(props: Props) {
                 );
             })}
 
-            <section className={styles.nextPrevButtonsContainer}>
-                <button onClick={props.onPrevPage}>Previous</button>
-                <button onClick={props.onNextPage}>Next</button>
-            </section>
+            {!!comments?.length && (
+                <section className={styles.nextPrevButtonsContainer}>
+                    <PrimaryButton onClick={props.onPrevPage}>
+                        Previous
+                    </PrimaryButton>
+                    <PrimaryButton onClick={props.onNextPage}>
+                        Next
+                    </PrimaryButton>
+                </section>
+            )}
 
             <Login
                 className={styles.loginContainer}

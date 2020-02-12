@@ -23,6 +23,9 @@
 .nextPrevButtonsContainer {
     display: flex;
     justify-content: space-between;
+    button {
+        margin: 1rem 0;
+    }
 }
 
 .loginContainer {
