@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import styles from './Charts.module.scss';
 
 interface Props {
-    circle?: string;
+    circleId?: string;
     latestComments?: any[];
 }
 
 function Charts(props: Props) {
-    const [isPublic] = useState(!!props.circle);
+    const [isPublic] = useState(!!props.circleId);
 
     return (
         <section className={styles.charts}>

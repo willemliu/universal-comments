@@ -16,6 +16,7 @@ function Index() {
     const [commentUrl, setCommentUrl] = useState('');
     const [canonical, setCanonical] = useState(null);
     const [latestComments, setLatestComments] = useState([]);
+    const [circleId, setCircleId] = useState(null);
 
     useEffect(() => {
         const url = getCanonical();
@@ -37,6 +38,7 @@ function Index() {
     function handleCircleChange(circleId?: string) {
         const url = getCanonical();
         setCanonical(url);
+        setCircleId(circleId);
         try {
             if (circleId) {
                 getCommentsByCircleId(url, circleId).then((comments) => {
@@ -74,7 +76,10 @@ function Index() {
                         onAccess={console.log}
                         onCircleChange={handleCircleChange}
                     />
-                    <Charts latestComments={latestComments} />
+                    <Charts
+                        circleId={circleId}
+                        latestComments={latestComments}
+                    />
                 </div>
             )}
 
