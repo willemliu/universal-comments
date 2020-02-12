@@ -52,7 +52,12 @@ export default function circles() {
 
         if (name && password) {
             try {
-                await joinCircle(UserStore.getId(), name, password);
+                await joinCircle(
+                    UserStore.getId(),
+                    UserStore.getUuid(),
+                    name,
+                    password
+                );
                 formEl.reset();
                 window.location.reload();
             } catch (err) {

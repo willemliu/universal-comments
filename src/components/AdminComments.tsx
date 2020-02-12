@@ -8,6 +8,8 @@ interface Props {
     canonical?: string;
     onAccess?: (accessToken: string, uuid: string) => void;
     onLogout?: () => void;
+    onNextPage?: () => void;
+    onPrevPage?: () => void;
 }
 
 function AdminComments(props: Props) {
@@ -45,6 +47,12 @@ function AdminComments(props: Props) {
             <h2>
                 <span>Comments Admin</span>
             </h2>
+
+            <section className={styles.nextPrevButtonsContainer}>
+                <button onClick={props.onPrevPage}>Previous</button>
+                <button onClick={props.onNextPage}>Next</button>
+            </section>
+
             {comments.map((comment) => {
                 return (
                     <CommentCard
@@ -67,6 +75,11 @@ function AdminComments(props: Props) {
                     />
                 );
             })}
+
+            <section className={styles.nextPrevButtonsContainer}>
+                <button onClick={props.onPrevPage}>Previous</button>
+                <button onClick={props.onNextPage}>Next</button>
+            </section>
 
             <Login
                 className={styles.loginContainer}

@@ -161,7 +161,7 @@ export async function getCirclesByUrl(url: string, uuid: string) {
         });
 }
 
-export async function addCircle(userId: string, name: string) {
+export async function addCircle(userId: string, uuid: string, name: string) {
     const id = await client
         .mutate({
             variables: {
@@ -185,12 +185,21 @@ export async function addCircle(userId: string, name: string) {
         .mutate({
             variables: {
                 userId,
+                uuid,
                 circleId: id,
             },
             mutation: gql`
-                mutation($userId: String!, $circleId: uuid!) {
+                mutation InsertUserCircles(
+                    $userId: String!
+                    $circleId: uuid!
+                    $uuid: uuid!
+                ) {
                     insert_users_circles(
-                        objects: { user_id: $userId, circle_id: $circleId }
+                        objects: {
+                            user_id: $userId
+                            user_uuid: $uuid
+                            circle_id: $circleId
+                        }
                     ) {
                         affected_rows
                     }
@@ -204,6 +213,7 @@ export async function addCircle(userId: string, name: string) {
 
 export async function joinCircle(
     userId: string,
+    uuid: string,
     name: string,
     password: string
 ) {
@@ -234,6 +244,7 @@ export async function joinCircle(
         .mutate({
             variables: {
                 userId,
+                uuid,
                 circleId: id,
                 name,
                 password,
@@ -241,6 +252,7 @@ export async function joinCircle(
             mutation: gql`
                 mutation JoinCircle(
                     $userId: String!
+                    $uuid: String!
                     $circleId: uuid!
                     $name: String!
                     $password: uuid!
@@ -256,7 +268,11 @@ export async function joinCircle(
                             constraint: users_circles_user_id_circle_id_key
                             update_columns: user_id
                         }
-                        objects: { circle_id: $circleId, user_id: $userId }
+                        objects: {
+                            circle_id: $circleId
+                            user_id: $userId
+                            user_uuid: $uuid
+                        }
                     ) {
                         affected_rows
                     }
@@ -369,20 +385,40 @@ export async function removeCircle(id: number, name: string, password: string) {
         });
 }
 
-export async function getAllUserComments(uuid: string) {
+export async function getAllUserComments(uuid: string, offset = 0, limit = 10) {
     return await client
         .query({
             variables: {
                 uuid,
+                offset,
+                limit,
             },
             query: gql`
-                query GetAllUserComments($uuid: uuid!) {
+                query GetAllUserComments(
+                    $uuid: uuid!
+                    $offset: Int!
+                    $limit: Int!
+                ) {
+                    comments_aggregate(
+                        where: {
+                            user: {
+                                uuid: { _eq: $uuid }
+                                comments: { removed: { _eq: false } }
+                            }
+                        }
+                    ) {
+                        aggregate {
+                            count
+                        }
+                    }
                     comments(
                         where: {
-                            user: { uuid: { _eq: $uuid } }
+                            user_uuid: { _eq: $uuid }
                             removed: { _eq: false }
                         }
                         order_by: { timestamp: asc }
+                        limit: $limit
+                        offset: $offset
                     ) {
                         id
                         url
@@ -408,12 +444,13 @@ export async function getAllUserComments(uuid: string) {
             `,
         })
         .then((value) => {
-            return value?.data?.comments;
+            return value?.data;
         });
 }
 
 export async function insertComment(
     userId: string,
+    uuid: string,
     url: string,
     comment: string,
     parentId?: number,
@@ -425,14 +462,16 @@ export async function insertComment(
                 comment,
                 url,
                 userId,
+                uuid,
                 parentId,
                 circleId,
             },
             mutation: gql`
-                mutation(
+                mutation InsertComment(
                     $comment: String!
                     $url: String!
                     $userId: String!
+                    $uuid: String!
                     $parentId: uuid
                     $circleId: uuid
                 ) {
@@ -441,6 +480,7 @@ export async function insertComment(
                             comment: $comment
                             url: $url
                             user_id: $userId
+                            user_uuid: $uuid
                             parent_id: $parentId
                             circle_id: $circleId
                         }
@@ -478,6 +518,7 @@ export async function insertComment(
 
 export async function insertScore(
     userId: string,
+    uuid: string,
     vote: number,
     commentId: number
 ) {
@@ -485,18 +526,21 @@ export async function insertScore(
         .mutate({
             variables: {
                 userId,
+                uuid,
                 vote,
                 commentId,
             },
             mutation: gql`
                 mutation Vote(
                     $userId: String!
+                    $uuid: String!
                     $vote: Int!
                     $commentId: uuid!
                 ) {
                     insert_scores(
                         objects: {
                             user_id: $userId
+                            user_uuid: $uuid
                             score: $vote
                             comment_id: $commentId
                         }
@@ -528,19 +572,29 @@ export async function insertScore(
         });
 }
 
-export async function removeComment(commentId: number, userId: string) {
+export async function removeComment(
+    commentId: number,
+    userId: string,
+    uuid: string
+) {
     return await client
         .mutate({
             variables: {
                 commentId,
                 userId,
+                uuid,
             },
             mutation: gql`
-                mutation($commentId: uuid!, $userId: String!) {
+                mutation RemoveComment(
+                    $commentId: uuid!
+                    $userId: String!
+                    $uuid: uuid!
+                ) {
                     update_comments(
                         where: {
                             id: { _eq: $commentId }
                             user_id: { _eq: $userId }
+                            user_uuid: { _eq: $uuid }
                         }
                         _set: { removed: true, updated: "now()" }
                     ) {
@@ -632,7 +686,7 @@ export async function getCommentsByCircleId(url: string, circleId?: string) {
         .query({
             variables: { url, circleId },
             query: gql`
-                query($url: String!, $circleId: uuid) {
+                query GetCommentsByCircleId($url: String!, $circleId: uuid) {
                     comments(
                         where: {
                             url: { _eq: $url }

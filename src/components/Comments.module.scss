@@ -20,6 +20,11 @@
     text-decoration: none;
 }
 
+.nextPrevButtonsContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
 .loginContainer {
     margin: var(--mobile-spacing) 0;
     font-family: tahoma, Arial, sans-serif;

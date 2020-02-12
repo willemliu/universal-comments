@@ -29,6 +29,7 @@ interface Props {
 
 function CommentCard(props: Props) {
     const [userId, setUserId] = useState(UserStore.getId());
+    const [uuid, setUuid] = useState(UserStore.getUuid());
     const timestamp = new Date(props.timestamp);
     const updated = props.updated ? new Date(props.updated) : undefined;
     const [score, setScore] = useState(props.score);
@@ -42,6 +43,7 @@ function CommentCard(props: Props) {
     useEffect(() => {
         const subscriptionId = UserStore.subscribe(() => {
             setUserId(UserStore.getId());
+            setUuid(UserStore.getUuid());
         });
         return () => {
             UserStore.unsubscribe(subscriptionId);
@@ -54,7 +56,7 @@ function CommentCard(props: Props) {
 
     async function vote(vote: number) {
         try {
-            setScore(await insertScore(userId, vote, props.id));
+            setScore(await insertScore(userId, uuid, vote, props.id));
         } catch (e) {
             console.error(e);
         }
@@ -66,7 +68,9 @@ function CommentCard(props: Props) {
                 'Are you sure you want to remove this comment? This action is not reversible.'
             )
         ) {
-            CommentsStore.updateComment(await removeComment(props.id, userId));
+            CommentsStore.updateComment(
+                await removeComment(props.id, userId, uuid)
+            );
         }
     }
 
