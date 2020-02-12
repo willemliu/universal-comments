@@ -737,3 +737,48 @@ export async function getLatestPositivePublicComments(limit: number) {
             return value?.data?.comments;
         });
 }
+
+export async function getLatestPositiveCircleComments(
+    circleId: string,
+    limit: number
+) {
+    return await client
+        .query({
+            variables: { circle_id: circleId, limit },
+            query: gql`
+                query LatestPositiveCircleComments(
+                    $circle_id: uuid!
+                    $limit: Int!
+                ) {
+                    comments(
+                        order_by: { timestamp: desc }
+                        limit: $limit
+                        where: {
+                            circle_id: { _eq: $circle_id }
+                            parent_id: { _is_null: true }
+                        }
+                    ) {
+                        scores_aggregate(
+                            where: { _not: { score: { _lt: 0 } } }
+                        ) {
+                            aggregate {
+                                sum {
+                                    score
+                                }
+                            }
+                        }
+                        id
+                        comment
+                        timestamp
+                        url
+                        user {
+                            display_name
+                        }
+                    }
+                }
+            `,
+        })
+        .then((value) => {
+            return value?.data?.comments;
+        });
+}

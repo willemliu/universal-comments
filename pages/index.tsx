@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {
     getCommentsByUrl,
     getCommentsByCircleId,
+    getLatestPositivePublicComments,
+    getLatestPositiveCircleComments,
 } from '../src/utils/apolloClient';
 import { Comments } from '../src/components/Comments';
 import Head from 'next/head';
@@ -13,6 +15,7 @@ function Index() {
     const [loading, setLoading] = useState(true);
     const [commentUrl, setCommentUrl] = useState('');
     const [canonical, setCanonical] = useState(null);
+    const [latestComments, setLatestComments] = useState([]);
 
     useEffect(() => {
         const url = getCanonical();
@@ -22,6 +25,7 @@ function Index() {
             getCommentsByUrl(url).then((comments) => {
                 CommentsStore.setComments(comments);
             });
+            getLatestPositivePublicComments(10).then(setLatestComments);
         } catch (e) {
             console.error(e);
         } finally {
@@ -38,6 +42,9 @@ function Index() {
                 getCommentsByCircleId(url, circleId).then((comments) => {
                     CommentsStore.setComments(comments);
                 });
+                getLatestPositiveCircleComments(circleId, 10).then(
+                    setLatestComments
+                );
             } else {
                 getCommentsByUrl(url).then((comments) => {
                     CommentsStore.setComments(comments);
@@ -67,7 +74,7 @@ function Index() {
                         onAccess={console.log}
                         onCircleChange={handleCircleChange}
                     />
-                    <Charts />
+                    <Charts latestComments={latestComments} />
                 </div>
             )}
 
