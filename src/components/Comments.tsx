@@ -33,7 +33,7 @@ interface Props {
     canonical?: string;
     onAccess?: (accessToken: string, uuid: string) => void;
     onLogout?: () => void;
-    onCircleChange?: (circleId?: string) => void;
+    onCircleChange?: (circleId?: string, circleName?: string) => void;
     title?: string;
 }
 
@@ -96,9 +96,10 @@ function Comments(props: Props) {
         const tmpCircleId = e.currentTarget.value || null;
         setCircleId(tmpCircleId);
         if (tmpCircleId) {
-            props?.onCircleChange(tmpCircleId);
+            const circle = circles.find((circle) => circle.id === tmpCircleId);
+            props?.onCircleChange(tmpCircleId, circle?.name);
         } else {
-            props?.onCircleChange(null);
+            props?.onCircleChange(null, null);
         }
     }
 

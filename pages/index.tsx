@@ -17,6 +17,7 @@ function Index() {
     const [canonical, setCanonical] = useState(null);
     const [latestComments, setLatestComments] = useState([]);
     const [circleId, setCircleId] = useState(null);
+    const [circleName, setCircleName] = useState(null);
 
     useEffect(() => {
         const url = getCanonical();
@@ -35,10 +36,11 @@ function Index() {
         }
     }, []);
 
-    function handleCircleChange(circleId?: string) {
+    function handleCircleChange(circleId?: string, circleName?: string) {
         const url = getCanonical();
         setCanonical(url);
-        setCircleId(circleId);
+        setCircleId(circleId ?? null);
+        setCircleName(circleName ?? null);
         try {
             if (circleId) {
                 getCommentsByCircleId(url, circleId).then((comments) => {
@@ -51,6 +53,7 @@ function Index() {
                 getCommentsByUrl(url).then((comments) => {
                     CommentsStore.setComments(comments);
                 });
+                getLatestPositivePublicComments(10).then(setLatestComments);
             }
         } catch (e) {
             console.error(e);
@@ -63,7 +66,7 @@ function Index() {
     return (
         <>
             <Head>
-                <title>Universal Comments</title>
+                <title>Universal Comments {circleId}</title>
                 {canonical ? <link rel="canonical" href={canonical} /> : null}
             </Head>
 
@@ -77,7 +80,12 @@ function Index() {
                         onCircleChange={handleCircleChange}
                     />
                     <Charts
-                        circleId={circleId}
+                        title={
+                            circleId
+                                ? `Latest comments from ${circleName}`
+                                : 'Latest comments'
+                        }
+                        showDisplayName={!!circleId}
                         latestComments={latestComments}
                     />
                 </div>
