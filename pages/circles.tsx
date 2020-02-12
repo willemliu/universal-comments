@@ -31,7 +31,7 @@ export default function circles() {
 
         if (name) {
             try {
-                await addCircle(UserStore.getId(), name);
+                await addCircle(UserStore.getId(), UserStore.getUuid(), name);
                 formEl.reset();
                 window.location.reload();
             } catch (err) {
