@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { getLatestPublicComments } from '../../utils/apolloClient';
+import { getLatestPositivePublicComments } from '../../utils/apolloClient';
 import styles from './Charts.module.scss';
 
-function Charts() {
+interface Props {
+    circle?: string;
+}
+
+function Charts(props: Props) {
+    const [isPublic] = useState(!!props.circle);
     const [latestComments, setLatestComments] = useState([]);
 
     useEffect(() => {
-        getLatestPublicComments(10).then(setLatestComments);
+        getLatestPositivePublicComments(10).then(setLatestComments);
     }, []);
 
     return (
@@ -22,9 +27,7 @@ function Charts() {
                                 rel="noopener noreferrer"
                                 title={`${new Date(
                                     comment.timestamp
-                                ).toLocaleString()} by ${
-                                    comment.user.display_name
-                                }`}
+                                ).toLocaleString()}`}
                             >
                                 <div title={comment.comment}>
                                     {comment.comment}
@@ -40,9 +43,11 @@ function Charts() {
                                         comment.timestamp
                                     ).toLocaleString()}
                                 </span>
-                                <span title={comment.user.display_name}>
-                                    &middot; {comment.user.display_name}
-                                </span>
+                                {isPublic && (
+                                    <span title={comment.user.display_name}>
+                                        &middot; {comment.user.display_name}
+                                    </span>
+                                )}
                             </small>
                         </li>
                     ))}

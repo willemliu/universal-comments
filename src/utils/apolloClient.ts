@@ -698,3 +698,35 @@ export async function getLatestPublicComments(limit: number) {
             return value?.data?.comments;
         });
 }
+
+export async function getLatestPositivePublicComments(limit: number) {
+    return await client
+        .query({
+            variables: { limit },
+            query: gql`
+                query LatestPositivePublicComments($limit: Int!) {
+                    comments(order_by: { timestamp: desc }, limit: $limit) {
+                        scores_aggregate(
+                            where: { _not: { score: { _lt: 0 } } }
+                        ) {
+                            aggregate {
+                                sum {
+                                    score
+                                }
+                            }
+                        }
+                        id
+                        comment
+                        timestamp
+                        url
+                        user {
+                            display_name
+                        }
+                    }
+                }
+            `,
+        })
+        .then((value) => {
+            return value?.data?.comments;
+        });
+}
