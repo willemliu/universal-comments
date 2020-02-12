@@ -252,7 +252,7 @@ export async function joinCircle(
             mutation: gql`
                 mutation JoinCircle(
                     $userId: String!
-                    $uuid: String!
+                    $uuid: uuid!
                     $circleId: uuid!
                     $name: String!
                     $password: uuid!
@@ -471,7 +471,7 @@ export async function insertComment(
                     $comment: String!
                     $url: String!
                     $userId: String!
-                    $uuid: String!
+                    $uuid: uuid!
                     $parentId: uuid
                     $circleId: uuid
                 ) {
@@ -533,7 +533,7 @@ export async function insertScore(
             mutation: gql`
                 mutation Vote(
                     $userId: String!
-                    $uuid: String!
+                    $uuid: uuid!
                     $vote: Int!
                     $commentId: uuid!
                 ) {
