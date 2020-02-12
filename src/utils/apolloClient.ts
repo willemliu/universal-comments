@@ -705,7 +705,14 @@ export async function getLatestPositivePublicComments(limit: number) {
             variables: { limit },
             query: gql`
                 query LatestPositivePublicComments($limit: Int!) {
-                    comments(order_by: { timestamp: desc }, limit: $limit) {
+                    comments(
+                        order_by: { timestamp: desc }
+                        limit: $limit
+                        where: {
+                            circle_id: { _is_null: true }
+                            parent_id: { _is_null: true }
+                        }
+                    ) {
                         scores_aggregate(
                             where: { _not: { score: { _lt: 0 } } }
                         ) {
