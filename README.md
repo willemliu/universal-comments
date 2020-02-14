@@ -16,13 +16,22 @@ Universal Comments extension:
 
 1. [NodeJS v12+](https://nodejs.org/en/)
 1. Zeit [Now](https://zeit.co/)
+1. Hasura GraphQL endpoint
+1. Heroku PostgreSQL
+1. Auth0
 
 ## Getting started
 
 1. Checkout this repository and navigate to the project root folder
 1. Run `npm i` to install all necessary dependencies
 1. Create a `.env.build` file with the following environment properties
-    - `GRAPHQL_ENDPOINT=<the GraphQL endpoint>`
+
+    - `GRAPHQL_ENDPOINT=<the Hasura GraphQL endpoint>`
+    - `HASURA_ADMIN_SECRET=<Hasura admin secret>`
+    - `HASURA_ROLE=<Hasura role>`
+    - `AUTH0_DOMAIN=<Auth0 domain>`
+    - `AUTH0_CLIENT_ID=Auth0 client ID`
+
 1. Run `now dev` to build and run the web app locally
     - navigate to `localhost:3000`
 
