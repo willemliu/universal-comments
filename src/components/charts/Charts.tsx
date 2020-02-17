@@ -15,6 +15,14 @@ function Charts(props: Props) {
             {!!props?.latestComments?.length && (
                 <article className={styles.chart}>
                     <h2>{props.title}</h2>
+                    <nav>
+                        <a onClick={props.onPreviousClick} title="Previous">
+                            &lt;
+                        </a>
+                        <a onClick={props.onNextClick} title="Next">
+                            &gt;
+                        </a>
+                    </nav>
                     <ol>
                         {props.latestComments?.map?.((comment) => (
                             <li key={comment.id}>

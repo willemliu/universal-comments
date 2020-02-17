@@ -18,7 +18,7 @@
             padding: var(--mobile-spacing);
             background-color: var(--card-bgcolor);
             box-shadow: 0 2px 0.2px var(--card-border-color);
-            margin-bottom: 0;
+            margin: 0;
             @media only screen and (min-width: 860px) {
                 padding: var(--desktop-spacing);
             }
@@ -54,7 +54,6 @@
         a {
             user-select: none;
             flex: 1 1 auto;
-            padding: 1rem 0;
             &:last-child {
                 text-align: right;
             }
