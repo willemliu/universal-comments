@@ -731,10 +731,7 @@ export async function getLatestPublicComments(limit: number) {
                 query LatestComments($limit: Int!) {
                     comments(
                         limit: $limit
-                        where: {
-                            circle_id: { _is_null: true }
-                            parent_id: { _is_null: true }
-                        }
+                        where: { circle_id: { _is_null: true } }
                         order_by: { timestamp: desc }
                     ) {
                         id
@@ -762,10 +759,7 @@ export async function getLatestPositivePublicComments(limit: number) {
                     comments(
                         order_by: { timestamp: desc }
                         limit: $limit
-                        where: {
-                            circle_id: { _is_null: true }
-                            parent_id: { _is_null: true }
-                        }
+                        where: { circle_id: { _is_null: true } }
                     ) {
                         scores_aggregate(
                             where: { _not: { score: { _lt: 0 } } }
@@ -807,10 +801,7 @@ export async function getLatestPositiveCircleComments(
                     comments(
                         order_by: { timestamp: desc }
                         limit: $limit
-                        where: {
-                            circle_id: { _eq: $circle_id }
-                            parent_id: { _is_null: true }
-                        }
+                        where: { circle_id: { _eq: $circle_id } }
                     ) {
                         scores_aggregate(
                             where: { _not: { score: { _lt: 0 } } }
