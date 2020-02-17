@@ -639,6 +639,26 @@ export async function getCommentCount(url: string) {
         });
 }
 
+export async function getAllCommentsCount() {
+    return await client
+        .query({
+            query: gql`
+                query AllCommentsCount {
+                    comments_aggregate(
+                        where: { circle_id: { _is_null: true } }
+                    ) {
+                        aggregate {
+                            count
+                        }
+                    }
+                }
+            `,
+        })
+        .then(({ data }: any) => {
+            return data?.comments_aggregate?.aggregate?.count || 0;
+        });
+}
+
 export async function getCommentsByUrl(url: string) {
     return await client
         .query({
@@ -750,14 +770,18 @@ export async function getLatestPublicComments(limit: number) {
         });
 }
 
-export async function getLatestPositivePublicComments(limit: number) {
+export async function getLatestPositivePublicComments(offset = 0, limit = 10) {
     return await client
         .query({
-            variables: { limit },
+            variables: { offset, limit },
             query: gql`
-                query LatestPositivePublicComments($limit: Int!) {
+                query LatestPositivePublicComments(
+                    $offset: Int!
+                    $limit: Int!
+                ) {
                     comments(
                         order_by: { timestamp: desc }
+                        offset: $offset
                         limit: $limit
                         where: { circle_id: { _is_null: true } }
                     ) {
@@ -788,18 +812,21 @@ export async function getLatestPositivePublicComments(limit: number) {
 
 export async function getLatestPositiveCircleComments(
     circleId: string,
-    limit: number
+    offset = 0,
+    limit = 10
 ) {
     return await client
         .query({
-            variables: { circle_id: circleId, limit },
+            variables: { circle_id: circleId, offset, limit },
             query: gql`
                 query LatestPositiveCircleComments(
                     $circle_id: uuid!
+                    $offset: Int!
                     $limit: Int!
                 ) {
                     comments(
                         order_by: { timestamp: desc }
+                        offset: $offset
                         limit: $limit
                         where: { circle_id: { _eq: $circle_id } }
                     ) {

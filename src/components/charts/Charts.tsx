@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './Charts.module.scss';
 
 interface Props {
+    onPreviousClick: () => void;
+    onNextClick: () => void;
     showDisplayName?: boolean;
     title?: string;
     latestComments?: any[];
@@ -47,6 +49,14 @@ function Charts(props: Props) {
                             </li>
                         ))}
                     </ol>
+                    <nav>
+                        <a onClick={props.onPreviousClick} title="Previous">
+                            &lt;
+                        </a>
+                        <a onClick={props.onNextClick} title="Next">
+                            &gt;
+                        </a>
+                    </nav>
                 </article>
             )}
         </section>

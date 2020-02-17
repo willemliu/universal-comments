@@ -1,6 +1,10 @@
 .charts {
     font-family: Tahoma, Helvetica, sans-serif;
-    margin: 2rem 0 0 0;
+    margin: 2rem 0 var(--mobile-spacing) 0;
+    @media only screen and (min-width: 860px) {
+        margin-bottom: var(--desktop-spacing);
+    }
+
     @media only screen and (min-width: 860px) {
         margin: 0 0 0 var(--desktop-spacing);
     }
@@ -14,10 +18,9 @@
             padding: var(--mobile-spacing);
             background-color: var(--card-bgcolor);
             box-shadow: 0 2px 0.2px var(--card-border-color);
-            margin-bottom: var(--mobile-spacing);
+            margin-bottom: 0;
             @media only screen and (min-width: 860px) {
                 padding: var(--desktop-spacing);
-                margin-bottom: var(--desktop-spacing);
             }
 
             list-style: none;
@@ -43,6 +46,19 @@
                     }
                 }
             }
+        }
+    }
+    nav {
+        display: flex;
+        justify-content: space-between;
+        a {
+            user-select: none;
+            flex: 1 1 auto;
+            padding: 1rem 0;
+            &:last-child {
+                text-align: right;
+            }
+            cursor: pointer;
         }
     }
 }

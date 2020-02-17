@@ -4,6 +4,7 @@ import {
     getCommentsByCircleId,
     getLatestPositivePublicComments,
     getLatestPositiveCircleComments,
+    getAllCommentsCount,
 } from '../src/utils/apolloClient';
 import { Comments } from '../src/components/Comments';
 import Head from 'next/head';
@@ -18,6 +19,8 @@ function Index() {
     const [latestComments, setLatestComments] = useState([]);
     const [circleId, setCircleId] = useState(null);
     const [circleName, setCircleName] = useState(null);
+    const [offset, setOffset] = useState(0);
+    const [allCommentsCount, setAllCommentsCount] = useState(0);
 
     useEffect(() => {
         const url = getCanonical();
@@ -27,7 +30,8 @@ function Index() {
             getCommentsByUrl(url).then((comments) => {
                 CommentsStore.setComments(comments);
             });
-            getLatestPositivePublicComments(10).then(setLatestComments);
+            getLatestPositivePublicComments().then(setLatestComments);
+            getAllCommentsCount().then(setAllCommentsCount);
         } catch (e) {
             console.error(e);
         } finally {
@@ -36,24 +40,26 @@ function Index() {
         }
     }, []);
 
-    function handleCircleChange(circleId?: string, circleName?: string) {
+    async function loadComments(circleId?: string, offset = 0, limit = 10) {
         const url = getCanonical();
         setCanonical(url);
-        setCircleId(circleId ?? null);
-        setCircleName(circleName ?? null);
         try {
             if (circleId) {
-                getCommentsByCircleId(url, circleId).then((comments) => {
-                    CommentsStore.setComments(comments);
-                });
-                getLatestPositiveCircleComments(circleId, 10).then(
-                    setLatestComments
+                CommentsStore.setComments(
+                    await getCommentsByCircleId(url, circleId)
+                );
+                setLatestComments(
+                    await getLatestPositiveCircleComments(
+                        circleId,
+                        offset,
+                        limit
+                    )
                 );
             } else {
-                getCommentsByUrl(url).then((comments) => {
-                    CommentsStore.setComments(comments);
-                });
-                getLatestPositivePublicComments(10).then(setLatestComments);
+                CommentsStore.setComments(await getCommentsByUrl(url));
+                setLatestComments(
+                    await getLatestPositivePublicComments(offset, limit)
+                );
             }
         } catch (e) {
             console.error(e);
@@ -61,6 +67,24 @@ function Index() {
             setCommentUrl(url);
             setLoading(false);
         }
+    }
+
+    function handleCircleChange(circleId?: string, circleName?: string) {
+        setCircleId(circleId ?? null);
+        setCircleName(circleName ?? null);
+        loadComments(circleId);
+    }
+
+    function handlePreviousLatestComments() {
+        const tmp = Math.max(0, offset - 10);
+        setOffset(tmp);
+        loadComments(circleId, tmp);
+    }
+
+    function handleNextLatestComments() {
+        const tmp = Math.min(allCommentsCount - 1, offset + 10);
+        setOffset(tmp);
+        loadComments(circleId, tmp);
     }
 
     return (
@@ -80,6 +104,8 @@ function Index() {
                         onCircleChange={handleCircleChange}
                     />
                     <Charts
+                        onPreviousClick={handlePreviousLatestComments}
+                        onNextClick={handleNextLatestComments}
                         title={
                             circleId
                                 ? `Latest comments from ${circleName}`
