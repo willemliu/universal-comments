@@ -76,6 +76,7 @@ function Index() {
                 );
                 setLatestComments(
                     await getLatestPositiveCircleComments(
+                        UserStore.getUuid(),
                         circleId,
                         offset,
                         limit

@@ -843,15 +843,17 @@ export async function getLatestPositivePublicComments(offset = 0, limit = 10) {
 }
 
 export async function getLatestPositiveCircleComments(
+    uuid: string,
     circleId: string,
     offset = 0,
     limit = 10
 ) {
     return await client
         .query({
-            variables: { circle_id: circleId, offset, limit },
+            variables: { uuid, circle_id: circleId, offset, limit },
             query: gql`
                 query LatestPositiveCircleComments(
+                    $uuid: uuid!
                     $circle_id: uuid!
                     $offset: Int!
                     $limit: Int!
@@ -860,7 +862,12 @@ export async function getLatestPositiveCircleComments(
                         order_by: { timestamp: desc }
                         offset: $offset
                         limit: $limit
-                        where: { circle_id: { _eq: $circle_id } }
+                        where: {
+                            circle_id: { _eq: $circle_id }
+                            circle: {
+                                users_circles: { user_uuid: { _eq: $uuid } }
+                            }
+                        }
                     ) {
                         scores_aggregate(
                             where: { _not: { score: { _lt: 0 } } }
