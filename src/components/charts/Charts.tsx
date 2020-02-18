@@ -18,7 +18,10 @@ function Charts(props: Props) {
                 <article className={styles.chart}>
                     <h2>{props.title}</h2>
                     <ol>
-                        <li className={styles.nav}>
+                        <li
+                            className={styles.nav}
+                            hidden={!props.hasPrevious && !props.hasNext}
+                        >
                             <a
                                 onClick={props.onPreviousClick}
                                 title="Previous"
@@ -66,7 +69,10 @@ function Charts(props: Props) {
                                 </small>
                             </li>
                         ))}
-                        <li className={styles.nav}>
+                        <li
+                            className={styles.nav}
+                            hidden={!props.hasPrevious && !props.hasNext}
+                        >
                             <a
                                 onClick={props.onPreviousClick}
                                 title="Previous"

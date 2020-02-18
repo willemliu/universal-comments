@@ -5,12 +5,14 @@ import {
     getLatestPositivePublicComments,
     getLatestPositiveCircleComments,
     getAllCommentsCount,
+    getAllCommentsCountByCircle,
 } from '../src/utils/apolloClient';
 import { Comments } from '../src/components/Comments';
 import Head from 'next/head';
 import CommentsStore from '../src/stores/CommentsStore';
 import { getCanonical } from '../src/utils/url';
 import { Charts } from '../src/components/charts/Charts';
+import UserStore from '../src/stores/UserStore';
 
 function Index() {
     const [loading, setLoading] = useState(true);
@@ -33,7 +35,7 @@ function Index() {
             });
             getLatestPositivePublicComments().then(setLatestComments);
             getAllCommentsCount().then((count) => {
-                setHasNext(offset < count - 1);
+                setHasNext(offset < count - 11);
                 setAllCommentsCount(count);
             });
         } catch (e) {
@@ -59,11 +61,21 @@ function Index() {
                         limit
                     )
                 );
+                getAllCommentsCountByCircle(UserStore.getUuid(), circleId).then(
+                    (count) => {
+                        setHasNext(offset < count - 11);
+                        setAllCommentsCount(count);
+                    }
+                );
             } else {
                 CommentsStore.setComments(await getCommentsByUrl(url));
                 setLatestComments(
                     await getLatestPositivePublicComments(offset, limit)
                 );
+                getAllCommentsCount().then((count) => {
+                    setHasNext(offset < count - 11);
+                    setAllCommentsCount(count);
+                });
             }
         } catch (e) {
             console.error(e);

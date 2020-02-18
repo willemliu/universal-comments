@@ -659,6 +659,38 @@ export async function getAllCommentsCount() {
         });
 }
 
+export async function getAllCommentsCountByCircle(
+    uuid: string,
+    circleId: string
+) {
+    return await client
+        .query({
+            variables: {
+                uuid,
+                circleId,
+            },
+            query: gql`
+                query AllCommentsCountByCircle($uuid: uuid!, $circleId: uuid!) {
+                    comments_aggregate(
+                        where: {
+                            circle_id: {
+                                _eq: $circleId
+                                user_uuid: { _eq: $uuid }
+                            }
+                        }
+                    ) {
+                        aggregate {
+                            count
+                        }
+                    }
+                }
+            `,
+        })
+        .then(({ data }: any) => {
+            return data?.comments_aggregate?.aggregate?.count || 0;
+        });
+}
+
 export async function getCommentsByUrl(url: string) {
     return await client
         .query({
