@@ -733,16 +733,27 @@ export async function getCommentsByUrl(url: string) {
         });
 }
 
-export async function getCommentsByCircleId(url: string, circleId?: string) {
+export async function getCommentsByCircleId(
+    url: string,
+    uuid: string,
+    circleId: string
+) {
     return await client
         .query({
-            variables: { url, circleId },
+            variables: { url, uuid, circleId },
             query: gql`
-                query GetCommentsByCircleId($url: String!, $circleId: uuid) {
+                query GetCommentsByCircleId(
+                    $url: String!
+                    $uuid: uuid
+                    $circleId: uuid
+                ) {
                     comments(
                         where: {
                             url: { _eq: $url }
                             circle_id: { _eq: $circleId }
+                            circle: {
+                                users_circles: { user_uuid: { _eq: $uuid } }
+                            }
                         }
                         order_by: { timestamp: asc }
                     ) {

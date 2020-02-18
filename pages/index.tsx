@@ -72,7 +72,11 @@ function Index() {
         try {
             if (circleId) {
                 CommentsStore.setComments(
-                    await getCommentsByCircleId(url, circleId)
+                    await getCommentsByCircleId(
+                        url,
+                        UserStore.getUuid(),
+                        circleId
+                    )
                 );
                 setLatestComments(
                     await getLatestPositiveCircleComments(
