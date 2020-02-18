@@ -15,21 +15,59 @@
 
     .chart {
         ol {
-            padding: var(--mobile-spacing);
             background-color: var(--card-bgcolor);
             box-shadow: 0 2px 0.2px var(--card-border-color);
+            padding: 0;
             margin: 0;
-            @media only screen and (min-width: 860px) {
-                padding: var(--desktop-spacing);
-            }
-
             list-style: none;
             max-width: auto;
             li {
-                padding: var(--mobile-spacing) 0;
+                padding: var(--mobile-spacing);
                 @media only screen and (min-width: 860px) {
-                    padding: var(--desktop-spacing) 0;
+                    padding: var(--desktop-spacing);
                 }
+
+                &.nav {
+                    &:first-child {
+                        border-bottom: 1px solid var(--list-border-color);
+                    }
+                    &:last-child {
+                        border-top: 1px solid var(--list-border-color);
+                    }
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0;
+                    a {
+                        padding: var(--mobile-spacing);
+                        @media only screen and (min-width: 860px) {
+                            padding: var(--desktop-spacing);
+                        }
+
+                        &:first-child {
+                            &:hover {
+                                &:after {
+                                    content: ' prev';
+                                }
+                            }
+                        }
+
+                        &:last-child {
+                            &:hover {
+                                &:before {
+                                    content: 'next ';
+                                }
+                            }
+                        }
+
+                        user-select: none;
+                        flex: 1 1 auto;
+                        &:last-child {
+                            text-align: right;
+                        }
+                        cursor: pointer;
+                    }
+                }
+
                 > a div {
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -46,18 +84,6 @@
                     }
                 }
             }
-        }
-    }
-    nav {
-        display: flex;
-        justify-content: space-between;
-        a {
-            user-select: none;
-            flex: 1 1 auto;
-            &:last-child {
-                text-align: right;
-            }
-            cursor: pointer;
         }
     }
 }

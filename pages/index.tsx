@@ -21,6 +21,7 @@ function Index() {
     const [circleName, setCircleName] = useState(null);
     const [offset, setOffset] = useState(0);
     const [allCommentsCount, setAllCommentsCount] = useState(0);
+    const [hasNext, setHasNext] = useState(false);
 
     useEffect(() => {
         const url = getCanonical();
@@ -31,7 +32,10 @@ function Index() {
                 CommentsStore.setComments(comments);
             });
             getLatestPositivePublicComments().then(setLatestComments);
-            getAllCommentsCount().then(setAllCommentsCount);
+            getAllCommentsCount().then((count) => {
+                setHasNext(count > 10);
+                setAllCommentsCount(count);
+            });
         } catch (e) {
             console.error(e);
         } finally {
@@ -83,6 +87,7 @@ function Index() {
 
     function handleNextLatestComments() {
         const tmp = Math.min(allCommentsCount - 1, offset + 10);
+        setHasNext(tmp < allCommentsCount - 1);
         setOffset(tmp);
         loadComments(circleId, tmp);
     }
@@ -104,6 +109,8 @@ function Index() {
                         onCircleChange={handleCircleChange}
                     />
                     <Charts
+                        hasPrevious={offset > 0}
+                        hasNext={hasNext}
                         onPreviousClick={handlePreviousLatestComments}
                         onNextClick={handleNextLatestComments}
                         title={

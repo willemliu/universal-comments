@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './Charts.module.scss';
 
 interface Props {
+    hasPrevious?: boolean;
+    hasNext?: boolean;
     onPreviousClick: () => void;
     onNextClick: () => void;
     showDisplayName?: boolean;
@@ -15,15 +17,23 @@ function Charts(props: Props) {
             {!!props?.latestComments?.length && (
                 <article className={styles.chart}>
                     <h2>{props.title}</h2>
-                    <nav>
-                        <a onClick={props.onPreviousClick} title="Previous">
-                            &lt;
-                        </a>
-                        <a onClick={props.onNextClick} title="Next">
-                            &gt;
-                        </a>
-                    </nav>
                     <ol>
+                        <li className={styles.nav}>
+                            <a
+                                onClick={props.onPreviousClick}
+                                title="Previous"
+                                hidden={!props.hasPrevious}
+                            >
+                                &lt;
+                            </a>
+                            <a
+                                onClick={props.onNextClick}
+                                title="Next"
+                                hidden={!props.hasNext}
+                            >
+                                &gt;
+                            </a>
+                        </li>
                         {props.latestComments?.map?.((comment) => (
                             <li key={comment.id}>
                                 <a
@@ -56,15 +66,23 @@ function Charts(props: Props) {
                                 </small>
                             </li>
                         ))}
+                        <li className={styles.nav}>
+                            <a
+                                onClick={props.onPreviousClick}
+                                title="Previous"
+                                hidden={!props.hasPrevious}
+                            >
+                                &lt;
+                            </a>
+                            <a
+                                onClick={props.onNextClick}
+                                title="Next"
+                                hidden={!props.hasNext}
+                            >
+                                &gt;
+                            </a>
+                        </li>
                     </ol>
-                    <nav>
-                        <a onClick={props.onPreviousClick} title="Previous">
-                            &lt;
-                        </a>
-                        <a onClick={props.onNextClick} title="Next">
-                            &gt;
-                        </a>
-                    </nav>
                 </article>
             )}
         </section>
