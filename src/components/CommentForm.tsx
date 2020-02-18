@@ -72,9 +72,7 @@ function CommentForm(props: Props) {
                 }
                 onChange={handleCommentChange}
             />
-            <PrimaryButton title="Submit message">
-                🖅 {props.circleId}
-            </PrimaryButton>
+            <PrimaryButton title="Submit message">Submit</PrimaryButton>
         </form>
     );
 }

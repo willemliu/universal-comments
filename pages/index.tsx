@@ -95,7 +95,7 @@ function Index() {
     return (
         <>
             <Head>
-                <title>Universal Comments {circleId}</title>
+                <title>Universal Comments</title>
                 {canonical ? <link rel="canonical" href={canonical} /> : null}
             </Head>
 

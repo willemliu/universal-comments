@@ -107,7 +107,6 @@ function Comments(props: Props) {
         <section className={`${styles.comments} universal-comments`}>
             <h2>
                 <span>
-                    {circleId}
                     {props.title || 'Comments'}
                     {loggedIn && (
                         <a
