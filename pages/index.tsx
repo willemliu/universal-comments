@@ -24,8 +24,12 @@ function Index() {
     const [offset, setOffset] = useState(0);
     const [allCommentsCount, setAllCommentsCount] = useState(0);
     const [hasNext, setHasNext] = useState(false);
+    const [comments, setComments] = useState([]);
 
     useEffect(() => {
+        const subscriptionId = CommentsStore.subscribe(() => {
+            setComments(CommentsStore.getComments());
+        });
         const url = getCanonical();
         setCanonical(url);
 
@@ -34,17 +38,33 @@ function Index() {
                 CommentsStore.setComments(comments);
             });
             getLatestPositivePublicComments().then(setLatestComments);
-            getAllCommentsCount().then((count) => {
-                setHasNext(offset < count - 11);
-                setAllCommentsCount(count);
-            });
         } catch (e) {
             console.error(e);
         } finally {
             setCommentUrl(url);
             setLoading(false);
         }
+
+        return () => {
+            CommentsStore.unsubscribe(subscriptionId);
+        };
     }, []);
+
+    useEffect(() => {
+        if (circleId) {
+            getAllCommentsCountByCircle(UserStore.getUuid(), circleId).then(
+                (count) => {
+                    setHasNext(offset < count - 11);
+                    setAllCommentsCount(count);
+                }
+            );
+        } else {
+            getAllCommentsCount().then((count) => {
+                setHasNext(offset < count - 11);
+                setAllCommentsCount(count);
+            });
+        }
+    }, [circleId, comments]);
 
     async function loadComments(circleId?: string, offset = 0, limit = 10) {
         const url = getCanonical();
@@ -61,21 +81,11 @@ function Index() {
                         limit
                     )
                 );
-                getAllCommentsCountByCircle(UserStore.getUuid(), circleId).then(
-                    (count) => {
-                        setHasNext(offset < count - 11);
-                        setAllCommentsCount(count);
-                    }
-                );
             } else {
                 CommentsStore.setComments(await getCommentsByUrl(url));
                 setLatestComments(
                     await getLatestPositivePublicComments(offset, limit)
                 );
-                getAllCommentsCount().then((count) => {
-                    setHasNext(offset < count - 11);
-                    setAllCommentsCount(count);
-                });
             }
         } catch (e) {
             console.error(e);
