@@ -8,7 +8,7 @@ import { getCanonical } from '../utils/url';
 import { PrimaryButton } from './buttons/buttons';
 
 interface Props {
-    circleId?: number;
+    circleId?: string;
     parentId?: number;
     onSubmit?: (e: React.FormEvent) => void;
 }
@@ -72,7 +72,9 @@ function CommentForm(props: Props) {
                 }
                 onChange={handleCommentChange}
             />
-            <PrimaryButton title="Submit message">🖅</PrimaryButton>
+            <PrimaryButton title="Submit message">
+                🖅 {props.circleId}
+            </PrimaryButton>
         </form>
     );
 }

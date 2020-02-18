@@ -10,7 +10,7 @@ import styles from './CommentCard.module.scss';
 
 interface Props {
     comment: string;
-    circleId?: number;
+    circleId?: string;
     displayName: string;
     id: number;
     generation?: number;
@@ -216,6 +216,7 @@ function CommentCard(props: Props) {
                         <CommentCard
                             key={comment?.id}
                             comment={comment?.comment}
+                            circleId={props.circleId}
                             id={comment?.id}
                             displayName={comment?.user?.display_name}
                             generation={props.generation + 1}

@@ -454,7 +454,7 @@ export async function insertComment(
     url: string,
     comment: string,
     parentId?: number,
-    circleId?: number
+    circleId?: string
 ) {
     return await client
         .mutate({
