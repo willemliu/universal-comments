@@ -70,6 +70,7 @@ function Circles(props: Props) {
                     <th>Circle name</th>
                     <th>Password</th>
                     <th>Members</th>
+                    <th>Comments</th>
                     <th>Created</th>
                     <th>Remove</th>
                     <th>Leave</th>
@@ -83,6 +84,9 @@ function Circles(props: Props) {
                         <td>{circle.password}</td>
                         <td className={styles.centered}>
                             {circle?.users_circles_aggregate?.aggregate?.count}
+                        </td>
+                        <td className={styles.centered}>
+                            {circle?.comments_aggregate?.aggregate?.count}
                         </td>
                         <td className={styles.centered}>
                             {new Date(circle.timestamp).toLocaleString()}
