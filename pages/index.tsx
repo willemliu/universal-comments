@@ -33,7 +33,7 @@ function Index() {
             });
             getLatestPositivePublicComments().then(setLatestComments);
             getAllCommentsCount().then((count) => {
-                setHasNext(count > 10);
+                setHasNext(offset < count - 1);
                 setAllCommentsCount(count);
             });
         } catch (e) {
