@@ -801,7 +801,10 @@ export async function getLatestPublicComments(limit: number) {
                 query LatestComments($limit: Int!) {
                     comments(
                         limit: $limit
-                        where: { circle_id: { _is_null: true } }
+                        where: {
+                            circle_id: { _is_null: true }
+                            removed: { _eq: false }
+                        }
                         order_by: { timestamp: desc }
                     ) {
                         id
