@@ -271,7 +271,7 @@ export async function joinCircle(
                                 }
                             }
                             constraint: users_circles_user_id_circle_id_key
-                            update_columns: user_id
+                            update_columns: [user_id, user_uuid]
                         }
                         objects: {
                             circle_id: $circleId
