@@ -60,7 +60,7 @@ function AdminComments(props: Props) {
                 </section>
             )}
 
-            {!comments?.length && <h2>No comments</h2>}
+            {!comments?.length && <h3>No comments found</h3>}
 
             {comments.map((comment) => {
                 return (
