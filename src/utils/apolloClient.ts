@@ -683,7 +683,9 @@ export async function getAllCommentsCountByCircle(
                         where: {
                             circle_id: { _eq: $circleId }
                             circle: {
-                                users_circles: { user_uuid: { _eq: $uuid } }
+                                users_circles: {
+                                    user: { uuid: { _eq: $uuid } }
+                                }
                             }
                             removed: { _eq: false }
                         }
