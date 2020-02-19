@@ -229,7 +229,7 @@ function CommentCard(props: Props) {
                             removed={comment?.removed}
                             url={comment?.url}
                             image={comment?.user?.image}
-                            userUuid={comment?.user?.user_uuid}
+                            userUuid={comment?.user?.uuid}
                             subComments={comment?.subComments || []}
                             loggedIn={props.loggedIn}
                             noForm={props.noForm}

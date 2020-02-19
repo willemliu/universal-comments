@@ -67,7 +67,7 @@ function AdminComments(props: Props) {
                         id={comment?.id}
                         displayName={comment?.user?.display_name}
                         generation={0}
-                        userUuid={comment?.user?.user_uuid}
+                        userUuid={comment?.user?.uuid}
                         parentId={comment?.parent_id}
                         url={comment?.url}
                         image={comment?.user?.image}

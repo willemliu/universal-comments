@@ -15,7 +15,7 @@ export interface Comment {
         image: string;
         email: string;
         id: string;
-        user_uuid: string;
+        uuid: string;
         timestamp: string;
     };
     scores_aggregate: {
