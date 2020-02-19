@@ -263,6 +263,11 @@ export async function joinCircle(
                     $password: uuid!
                 ) {
                     insert_users_circles(
+                        objects: {
+                            circle_id: $circleId
+                            user_id: $userId
+                            user_uuid: $uuid
+                        }
                         on_conflict: {
                             where: {
                                 circle: {
@@ -272,11 +277,6 @@ export async function joinCircle(
                             }
                             constraint: users_circles_user_id_circle_id_key
                             update_columns: [user_id, user_uuid]
-                        }
-                        objects: {
-                            circle_id: $circleId
-                            user_id: $userId
-                            user_uuid: $uuid
                         }
                     ) {
                         affected_rows
