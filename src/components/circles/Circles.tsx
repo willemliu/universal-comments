@@ -50,7 +50,7 @@ function Circles(props: Props) {
         try {
             leaveCircle(UserStore.getUuid(), name, password)
                 .then(() => {
-                    // window.location.reload();
+                    window.location.reload();
                 })
                 .catch((err) => {
                     alert(`${err}`);
