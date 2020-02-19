@@ -646,7 +646,10 @@ export async function getAllCommentsCount() {
             query: gql`
                 query AllCommentsCount {
                     comments_aggregate(
-                        where: { circle_id: { _is_null: true } }
+                        where: {
+                            circle_id: { _is_null: true }
+                            removed: { _eq: false }
+                        }
                     ) {
                         aggregate {
                             count
