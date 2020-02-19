@@ -681,6 +681,7 @@ export async function getAllCommentsCountByCircle(
                             circle: {
                                 users_circles: { user_uuid: { _eq: $uuid } }
                             }
+                            removed: { _eq: false }
                         }
                     ) {
                         aggregate {
