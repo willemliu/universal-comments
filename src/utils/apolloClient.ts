@@ -706,6 +706,7 @@ export async function getCommentsByUrl(url: string) {
                         where: {
                             url: { _eq: $url }
                             circle_id: { _is_null: true }
+                            removed: { _eq: false }
                         }
                         order_by: { timestamp: asc }
                     ) {
@@ -756,6 +757,7 @@ export async function getCommentsByCircleId(
                         where: {
                             url: { _eq: $url }
                             circle_id: { _eq: $circleId }
+                            removed: { _eq: false }
                             circle: {
                                 users_circles: { user_uuid: { _eq: $uuid } }
                             }
