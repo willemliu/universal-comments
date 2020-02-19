@@ -836,7 +836,10 @@ export async function getLatestPositivePublicComments(offset = 0, limit = 10) {
                         order_by: { timestamp: desc }
                         offset: $offset
                         limit: $limit
-                        where: { circle_id: { _is_null: true } }
+                        where: {
+                            circle_id: { _is_null: true }
+                            removed: { _eq: false }
+                        }
                     ) {
                         scores_aggregate(
                             where: { _not: { score: { _lt: 0 } } }
