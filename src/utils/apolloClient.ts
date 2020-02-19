@@ -142,7 +142,12 @@ export async function getCirclesByUrl(url: string, uuid: string) {
                         name
                         password
                         timestamp
-                        comments_aggregate(where: { url: { _eq: $url } }) {
+                        comments_aggregate(
+                            where: {
+                                url: { _eq: $url }
+                                removed: { _eq: false }
+                            }
+                        ) {
                             aggregate {
                                 count(columns: id)
                             }
