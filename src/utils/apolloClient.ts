@@ -888,6 +888,7 @@ export async function getLatestPositiveCircleComments(
                         limit: $limit
                         where: {
                             circle_id: { _eq: $circle_id }
+                            removed: { _eq: false }
                             circle: {
                                 users_circles: { user_uuid: { _eq: $uuid } }
                             }
