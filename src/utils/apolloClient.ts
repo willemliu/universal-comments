@@ -598,7 +598,7 @@ export async function removeComment(
                         where: {
                             id: { _eq: $commentId }
                             user_id: { _eq: $userId }
-                            user_uuid: { _eq: $uuid }
+                            user: { uuid: { _eq: $uuid } }
                         }
                         _set: { removed: true, updated: "now()" }
                     ) {
