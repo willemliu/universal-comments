@@ -60,6 +60,8 @@ function AdminComments(props: Props) {
                 </section>
             )}
 
+            {!comments?.length && <h2>No comments</h2>}
+
             {comments.map((comment) => {
                 return (
                     <CommentCard
