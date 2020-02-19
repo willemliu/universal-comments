@@ -506,7 +506,7 @@ export async function insertComment(
                             }
                             user {
                                 id
-                                user_uuid
+                                uuid
                                 display_name
                                 image
                             }
@@ -723,7 +723,7 @@ export async function getCommentsByUrl(url: string) {
                         removed
                         user {
                             id
-                            user_uuid
+                            uuid
                             display_name
                             image
                         }
@@ -777,7 +777,7 @@ export async function getCommentsByCircleId(
                         removed
                         user {
                             id
-                            user_uuid
+                            uuid
                             display_name
                             image
                         }

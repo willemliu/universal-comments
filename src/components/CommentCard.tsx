@@ -21,7 +21,7 @@ interface Props {
     removed: boolean;
     url: string;
     image: string;
-    userId: string;
+    userUuid: string;
     subComments?: Comment[];
     loggedIn?: boolean;
     noForm?: boolean;
@@ -128,7 +128,7 @@ function CommentCard(props: Props) {
                     </div>
                     {!props.removed &&
                         props.loggedIn &&
-                        `${props.userId}` === userId && (
+                        `${props.userUuid}` === uuid && (
                             <span
                                 className={styles.removeButton}
                                 onClick={handleRemoveComment}
@@ -229,7 +229,7 @@ function CommentCard(props: Props) {
                             removed={comment?.removed}
                             url={comment?.url}
                             image={comment?.user?.image}
-                            userId={comment?.user?.id}
+                            userUuid={comment?.user?.user_uuid}
                             subComments={comment?.subComments || []}
                             loggedIn={props.loggedIn}
                             noForm={props.noForm}
