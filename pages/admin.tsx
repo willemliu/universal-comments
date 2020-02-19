@@ -8,20 +8,16 @@ const pageSize = 10;
 
 export default function admin() {
     const [userId, setUserId] = useState(null);
-    const [loading, setLoading] = useState(false);
     const [totalCommentCount, setTotalCommentCount] = useState(0);
     const [currentOffset, setCurrentOffset] = useState(0);
 
     async function loadComments(uuid: string, offset = 0, limit = pageSize) {
-        setLoading(true);
         try {
             const comments = await getAllUserComments(uuid, offset, limit);
             CommentsStore.setComments(comments.comments);
             setTotalCommentCount(comments.comments_aggregate.aggregate.count);
         } catch (e) {
             console.error(e);
-        } finally {
-            setLoading(false);
         }
     }
 
@@ -55,7 +51,6 @@ export default function admin() {
             <Head>
                 <title>Admin - Universal Comments</title>
             </Head>
-            {loading ? <div className="blink">Loading...</div> : null}
             <AdminComments
                 onAccess={onAccess}
                 onLogout={onLogout}

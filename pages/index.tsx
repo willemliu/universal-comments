@@ -15,7 +15,6 @@ import { Charts } from '../src/components/charts/Charts';
 import UserStore from '../src/stores/UserStore';
 
 function Index() {
-    const [loading, setLoading] = useState(true);
     const [commentUrl, setCommentUrl] = useState('');
     const [canonical, setCanonical] = useState(null);
     const [latestComments, setLatestComments] = useState([]);
@@ -42,7 +41,6 @@ function Index() {
             console.error(e);
         } finally {
             setCommentUrl(url);
-            setLoading(false);
         }
 
         return () => {
@@ -96,7 +94,6 @@ function Index() {
             console.error(e);
         } finally {
             setCommentUrl(url);
-            setLoading(false);
         }
     }
 
@@ -126,30 +123,26 @@ function Index() {
                 {canonical ? <link rel="canonical" href={canonical} /> : null}
             </Head>
 
-            {loading ? (
-                <div className="blink">Loading...</div>
-            ) : (
-                <div className="comments-container">
-                    <Comments
-                        canonical={canonical}
-                        onAccess={console.log}
-                        onCircleChange={handleCircleChange}
-                    />
-                    <Charts
-                        hasPrevious={offset > 0}
-                        hasNext={hasNext}
-                        onPreviousClick={handlePreviousLatestComments}
-                        onNextClick={handleNextLatestComments}
-                        title={
-                            circleId
-                                ? `Latest comments from ${circleName}`
-                                : 'Latest comments'
-                        }
-                        showDisplayName={!!circleId}
-                        latestComments={latestComments}
-                    />
-                </div>
-            )}
+            <div className="comments-container">
+                <Comments
+                    canonical={canonical}
+                    onAccess={console.log}
+                    onCircleChange={handleCircleChange}
+                />
+                <Charts
+                    hasPrevious={offset > 0}
+                    hasNext={hasNext}
+                    onPreviousClick={handlePreviousLatestComments}
+                    onNextClick={handleNextLatestComments}
+                    title={
+                        circleId
+                            ? `Latest comments from ${circleName}`
+                            : 'Latest comments'
+                    }
+                    showDisplayName={!!circleId}
+                    latestComments={latestComments}
+                />
+            </div>
 
             <small>
                 Universal comments

@@ -7,19 +7,15 @@ import styles from './circles.module.scss';
 import { Login, Provider } from '../src/components/social/login/Login';
 
 export default function circles() {
-    const [loading, setLoading] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false);
     const [provider, setProvider] = useState(null);
     const [circles, setCircles] = useState([]);
 
     async function onAccess(accessToken: string, uuid: string) {
-        setLoading(true);
         try {
             setCircles(await getCircles(uuid));
         } catch (e) {
             console.error(e);
-        } finally {
-            setLoading(false);
         }
     }
 
@@ -102,11 +98,7 @@ export default function circles() {
                 circle.
             </p>
 
-            {loading ? (
-                <div className="blink">Loading...</div>
-            ) : (
-                <>{loggedIn ? <Circles circles={circles} /> : null}</>
-            )}
+            {loggedIn ? <Circles circles={circles} /> : null}
 
             {loggedIn ? (
                 <form onSubmit={handleSubmit}>
