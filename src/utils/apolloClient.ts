@@ -764,7 +764,9 @@ export async function getCommentsByCircleId(
                             url: { _eq: $url }
                             circle_id: { _eq: $circleId }
                             circle: {
-                                users_circles: { user_uuid: { _eq: $uuid } }
+                                users_circles: {
+                                    user: { uuid: { _eq: $uuid } }
+                                }
                             }
                         }
                         order_by: { timestamp: asc }
