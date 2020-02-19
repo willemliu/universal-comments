@@ -625,6 +625,7 @@ export async function getCommentCount(url: string) {
                         where: {
                             url: { _eq: $url }
                             circle_id: { _is_null: true }
+                            removed: { _eq: false }
                         }
                     ) {
                         aggregate {
