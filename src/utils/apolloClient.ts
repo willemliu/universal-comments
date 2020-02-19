@@ -431,7 +431,7 @@ export async function getAllUserComments(uuid: string, offset = 0, limit = 10) {
                         removed
                         user {
                             id
-                            user_uuid
+                            uuid
                             display_name
                             image
                         }
