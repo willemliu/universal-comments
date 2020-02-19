@@ -417,7 +417,7 @@ export async function getAllUserComments(uuid: string, offset = 0, limit = 10) {
                         }
                     }
                     comments(
-                        where: { user_uuid: { _eq: $uuid } }
+                        where: { user: { uuid: { _eq: $uuid } } }
                         order_by: { timestamp: asc }
                         limit: $limit
                         offset: $offset

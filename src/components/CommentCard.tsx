@@ -126,6 +126,7 @@ function CommentCard(props: Props) {
                     <div className={styles.collapser} onClick={toggleCollapse}>
                         {collapsed ? `➕ Show` : `➖ Hide`}
                     </div>
+                    {props.userUuid}:::{uuid}
                     {!props.removed &&
                         props.loggedIn &&
                         `${props.userUuid}` === uuid && (
