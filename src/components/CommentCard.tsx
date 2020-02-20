@@ -151,7 +151,7 @@ function CommentCard(props: Props) {
                         {collapsed ? `➕ Show` : `➖ Hide`}
                     </div>
                     <div>
-                        {isDifferent() && (
+                        {!props.removed && isDifferent() && (
                             <a
                                 className={styles.diffButton}
                                 onClick={toggleDiff}
