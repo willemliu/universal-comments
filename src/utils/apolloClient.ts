@@ -456,7 +456,7 @@ export async function insertComment(
     uuid: string,
     url: string,
     comment: string,
-    parentId?: number,
+    parentId?: string,
     circleId?: string
 ) {
     return await client
@@ -520,11 +520,75 @@ export async function insertComment(
         });
 }
 
+export async function editComment(
+    commentId: string,
+    userId: string,
+    uuid: string,
+    url: string,
+    comment: string
+) {
+    return await client
+        .mutate({
+            variables: {
+                id: commentId,
+                comment,
+                url,
+                userId,
+                uuid,
+            },
+            mutation: gql`
+                mutation EditComment(
+                    $id: uuid!
+                    $comment: String!
+                    $url: String!
+                    $userId: String!
+                    $uuid: uuid!
+                ) {
+                    update_comments(
+                        where: {
+                            id: { _eq: $id }
+                            user: { uuid: { _eq: $uuid }, id: { _eq: $userId } }
+                            url: { _eq: $url }
+                        }
+                        _set: { comment: $comment, updated: "now()" }
+                    ) {
+                        returning {
+                            id
+                            url
+                            comment
+                            parent_id
+                            circle_id
+                            removed
+                            timestamp
+                            updated
+                            scores_aggregate {
+                                aggregate {
+                                    sum {
+                                        score
+                                    }
+                                }
+                            }
+                            user {
+                                id
+                                uuid
+                                display_name
+                                image
+                            }
+                        }
+                    }
+                }
+            `,
+        })
+        .then(({ data }: any) => {
+            return data?.update_comments?.returning?.[0];
+        });
+}
+
 export async function insertScore(
     userId: string,
     uuid: string,
     vote: number,
-    commentId: number
+    commentId: string
 ) {
     return await client
         .mutate({
@@ -577,7 +641,7 @@ export async function insertScore(
 }
 
 export async function removeComment(
-    commentId: number,
+    commentId: string,
     userId: string,
     uuid: string
 ) {

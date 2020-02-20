@@ -1,10 +1,10 @@
 import { StoreBase, AutoSubscribeStore, autoSubscribe } from 'resub';
 
 export interface Comment {
-    id: number;
+    id: string;
     comment: string;
     url: string;
-    parent_id: number;
+    parent_id: string;
     timestamp: string;
     updated: string;
     removed: boolean;

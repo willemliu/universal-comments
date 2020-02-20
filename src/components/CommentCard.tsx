@@ -7,14 +7,15 @@ import { CommentForm } from './CommentForm';
 import UserStore from '../stores/UserStore';
 import ReactMarkdown from 'react-markdown';
 import styles from './CommentCard.module.scss';
+import { EditForm } from './EditForm';
 
 interface Props {
     comment: string;
     circleId?: string;
     displayName: string;
-    id: number;
+    id: string;
     generation?: number;
-    parentId: number;
+    parentId: string;
     score: number;
     timestamp: string;
     updated: string;
@@ -37,6 +38,7 @@ function CommentCard(props: Props) {
         props.score < 0 || props.removed
     );
     const [reply, setReply] = useState(false);
+    const [edit, setEdit] = useState(false);
 
     const ageSeconds = Math.floor((+new Date() - +timestamp) / 1000);
 
@@ -78,6 +80,10 @@ function CommentCard(props: Props) {
         setReply(!reply);
     }
 
+    function toggleEdit() {
+        setEdit(!edit);
+    }
+
     function voteUp() {
         vote(1);
     }
@@ -92,6 +98,10 @@ function CommentCard(props: Props) {
 
     function handleReplySubmit() {
         setReply(false);
+    }
+
+    function handleEditSubmit() {
+        setEdit(false);
     }
 
     let indent = '';
@@ -128,7 +138,7 @@ function CommentCard(props: Props) {
                     </div>
                     {!props.removed &&
                         props.loggedIn &&
-                        `${props.userUuid}` === uuid && (
+                        props.userUuid === uuid && (
                             <span
                                 className={styles.removeButton}
                                 onClick={handleRemoveComment}
@@ -188,13 +198,28 @@ function CommentCard(props: Props) {
                                             onVoteDown={voteDown}
                                         />
                                         {!props.noForm && (
-                                            <a
-                                                className={styles.replyToggle}
-                                                onClick={toggleReply}
-                                                title="Reply"
-                                            >
-                                                📥
-                                            </a>
+                                            <div>
+                                                {props.userUuid === uuid && (
+                                                    <a
+                                                        className={
+                                                            styles.editToggle
+                                                        }
+                                                        onClick={toggleEdit}
+                                                        title="Edit"
+                                                    >
+                                                        ✏️
+                                                    </a>
+                                                )}
+                                                <a
+                                                    className={
+                                                        styles.replyToggle
+                                                    }
+                                                    onClick={toggleReply}
+                                                    title="Reply"
+                                                >
+                                                    📥
+                                                </a>
+                                            </div>
                                         )}
                                     </>
                                 )}
@@ -207,6 +232,13 @@ function CommentCard(props: Props) {
                         parentId={props.id}
                         onSubmit={handleReplySubmit}
                         circleId={props.circleId}
+                    />
+                ) : null}
+                {edit && !props.noForm ? (
+                    <EditForm
+                        id={props.id}
+                        onSubmit={handleEditSubmit}
+                        commentText={props.comment}
                     />
                 ) : null}
             </article>

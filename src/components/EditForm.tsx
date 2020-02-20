@@ -1,19 +1,19 @@
 import React, { useRef } from 'react';
 import styles from './CommentForm.module.scss';
-import { insertComment } from '../utils/apolloClient';
 import { useState } from 'react';
-import UserStore from '../stores/UserStore';
-import CommentsStore from '../stores/CommentsStore';
-import { getCanonical } from '../utils/url';
 import { PrimaryButton } from './buttons/buttons';
+import { getCanonical } from '../utils/url';
+import CommentsStore from '../stores/CommentsStore';
+import { editComment } from '../utils/apolloClient';
+import UserStore from '../stores/UserStore';
 
 interface Props {
-    circleId?: string;
-    parentId?: string;
+    id: string;
+    commentText: string;
     onSubmit?: (e: React.FormEvent) => void;
 }
 
-function CommentForm(props: Props) {
+function EditForm(props: Props) {
     const textareaRef = useRef(null);
     const [comment, setComment] = useState('');
 
@@ -32,14 +32,13 @@ function CommentForm(props: Props) {
 
         const url = getCanonical();
         try {
-            CommentsStore.addComment(
-                await insertComment(
+            CommentsStore.updateComment(
+                await editComment(
+                    props.id,
                     UserStore.getId(),
                     UserStore.getUuid(),
                     url,
-                    comment,
-                    props.parentId ?? null,
-                    props.circleId ?? null
+                    comment
                 )
             );
         } catch (e) {
@@ -61,15 +60,13 @@ function CommentForm(props: Props) {
 
     return (
         <form className={styles.commentForm} onSubmit={handleSubmit}>
+            <h2>Edit your comment</h2>
             <textarea
                 ref={textareaRef}
                 minLength={5}
                 name="comment"
-                placeholder={
-                    props.parentId
-                        ? 'Write your reply here'
-                        : 'Write your comment here'
-                }
+                placeholder={'Edit your comment here'}
+                defaultValue={props.commentText}
                 onChange={handleCommentChange}
             />
             <PrimaryButton title="Submit message">Submit</PrimaryButton>
@@ -77,4 +74,4 @@ function CommentForm(props: Props) {
     );
 }
 
-export { CommentForm };
+export { EditForm };
