@@ -3,6 +3,7 @@ import { StoreBase, AutoSubscribeStore, autoSubscribe } from 'resub';
 export interface Comment {
     id: string;
     comment: string;
+    edited_comment: string;
     url: string;
     parent_id: string;
     timestamp: string;
@@ -46,6 +47,7 @@ class CommentsStore extends StoreBase {
         this.comments.forEach((oldComment) => {
             if (oldComment.id === comment.id) {
                 oldComment.comment = comment.comment;
+                oldComment.edited_comment = comment.edited_comment;
                 oldComment.removed = comment.removed;
                 oldComment.updated = comment.updated;
             }

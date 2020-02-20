@@ -425,6 +425,7 @@ export async function getAllUserComments(uuid: string, offset = 0, limit = 10) {
                         id
                         url
                         comment
+                        edited_comment
                         parent_id
                         timestamp
                         updated
@@ -492,6 +493,7 @@ export async function insertComment(
                             id
                             url
                             comment
+                            edited_comment
                             parent_id
                             circle_id
                             removed
@@ -556,6 +558,7 @@ export async function editComment(
                             id
                             url
                             comment
+                            edited_comment
                             parent_id
                             circle_id
                             removed
@@ -670,6 +673,7 @@ export async function removeComment(
                             id
                             updated
                             comment
+                            edited_comment
                             removed
                         }
                     }
@@ -782,6 +786,7 @@ export async function getCommentsByUrl(url: string) {
                         id
                         url
                         comment
+                        edited_comment
                         parent_id
                         circle_id
                         timestamp
@@ -838,6 +843,7 @@ export async function getCommentsByCircleId(
                         id
                         url
                         comment
+                        edited_comment
                         parent_id
                         circle_id
                         timestamp
@@ -881,6 +887,7 @@ export async function getLatestPublicComments(limit: number) {
                     ) {
                         id
                         comment
+                        edited_comment
                         timestamp
                         url
                         user {
@@ -924,6 +931,7 @@ export async function getLatestPositivePublicComments(offset = 0, limit = 10) {
                         }
                         id
                         comment
+                        edited_comment
                         timestamp
                         url
                         user {
@@ -979,6 +987,7 @@ export async function getLatestPositiveCircleComments(
                         }
                         id
                         comment
+                        edited_comment
                         timestamp
                         url
                         user {

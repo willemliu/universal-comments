@@ -11,6 +11,7 @@ import { EditForm } from './EditForm';
 
 interface Props {
     comment: string;
+    editedComment: string;
     circleId?: string;
     displayName: string;
     id: string;
@@ -181,7 +182,9 @@ function CommentCard(props: Props) {
                                 ) : (
                                     <ReactMarkdown
                                         className="markdown-body"
-                                        source={props.comment}
+                                        source={
+                                            props.editedComment ?? props.comment
+                                        }
                                         linkTarget="_blank"
                                     />
                                 )}
@@ -252,7 +255,7 @@ function CommentCard(props: Props) {
                     <EditForm
                         id={props.id}
                         onSubmit={handleEditSubmit}
-                        commentText={props.comment}
+                        commentText={props.editedComment ?? props.comment}
                     />
                 ) : null}
             </article>
@@ -262,6 +265,7 @@ function CommentCard(props: Props) {
                         <CommentCard
                             key={comment?.id}
                             comment={comment?.comment}
+                            editedComment={comment?.edited_comment}
                             circleId={props.circleId}
                             id={comment?.id}
                             displayName={comment?.user?.display_name}

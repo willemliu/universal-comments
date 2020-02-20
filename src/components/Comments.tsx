@@ -165,6 +165,7 @@ function Comments(props: Props) {
                         removed={comment?.removed}
                         score={comment?.scores_aggregate?.aggregate?.sum?.score}
                         comment={comment?.comment}
+                        editedComment={comment?.edited_comment}
                         subComments={comment?.subComments || []}
                         loggedIn={loggedIn}
                         noForm={false}
