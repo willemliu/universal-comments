@@ -206,6 +206,7 @@ function CommentCard(props: Props) {
                                         newValue={`${props.editedComment}`}
                                         splitView={true}
                                         hideLineNumbers={true}
+                                        showDiffOnly={true}
                                         leftTitle="Original"
                                         rightTitle="New"
                                     />
