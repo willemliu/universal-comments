@@ -8,6 +8,7 @@ import UserStore from '../stores/UserStore';
 import ReactMarkdown from 'react-markdown';
 import styles from './CommentCard.module.scss';
 import { EditForm } from './EditForm';
+import ReactDiffViewer from 'react-diff-viewer';
 
 interface Props {
     comment: string;
@@ -41,6 +42,7 @@ function CommentCard(props: Props) {
     );
     const [reply, setReply] = useState(false);
     const [edit, setEdit] = useState(false);
+    const [showDiff, setShowDiff] = useState(false);
 
     const ageSeconds = Math.floor((+new Date() - +timestamp) / 1000);
 
@@ -88,6 +90,10 @@ function CommentCard(props: Props) {
         setEdit(!edit);
     }
 
+    function toggleDiff() {
+        setShowDiff(!showDiff);
+    }
+
     function voteUp() {
         vote(1);
     }
@@ -106,6 +112,10 @@ function CommentCard(props: Props) {
 
     function handleEditSubmit() {
         setEdit(false);
+    }
+
+    function isDifferent() {
+        return props.editedComment && props.comment !== props.editedComment;
     }
 
     let indent = '';
@@ -140,17 +150,28 @@ function CommentCard(props: Props) {
                     <div className={styles.collapser} onClick={toggleCollapse}>
                         {collapsed ? `➕ Show` : `➖ Hide`}
                     </div>
-                    {!props.removed &&
-                        props.loggedIn &&
-                        props.userUuid === uuid && (
-                            <span
-                                className={styles.removeButton}
-                                onClick={handleRemoveComment}
-                                title="Remove comment"
+                    <div>
+                        {isDifferent() && (
+                            <a
+                                className={styles.diffButton}
+                                onClick={toggleDiff}
+                                title="View changes"
                             >
-                                ☠️
-                            </span>
+                                📜
+                            </a>
                         )}
+                        {!props.removed &&
+                            props.loggedIn &&
+                            props.userUuid === uuid && (
+                                <a
+                                    className={styles.removeButton}
+                                    onClick={handleRemoveComment}
+                                    title="Remove comment"
+                                >
+                                    ☠️
+                                </a>
+                            )}
+                    </div>
                 </header>
                 {collapsed || (
                     <>
@@ -179,6 +200,15 @@ function CommentCard(props: Props) {
                                 </div>
                                 {props.removed ? (
                                     <h2>[Removed]</h2>
+                                ) : showDiff && isDifferent() ? (
+                                    <ReactDiffViewer
+                                        oldValue={`${props.comment}`}
+                                        newValue={`${props.editedComment}`}
+                                        splitView={true}
+                                        hideLineNumbers={true}
+                                        leftTitle="Original"
+                                        rightTitle="New"
+                                    />
                                 ) : (
                                     <ReactMarkdown
                                         className="markdown-body"
