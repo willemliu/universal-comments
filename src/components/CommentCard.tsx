@@ -78,9 +78,11 @@ function CommentCard(props: Props) {
 
     function toggleReply() {
         setReply(!reply);
+        setEdit(false);
     }
 
     function toggleEdit() {
+        setReply(false);
         setEdit(!edit);
     }
 

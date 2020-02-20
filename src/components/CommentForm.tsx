@@ -61,6 +61,7 @@ function CommentForm(props: Props) {
 
     return (
         <form className={styles.commentForm} onSubmit={handleSubmit}>
+            {props.parentId && <h2>Reply</h2>}
             <textarea
                 ref={textareaRef}
                 minLength={5}
