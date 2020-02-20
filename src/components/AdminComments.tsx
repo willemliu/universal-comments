@@ -81,6 +81,7 @@ function AdminComments(props: Props) {
                         subComments={comment?.subComments || []}
                         loggedIn={loggedIn}
                         noForm={true}
+                        showLink={true}
                     />
                 );
             })}

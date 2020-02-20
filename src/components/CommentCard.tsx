@@ -26,6 +26,7 @@ interface Props {
     subComments?: Comment[];
     loggedIn?: boolean;
     noForm?: boolean;
+    showLink?: boolean;
 }
 
 function CommentCard(props: Props) {
@@ -199,6 +200,17 @@ function CommentCard(props: Props) {
                                             onVoteNeutral={voteNeutral}
                                             onVoteDown={voteDown}
                                         />
+                                        {props.showLink && (
+                                            <a
+                                                href={props.url}
+                                                className={styles.editToggle}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                title={`Go to: ${props.url}`}
+                                            >
+                                                🔗
+                                            </a>
+                                        )}
                                         {!props.noForm && (
                                             <div>
                                                 {props.userUuid === uuid && (

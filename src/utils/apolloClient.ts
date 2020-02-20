@@ -550,7 +550,7 @@ export async function editComment(
                             user: { uuid: { _eq: $uuid }, id: { _eq: $userId } }
                             url: { _eq: $url }
                         }
-                        _set: { comment: $comment, updated: "now()" }
+                        _set: { edited_comment: $comment, updated: "now()" }
                     ) {
                         returning {
                             id
