@@ -78,7 +78,9 @@ function Charts(props: Props) {
                                         title={comment.url}
                                         rel="noopener noreferrer"
                                     >
-                                        {new URL(comment.url).hostname}
+                                        {new URL(
+                                            comment.url
+                                        )?.hostname?.replace(/^www\./, '')}
                                     </a>
                                 </small>
                             </li>
