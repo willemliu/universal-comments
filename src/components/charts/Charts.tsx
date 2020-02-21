@@ -47,8 +47,14 @@ function Charts(props: Props) {
                                         comment.timestamp
                                     ).toLocaleString()}`}
                                 >
-                                    <div title={comment.comment}>
-                                        {comment.comment}
+                                    <div
+                                        title={
+                                            comment.edited_comment ??
+                                            comment.comment
+                                        }
+                                    >
+                                        {comment.edited_comment ??
+                                            comment.comment}
                                     </div>
                                 </a>
                                 <small>
