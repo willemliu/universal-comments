@@ -72,6 +72,13 @@ function Charts(props: Props) {
                                             &middot; {comment.user.display_name}
                                         </span>
                                     )}
+                                    <a
+                                        href={comment.url}
+                                        target="_BLANK"
+                                        rel="noopener noreferrer"
+                                    >
+                                        {new URL(comment.url).hostname}
+                                    </a>
                                 </small>
                             </li>
                         ))}
