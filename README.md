@@ -8,7 +8,7 @@ Universal Comments extension:
 
 -   [Edge](https://microsoftedge.microsoft.com/addons/detail/fakkiidfllacbdkgokbdigommkhmoeil)
 -   [FireFox](https://addons.mozilla.org/nl/firefox/addon/universal-comments/)
--   Chrome (TBA)
+-   [Chrome](https://chrome.google.com/webstore/detail/universal-comments/edoooaibkkjcnojedjhplakgaemchoeb)
 
 # Development
 
