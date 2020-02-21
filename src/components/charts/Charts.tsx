@@ -75,6 +75,7 @@ function Charts(props: Props) {
                                     <a
                                         href={comment.url}
                                         target="_BLANK"
+                                        title={comment.url}
                                         rel="noopener noreferrer"
                                     >
                                         {new URL(comment.url).hostname}
