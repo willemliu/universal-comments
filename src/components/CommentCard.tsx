@@ -12,16 +12,16 @@ import ReactDiffViewer from 'react-diff-viewer';
 
 interface Props {
     comment: string;
-    editedComment: string;
+    editedComment?: string;
     circleId?: string;
     displayName: string;
     id: string;
     generation?: number;
-    parentId: string;
-    score: number;
+    parentId?: string;
+    score?: number;
     timestamp: string;
-    updated: string;
-    removed: boolean;
+    updated?: string;
+    removed?: boolean;
     url: string;
     image: string;
     userUuid: string;
@@ -291,7 +291,7 @@ function CommentCard(props: Props) {
                 ) : null}
             </article>
             {collapsed ||
-                props.subComments.map((comment) => {
+                props?.subComments?.map((comment) => {
                     return (
                         <CommentCard
                             key={comment?.id}
