@@ -1,6 +1,6 @@
 import React from 'react';
 import { CommentCard } from '../../src/components/CommentCard';
-import { render, queryByText } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import UserStore from '../../src/stores/UserStore';
 
 describe('CommentCard', () => {
