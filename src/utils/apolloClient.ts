@@ -918,6 +918,7 @@ export async function getLatestPositivePublicComments(offset = 0, limit = 10) {
                         where: {
                             circle_id: { _is_null: true }
                             removed: { _eq: false }
+                            user: { active: { _eq: true } }
                         }
                     ) {
                         scores_aggregate {
@@ -967,6 +968,7 @@ export async function getLatestPositiveCircleComments(
                         where: {
                             circle_id: { _eq: $circle_id }
                             removed: { _eq: false }
+                            user: { active: { _eq: true } }
                             circle: {
                                 users_circles: {
                                     user: { uuid: { _eq: $uuid } }
