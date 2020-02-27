@@ -85,7 +85,9 @@ function Index() {
                     )
                 );
             } else {
-                CommentsStore.setComments(await getCommentsByUrl(url));
+                CommentsStore.setComments(
+                    await getCommentsByUrl(url, UserStore.getUuid())
+                );
                 setLatestComments(
                     await getLatestPositivePublicComments(offset, limit)
                 );
@@ -128,6 +130,7 @@ function Index() {
                     canonical={canonical}
                     onAccess={console.log}
                     onCircleChange={handleCircleChange}
+                    onLogin={loadComments}
                 />
                 <Charts
                     hasPrevious={offset > 0}

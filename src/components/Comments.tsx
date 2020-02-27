@@ -32,6 +32,7 @@ function assembleDescendents(comments: Comment[]) {
 interface Props {
     canonical?: string;
     onAccess?: (accessToken: string, uuid: string) => void;
+    onLogin?: () => void;
     onLogout?: () => void;
     onCircleChange?: (circleId?: string, circleName?: string) => void;
     title?: string;
@@ -84,6 +85,7 @@ function Comments(props: Props) {
     function login(provider: Provider) {
         setProvider(provider);
         setLoggedIn(true);
+        props?.onLogin?.();
     }
 
     function logout() {

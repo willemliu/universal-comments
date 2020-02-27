@@ -146,17 +146,7 @@ export async function getCirclesByUrl(url: string, uuid: string) {
                             where: {
                                 url: { _eq: $url }
                                 removed: { _eq: false }
-                                user: {
-                                    _or: [
-                                        { active: { _eq: true } }
-                                        {
-                                            _or: [
-                                                { uuid: { _eq: $uuid } }
-                                                { uuid: { _is_null: true } }
-                                            ]
-                                        }
-                                    ]
-                                }
+                                _or: [{ user: { active: { _eq: true } } }]
                             }
                         ) {
                             aggregate {
@@ -783,9 +773,9 @@ export async function getAllCommentsCountByCircle(
                                 _or: [
                                     { active: { _eq: true } }
                                     {
-                                        _or: [
+                                        _and: [
+                                            { _not: { uuid: { _neq: $uuid } } }
                                             { uuid: { _eq: $uuid } }
-                                            { uuid: { _is_null: true } }
                                         ]
                                     }
                                 ]
@@ -819,14 +809,9 @@ export async function getCommentsByUrl(url: string, uuid?: string) {
                                 _or: [
                                     { active: { _eq: true } }
                                     {
-                                        _or: [
-                                            { uuid: { _is_null: true } }
-                                            {
-                                                _or: [
-                                                    { uuid: { _eq: $uuid } }
-                                                    { uuid: { _is_null: true } }
-                                                ]
-                                            }
+                                        _and: [
+                                            { _not: { uuid: { _neq: $uuid } } }
+                                            { uuid: { _eq: $uuid } }
                                         ]
                                     }
                                 ]
@@ -887,14 +872,9 @@ export async function getCommentsByCircleId(
                                 _or: [
                                     { active: { _eq: true } }
                                     {
-                                        _or: [
-                                            { uuid: { _is_null: true } }
-                                            {
-                                                _or: [
-                                                    { uuid: { _eq: $uuid } }
-                                                    { uuid: { _is_null: true } }
-                                                ]
-                                            }
+                                        _and: [
+                                            { _not: { uuid: { _neq: $uuid } } }
+                                            { uuid: { _eq: $uuid } }
                                         ]
                                     }
                                 ]
@@ -995,9 +975,9 @@ export async function getLatestPositivePublicComments(
                                 _or: [
                                     { active: { _eq: true } }
                                     {
-                                        _or: [
+                                        _and: [
+                                            { _not: { uuid: { _neq: $uuid } } }
                                             { uuid: { _eq: $uuid } }
-                                            { uuid: { _is_null: true } }
                                         ]
                                     }
                                 ]
@@ -1055,9 +1035,9 @@ export async function getLatestPositiveCircleComments(
                                 _or: [
                                     { active: { _eq: true } }
                                     {
-                                        _or: [
+                                        _and: [
+                                            { _not: { uuid: { _neq: $uuid } } }
                                             { uuid: { _eq: $uuid } }
-                                            { uuid: { _is_null: true } }
                                         ]
                                     }
                                 ]
