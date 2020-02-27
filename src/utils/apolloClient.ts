@@ -692,12 +692,13 @@ export async function getCommentCount(url: string) {
                 url,
             },
             query: gql`
-                query CommentCount($url: String!) {
+                query CommentCountByUrl($url: String!) {
                     comments_aggregate(
                         where: {
                             url: { _eq: $url }
                             circle_id: { _is_null: true }
                             removed: { _eq: false }
+                            user: { active: { _eq: true } }
                         }
                     ) {
                         aggregate {
