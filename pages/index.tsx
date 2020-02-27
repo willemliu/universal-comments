@@ -36,7 +36,9 @@ function Index() {
             getCommentsByUrl(url, UserStore.getUuid()).then((comments) => {
                 CommentsStore.setComments(comments);
             });
-            getLatestPositivePublicComments().then(setLatestComments);
+            getLatestPositivePublicComments(0, 10, UserStore.getUuid()).then(
+                setLatestComments
+            );
         } catch (e) {
             console.error(e);
         } finally {
@@ -89,7 +91,11 @@ function Index() {
                     await getCommentsByUrl(url, UserStore.getUuid())
                 );
                 setLatestComments(
-                    await getLatestPositivePublicComments(offset, limit)
+                    await getLatestPositivePublicComments(
+                        offset,
+                        limit,
+                        UserStore.getUuid()
+                    )
                 );
             }
         } catch (e) {

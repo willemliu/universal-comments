@@ -728,9 +728,9 @@ export async function getAllCommentsCount(uuid?: string) {
                                 _or: [
                                     { active: { _eq: true } }
                                     {
-                                        _or: [
+                                        _and: [
+                                            { _not: { uuid: { _neq: $uuid } } }
                                             { uuid: { _eq: $uuid } }
-                                            { uuid: { _is_null: true } }
                                         ]
                                     }
                                 ]
