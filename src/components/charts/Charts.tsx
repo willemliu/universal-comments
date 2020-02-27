@@ -38,7 +38,15 @@ function Charts(props: Props) {
                             </a>
                         </li>
                         {props.latestComments?.map?.((comment) => (
-                            <li key={comment.id}>
+                            <li
+                                key={comment.id}
+                                className={
+                                    comment?.scores_aggregate?.aggregate?.sum
+                                        ?.score > -1
+                                        ? ''
+                                        : styles.negative
+                                }
+                            >
                                 <a
                                     href={comment.url}
                                     target="_blank"

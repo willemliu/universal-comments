@@ -920,9 +920,7 @@ export async function getLatestPositivePublicComments(offset = 0, limit = 10) {
                             removed: { _eq: false }
                         }
                     ) {
-                        scores_aggregate(
-                            where: { _not: { score: { _lt: 0 } } }
-                        ) {
+                        scores_aggregate {
                             aggregate {
                                 sum {
                                     score
@@ -976,9 +974,7 @@ export async function getLatestPositiveCircleComments(
                             }
                         }
                     ) {
-                        scores_aggregate(
-                            where: { _not: { score: { _lt: 0 } } }
-                        ) {
+                        scores_aggregate {
                             aggregate {
                                 sum {
                                     score
