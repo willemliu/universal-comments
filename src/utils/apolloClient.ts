@@ -832,6 +832,7 @@ export async function getCommentsByCircleId(
                         where: {
                             url: { _eq: $url }
                             circle_id: { _eq: $circleId }
+                            user: { active: { _eq: true } }
                             circle: {
                                 users_circles: {
                                     user: { uuid: { _eq: $uuid } }
@@ -882,6 +883,7 @@ export async function getLatestPublicComments(limit: number) {
                         where: {
                             circle_id: { _is_null: true }
                             removed: { _eq: false }
+                            user: { active: { _eq: true } }
                         }
                         order_by: { timestamp: desc }
                     ) {
