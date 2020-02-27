@@ -33,7 +33,7 @@ function Index() {
         setCanonical(url);
 
         try {
-            getCommentsByUrl(url).then((comments) => {
+            getCommentsByUrl(url, UserStore.getUuid()).then((comments) => {
                 CommentsStore.setComments(comments);
             });
             getLatestPositivePublicComments().then(setLatestComments);
@@ -57,7 +57,7 @@ function Index() {
                 }
             );
         } else {
-            getAllCommentsCount().then((count) => {
+            getAllCommentsCount(UserStore.getUuid()).then((count) => {
                 setHasNext(offset < count - 11);
                 setAllCommentsCount(count);
             });

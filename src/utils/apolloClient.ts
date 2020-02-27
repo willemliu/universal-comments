@@ -713,16 +713,22 @@ export async function getCommentCount(url: string) {
         });
 }
 
-export async function getAllCommentsCount() {
+export async function getAllCommentsCount(uuid?: string) {
     return await client
         .query({
+            variables: { uuid },
             query: gql`
-                query AllCommentsCount {
+                query AllCommentsCount($uuid: uuid) {
                     comments_aggregate(
                         where: {
                             circle_id: { _is_null: true }
                             removed: { _eq: false }
-                            user: { active: { _eq: true } }
+                            user: {
+                                _or: [
+                                    { uuid: { _eq: $uuid } }
+                                    { active: { _eq: true } }
+                                ]
+                            }
                         }
                     ) {
                         aggregate {
@@ -757,7 +763,12 @@ export async function getAllCommentsCountByCircle(
                                     user: { uuid: { _eq: $uuid } }
                                 }
                             }
-                            user: { active: { _eq: true } }
+                            user: {
+                                _or: [
+                                    { uuid: { _eq: $uuid } }
+                                    { active: { _eq: true } }
+                                ]
+                            }
                             removed: { _eq: false }
                         }
                     ) {
@@ -773,17 +784,22 @@ export async function getAllCommentsCountByCircle(
         });
 }
 
-export async function getCommentsByUrl(url: string) {
+export async function getCommentsByUrl(url: string, uuid?: string) {
     return await client
         .query({
-            variables: { url },
+            variables: { url, uuid },
             query: gql`
-                query CommentsByUrl($url: String!) {
+                query CommentsByUrl($url: String!, $uuid: uuid) {
                     comments(
                         where: {
                             url: { _eq: $url }
                             circle_id: { _is_null: true }
-                            user: { active: { _eq: true } }
+                            user: {
+                                _or: [
+                                    { active: { _eq: true } }
+                                    { uuid: { _eq: $uuid } }
+                                ]
+                            }
                         }
                         order_by: { timestamp: asc }
                     ) {
@@ -836,7 +852,12 @@ export async function getCommentsByCircleId(
                         where: {
                             url: { _eq: $url }
                             circle_id: { _eq: $circleId }
-                            user: { active: { _eq: true } }
+                            user: {
+                                _or: [
+                                    { active: { _eq: true } }
+                                    { uuid: { _eq: $uuid } }
+                                ]
+                            }
                             circle: {
                                 users_circles: {
                                     user: { uuid: { _eq: $uuid } }
@@ -908,14 +929,19 @@ export async function getLatestPublicComments(limit: number) {
         });
 }
 
-export async function getLatestPositivePublicComments(offset = 0, limit = 10) {
+export async function getLatestPositivePublicComments(
+    offset = 0,
+    limit = 10,
+    uuid?: string
+) {
     return await client
         .query({
-            variables: { offset, limit },
+            variables: { offset, limit, uuid },
             query: gql`
                 query LatestPositivePublicComments(
                     $offset: Int!
                     $limit: Int!
+                    $uuid: uuid
                 ) {
                     comments(
                         order_by: { timestamp: desc }
@@ -924,7 +950,12 @@ export async function getLatestPositivePublicComments(offset = 0, limit = 10) {
                         where: {
                             circle_id: { _is_null: true }
                             removed: { _eq: false }
-                            user: { active: { _eq: true } }
+                            user: {
+                                _or: [
+                                    { active: { _eq: true } }
+                                    { uuid: { _eq: $uuid } }
+                                ]
+                            }
                         }
                     ) {
                         scores_aggregate {
@@ -974,7 +1005,12 @@ export async function getLatestPositiveCircleComments(
                         where: {
                             circle_id: { _eq: $circle_id }
                             removed: { _eq: false }
-                            user: { active: { _eq: true } }
+                            user: {
+                                _or: [
+                                    { active: { _eq: true } }
+                                    { uuid: { _eq: $uuid } }
+                                ]
+                            }
                             circle: {
                                 users_circles: {
                                     user: { uuid: { _eq: $uuid } }
