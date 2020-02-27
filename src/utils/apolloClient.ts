@@ -780,6 +780,7 @@ export async function getCommentsByUrl(url: string) {
                         where: {
                             url: { _eq: $url }
                             circle_id: { _is_null: true }
+                            user: { active: { _eq: true } }
                         }
                         order_by: { timestamp: asc }
                     ) {
