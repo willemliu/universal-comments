@@ -87,7 +87,7 @@ function Charts(props: Props) {
                                         rel="noopener noreferrer"
                                     >
                                         {new URL(
-                                            comment.url
+                                            comment.url.indexOf('http') === 0 ? comment.url : 'https://example.com' 
                                         )?.hostname?.replace(/^www\./, '')}
                                     </a>
                                 </small>
