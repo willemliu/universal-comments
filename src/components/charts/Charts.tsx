@@ -12,6 +12,7 @@ interface Props {
 }
 
 function Charts(props: Props) {
+    const commentUrl = comment.url.indexOf('http') === 0 ? comment.url : 'https://example.com';
     return (
         <section className={styles.charts}>
             {!!props?.latestComments?.length && (
@@ -48,7 +49,7 @@ function Charts(props: Props) {
                                 }
                             >
                                 <a
-                                    href={comment.url}
+                                    href={commentUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     title={`${new Date(
@@ -81,13 +82,13 @@ function Charts(props: Props) {
                                         </span>
                                     )}
                                     <a
-                                        href={comment.url}
+                                        href={commentUrl}
                                         target="_BLANK"
                                         title={comment.url}
                                         rel="noopener noreferrer"
                                     >
                                         {new URL(
-                                            comment.url.indexOf('http') === 0 ? comment.url : 'https://example.com' 
+                                            commentUrl 
                                         )?.hostname?.replace(/^www\./, '')}
                                     </a>
                                 </small>
