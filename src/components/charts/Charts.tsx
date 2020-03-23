@@ -48,7 +48,11 @@ function Charts(props: Props) {
                                 }
                             >
                                 <a
-                                    href={comment.url.indexOf('http') === 0 ? comment.url : 'https://example.com'}
+                                    href={
+                                        comment.url.indexOf('http') === 0
+                                            ? comment.url
+                                            : 'https://example.com'
+                                    }
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     title={`${new Date(
@@ -81,13 +85,19 @@ function Charts(props: Props) {
                                         </span>
                                     )}
                                     <a
-                                        href={comment.url.indexOf('http') === 0 ? comment.url : 'https://example.com'}
+                                        href={
+                                            comment.url.indexOf('http') === 0
+                                                ? comment.url
+                                                : 'https://example.com'
+                                        }
                                         target="_BLANK"
                                         title={comment.url}
                                         rel="noopener noreferrer"
                                     >
                                         {new URL(
-                                            comment.url.indexOf('http') === 0 ? comment.url : 'https://example.com'
+                                            comment.url.indexOf('http') === 0
+                                                ? comment.url
+                                                : 'https://example.com'
                                         )?.hostname?.replace(/^www\./, '')}
                                     </a>
                                 </small>

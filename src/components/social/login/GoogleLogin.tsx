@@ -28,7 +28,7 @@ function GoogleLogin(props: Props) {
     useEffect(() => {
         setApiLoaded(isApiLoaded());
         if (isApiLoaded()) {
-            gapi.load('auth2', function() {
+            gapi.load('auth2', function () {
                 gapi.auth2.init({
                     client_id:
                         '426807433984-fjqermuq3moa27vho9he9dr9upjqafro.apps.googleusercontent.com',

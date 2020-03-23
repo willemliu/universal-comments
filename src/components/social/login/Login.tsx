@@ -1,6 +1,6 @@
 import React from 'react';
-import { FacebookLogin } from './FacebookLogin';
-import { GoogleLogin } from './GoogleLogin';
+// import { FacebookLogin } from './FacebookLogin';
+// import { GoogleLogin } from './GoogleLogin';
 import { Auth0Login } from './Auth0Login';
 
 export type Provider = 'facebook' | 'google' | 'auth0';
