@@ -1,6 +1,7 @@
 import Cors from 'micro-cors';
 const cors = Cors({ allowMethods: ['GET', 'HEAD'] });
 import Mailjet from 'node-mailjet';
+import { getOtherUsers } from '../../src/utils/apolloClient';
 
 declare let process: any;
 
@@ -8,36 +9,63 @@ async function mail(req: any, res: any) {
     const API_KEY = process.env.MAILJET_API_KEY;
     const SECRET_KEY = process.env.MAILJET_SECRET_KEY;
     const mailjet = Mailjet.connect(API_KEY, SECRET_KEY);
+    const mailResults = [];
+    let otherUsers;
 
     try {
-        let mailResult;
-        if (req.query.email && req.query.name) {
-            const request = mailjet.post('send', { version: 'v3.1' }).request({
-                Messages: [
-                    {
-                        From: {
-                            Email: 'noreply@willim.nl',
-                            Name: 'Universal Comments',
-                        },
-                        To: [
-                            {
-                                Email: req.query.email,
-                                Name: req.query.name,
-                            },
-                        ],
-                        Subject: 'Testing 123',
-                        TextPart: `Well this is nice isn't it?`,
-                        HTMLPart: `<h3>Well this is nice isn't it?</h3>`,
-                    },
-                ],
-            });
+        const url = req.query.url;
+        if (req.query.uuid && req.query.name && url) {
+            otherUsers = await getOtherUsers(
+                url,
+                req.query.uuid,
+                req.query.commentUuid
+            );
+            otherUsers?.users?.forEach?.(async (user) => {
+                console.log(
+                    user.email,
+                    user.display_name,
+                    otherUsers?.comments?.length
+                );
+                if (otherUsers?.comments?.length) {
+                    const request = mailjet
+                        .post('send', { version: 'v3.1' })
+                        .request({
+                            Messages: [
+                                {
+                                    From: {
+                                        Email: 'noreply@willim.nl',
+                                        Name: 'Universal Comments',
+                                    },
+                                    To: [
+                                        {
+                                            Email: user.email,
+                                            Name: user.display_name,
+                                        },
+                                    ],
+                                    Subject: `New comment: ${url}`,
+                                    TextPart: `
+                A new comment has been has been posted here: ${url}.
 
-            mailResult = await request.then((result) => result);
+                "${otherUsers?.comments?.[0]?.comment}"
+
+                You're receiving this e-mail because you've left a comment at this url before.`,
+                                    HTMLPart: `
+                <h3>A new comment</h3>
+                <p>A new comment has been has been posted here: <a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>.</p>
+                <h2>"${otherUsers?.comments?.[0]?.comment}"</h2>
+                <small>You're receiving this e-mail because you've left a comment at this url before.</small>
+                `,
+                                },
+                            ],
+                        });
+                    mailResults.push(await request.then((result) => result));
+                }
+            });
         }
-        res.status(200).json({ status: 'OK' });
+        res.status(200).json({ status: 'OK', mailResults, otherUsers });
     } catch (e) {
         console.error(e);
-        res.status(504).json({ error: e });
+        res.status(504).json({ error: e, mailResults, otherUsers });
     }
 }
 

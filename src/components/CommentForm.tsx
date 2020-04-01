@@ -3,9 +3,11 @@ import styles from './CommentForm.module.scss';
 import { insertComment } from '../utils/apolloClient';
 import { useState } from 'react';
 import UserStore from '../stores/UserStore';
-import CommentsStore from '../stores/CommentsStore';
+import CommentsStore, { Comment } from '../stores/CommentsStore';
 import { getCanonical } from '../utils/url';
 import { PrimaryButton } from './buttons/buttons';
+
+declare let window: any;
 
 interface Props {
     circleId?: string;
@@ -32,16 +34,25 @@ function CommentForm(props: Props) {
 
         const url = getCanonical();
         try {
-            CommentsStore.addComment(
-                await insertComment(
-                    UserStore.getId(),
-                    UserStore.getUuid(),
-                    url,
-                    comment,
-                    props.parentId ?? null,
-                    props.circleId ?? null
-                )
+            const insertedComment: Comment = await insertComment(
+                UserStore.getId(),
+                UserStore.getUuid(),
+                url,
+                comment,
+                props.parentId ?? null,
+                props.circleId ?? null
             );
+            CommentsStore.addComment(insertedComment);
+
+            fetch(
+                `//${
+                    window.location.host
+                }/api/mail?uuid=${UserStore.getUuid()}&commentUuid=${
+                    insertedComment.id
+                }&url=${url}`
+            )
+                .then(console.log)
+                .catch(console.error);
         } catch (e) {
             console.error(e);
         } finally {

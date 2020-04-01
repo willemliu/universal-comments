@@ -1072,3 +1072,46 @@ export async function getLatestPositiveCircleComments(
             return value?.data?.comments;
         });
 }
+
+export async function getOtherUsers(
+    url: string,
+    uuid: string,
+    commentUuid: string
+) {
+    return await client
+        .query({
+            variables: { url, uuid, commentUuid },
+            query: gql`
+                query OtherUsers(
+                    $uuid: uuid!
+                    $url: String!
+                    $commentUuid: uuid!
+                ) {
+                    users(
+                        where: {
+                            comments: {
+                                user: { _not: { uuid: { _eq: $uuid } } }
+                                url: { _eq: $url }
+                            }
+                            active: { _eq: true }
+                        }
+                    ) {
+                        display_name
+                        email
+                    }
+                    comments(
+                        where: {
+                            url: { _eq: $url }
+                            user: { uuid: { _eq: $uuid } }
+                            id: { _eq: $commentUuid }
+                        }
+                    ) {
+                        comment
+                    }
+                }
+            `,
+        })
+        .then((value) => {
+            return value?.data;
+        });
+}
