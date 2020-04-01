@@ -27,8 +27,8 @@ async function mail(req: any, res: any) {
                 req.query.circleId
             );
             otherUsers?.users?.forEach?.((user) => {
-                console.log(user?.user_circles?.[0]);
                 if (otherUsers?.comments?.length) {
+                    const circleName = user.users_circles?.[0]?.circle?.name;
                     messages.push({
                         From: {
                             Email: 'noreply@willim.nl',
@@ -40,16 +40,16 @@ async function mail(req: any, res: any) {
                                 Name: user.display_name,
                             },
                         ],
-                        Subject: `New comment in circle: ${user.user_circles?.[0]?.circle?.name}`,
+                        Subject: `New comment in circle: ${circleName}`,
                         TextPart: `
-A new comment has been has been posted in the circle [${user.user_circles?.[0]?.circle?.name}] here: ${url}.
+A new comment has been has been posted in the circle [${circleName}] here: ${url}.
 
 "${otherUsers?.comments?.[0]?.comment}"
 
 You're receiving this e-mail because you've left a comment at this url before.`,
                         HTMLPart: `
 <p>A new comment has been has been posted here: <a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>.</p>
-<h3>New comment in circle [${user.user_circles?.[0]?.circle?.name}]:</h3>
+<h3>New comment in circle [${circleName}]:</h3>
 <h2 style="text-align: center;">"${otherUsers?.comments?.[0]?.comment}"</h2>
 <small>You're receiving this e-mail because you've left a comment at this url before.</small>
     `,
@@ -62,7 +62,7 @@ You're receiving this e-mail because you've left a comment at this url before.`,
             const request = mailjet.post('send', { version: 'v3.1' }).request({
                 Messages: messages,
             });
-            await request.then(console.log);
+            await request;
         }
 
         res.status(200).json({ status: 'OK', messages });

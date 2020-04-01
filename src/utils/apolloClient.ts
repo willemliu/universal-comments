@@ -1113,7 +1113,6 @@ export async function getOtherUsers(
             `,
         })
         .then((value) => {
-            console.log(value);
             return value?.data;
         });
 }
@@ -1171,7 +1170,6 @@ export async function getOtherUsersFromCircle(
             `,
         })
         .then((value) => {
-            console.log(value);
             return value?.data;
         });
 }
