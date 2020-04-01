@@ -1104,7 +1104,7 @@ export async function getOtherUsers(
                             url: { _eq: $url }
                             user: { uuid: { _eq: $uuid } }
                             id: { _eq: $commentUuid }
-                            circle: { id: { _is_null: true } }
+                            circle_id: { _is_null: true }
                         }
                     ) {
                         comment
