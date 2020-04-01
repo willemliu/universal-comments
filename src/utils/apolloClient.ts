@@ -1080,7 +1080,7 @@ export async function getOtherUsers(
 ) {
     return await client
         .query({
-            variables: { url, uuid, commentUuid },
+            variables: { uuid, url, commentUuid },
             query: gql`
                 query OtherUsers(
                     $uuid: uuid!
