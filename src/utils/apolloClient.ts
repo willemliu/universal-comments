@@ -1112,6 +1112,7 @@ export async function getOtherUsers(
             `,
         })
         .then((value) => {
+            console.log(value);
             return value?.data;
         });
 }

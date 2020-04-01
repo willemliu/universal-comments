@@ -22,11 +22,6 @@ async function mail(req: any, res: any) {
             );
             console.log(url, req.query.uuid, req.query.commentUuid, otherUsers);
             otherUsers?.users?.forEach?.((user) => {
-                console.log(
-                    user.email,
-                    user.display_name,
-                    otherUsers?.comments?.length
-                );
                 if (otherUsers?.comments?.length) {
                     messages.push({
                         From: {
