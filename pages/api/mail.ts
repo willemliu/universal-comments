@@ -67,7 +67,7 @@ You're receiving this e-mail because you've left a comment at this url before.`,
             mailResults.push(...(await Promise.all(mailPromises)));
             console.log(mailResults);
         }
-        res.status(200).json({ status: 'OK' });
+        res.status(200).json({ status: 'OK', mailResults: mailResults.length });
     } catch (e) {
         console.error(e);
         res.status(504).json({ error: e });
