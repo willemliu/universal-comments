@@ -41,8 +41,8 @@ A new comment has been has been posted here: ${url}.
 
 You're receiving this e-mail because you've left a comment at this url before.`,
                         HTMLPart: `
-<h3>A new comment</h3>
 <p>A new comment has been has been posted here: <a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>.</p>
+<h3>New comment:</h3>
 <h2 style="text-align: center;">"${otherUsers?.comments?.[0]?.comment}"</h2>
 <small>You're receiving this e-mail because you've left a comment at this url before.</small>
     `,
