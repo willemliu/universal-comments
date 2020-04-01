@@ -14,7 +14,7 @@ async function mail(req: any, res: any) {
 
     try {
         const url = req.query.url;
-        if (req.query.uuid && req.query.name && url) {
+        if (req.query.uuid && req.query.commentUuid && url) {
             otherUsers = await getOtherUsers(
                 url,
                 req.query.uuid,
