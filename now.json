@@ -21,6 +21,8 @@
         }
     },
     "env": {
+        "MAILJET_API_KEY": "@mailjet-username-api-key",
+        "MAILJET_SECRET_KEY": "@mailjet-password-secret-key",
         "SERVER_SIDE_VARIABLE": "server side variable LOCAL"
     }
 }
