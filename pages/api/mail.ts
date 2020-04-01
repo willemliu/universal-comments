@@ -34,9 +34,10 @@ async function mail(req: any, res: any) {
 
             mailResult = await request.then((result) => result);
         }
-        res.status(200).json({ status: 'OK', API_KEY, SECRET_KEY, mailResult });
+        res.status(200).json({ status: 'OK' });
     } catch (e) {
         console.error(e);
+        res.status(504).json({ error: e });
     }
 }
 
