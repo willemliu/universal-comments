@@ -20,7 +20,6 @@ async function mail(req: any, res: any) {
                 req.query.uuid,
                 req.query.commentUuid
             );
-            console.log(url, req.query.uuid, req.query.commentUuid, otherUsers);
             otherUsers?.users?.forEach?.((user) => {
                 if (otherUsers?.comments?.length) {
                     messages.push({
@@ -44,7 +43,7 @@ You're receiving this e-mail because you've left a comment at this url before.`,
                         HTMLPart: `
 <h3>A new comment</h3>
 <p>A new comment has been has been posted here: <a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>.</p>
-<h2>"${otherUsers?.comments?.[0]?.comment}"</h2>
+<h2 style="text-align: center;">"${otherUsers?.comments?.[0]?.comment}"</h2>
 <small>You're receiving this e-mail because you've left a comment at this url before.</small>
     `,
                     });
