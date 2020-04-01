@@ -44,15 +44,27 @@ function CommentForm(props: Props) {
             );
             CommentsStore.addComment(insertedComment);
 
-            fetch(
-                `//${
-                    window.location.host
-                }/api/mail?uuid=${UserStore.getUuid()}&commentUuid=${
-                    insertedComment.id
-                }&url=${url}`
-            )
-                .then(console.log)
-                .catch(console.error);
+            if (props.circleId) {
+                fetch(
+                    `//${
+                        window.location.host
+                    }/api/mailCircle?uuid=${UserStore.getUuid()}&commentUuid=${
+                        insertedComment.id
+                    }&url=${url}&circleId=${props.circleId}`
+                )
+                    .then(console.log)
+                    .catch(console.error);
+            } else {
+                fetch(
+                    `//${
+                        window.location.host
+                    }/api/mail?uuid=${UserStore.getUuid()}&commentUuid=${
+                        insertedComment.id
+                    }&url=${url}`
+                )
+                    .then(console.log)
+                    .catch(console.error);
+            }
         } catch (e) {
             console.error(e);
         } finally {

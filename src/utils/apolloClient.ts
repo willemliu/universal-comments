@@ -1117,3 +1117,61 @@ export async function getOtherUsers(
             return value?.data;
         });
 }
+
+export async function getOtherUsersFromCircle(
+    url: string,
+    uuid: string,
+    commentUuid: string,
+    circleId: string
+) {
+    return await client
+        .query({
+            variables: { uuid, url, commentUuid, circleId },
+            query: gql`
+                query OtherUsers(
+                    $uuid: uuid!
+                    $url: String!
+                    $commentUuid: uuid!
+                    $circleId: uuid!
+                ) {
+                    users(
+                        where: {
+                            comments: {
+                                user: { _not: { uuid: { _eq: $uuid } } }
+                                url: { _eq: $url }
+                                circle: { id: { _eq: $circleId } }
+                            }
+                            active: { _eq: true }
+                            users_circles: {
+                                circle: { id: { _eq: $circleId } }
+                            }
+                        }
+                    ) {
+                        display_name
+                        email
+                        users_circles(
+                            where: { circle: { id: { _eq: $circleId } } }
+                        ) {
+                            circle {
+                                name
+                            }
+                        }
+                    }
+                    comments(
+                        where: {
+                            url: { _eq: $url }
+                            user: { uuid: { _eq: $uuid } }
+                            id: { _eq: $commentUuid }
+                            circle_id: { _eq: $circleId }
+                        }
+                    ) {
+                        comment
+                    }
+                }
+            `,
+        })
+        .then((value) => {
+            console.log(value);
+            return value?.data;
+        });
+}
