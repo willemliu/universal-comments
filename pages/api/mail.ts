@@ -20,6 +20,7 @@ async function mail(req: any, res: any) {
                 req.query.uuid,
                 req.query.commentUuid
             );
+            console.log(url, req.query.uuid, req.query.commentUuid, otherUsers);
             otherUsers?.users?.forEach?.((user) => {
                 console.log(
                     user.email,
