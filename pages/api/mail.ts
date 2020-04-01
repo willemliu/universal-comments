@@ -20,7 +20,7 @@ async function mail(req: any, res: any) {
                 req.query.uuid,
                 req.query.commentUuid
             );
-            otherUsers?.users?.forEach?.(async (user) => {
+            otherUsers?.users?.forEach?.((user) => {
                 console.log(
                     user.email,
                     user.display_name,
@@ -44,23 +44,26 @@ async function mail(req: any, res: any) {
                                     ],
                                     Subject: `New comment: ${url}`,
                                     TextPart: `
-                A new comment has been has been posted here: ${url}.
+A new comment has been has been posted here: ${url}.
 
-                "${otherUsers?.comments?.[0]?.comment}"
+"${otherUsers?.comments?.[0]?.comment}"
 
-                You're receiving this e-mail because you've left a comment at this url before.`,
+You're receiving this e-mail because you've left a comment at this url before.`,
                                     HTMLPart: `
-                <h3>A new comment</h3>
-                <p>A new comment has been has been posted here: <a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>.</p>
-                <h2>"${otherUsers?.comments?.[0]?.comment}"</h2>
-                <small>You're receiving this e-mail because you've left a comment at this url before.</small>
+<h3>A new comment</h3>
+<p>A new comment has been has been posted here: <a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>.</p>
+<h2>"${otherUsers?.comments?.[0]?.comment}"</h2>
+<small>You're receiving this e-mail because you've left a comment at this url before.</small>
                 `,
                                 },
                             ],
                         });
-                    mailResults.push(await request.then((result) => result));
+                    mailResults.push(request);
                 }
             });
+        }
+        if (mailResults.length) {
+            await Promise.all(mailResults);
         }
         res.status(200).json({ status: 'OK', mailResults, otherUsers });
     } catch (e) {
