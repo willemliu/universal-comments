@@ -27,6 +27,7 @@ async function mail(req: any, res: any) {
                 req.query.circleId
             );
             otherUsers?.users?.forEach?.((user) => {
+                console.log(user?.user_circles?.[0]);
                 if (otherUsers?.comments?.length) {
                     messages.push({
                         From: {
