@@ -11,16 +11,12 @@
             "continue": true
         }
     ],
-    "build": {
-        "env": {
-            "AUTH0_DOMAIN": "@universal-comments-auth0-domain",
-            "AUTH0_CLIENT_ID": "@universal-comments-auth0-client-id",
-            "CLIENT_SIDE_VARIABLE": "client side variable LOCAL",
-            "GRAPHQL_ENDPOINT": "@universal-comments-graphql-endpoint",
-            "HASURA_ROLE": "@universal-comments-role"
-        }
-    },
     "env": {
+        "AUTH0_DOMAIN": "@universal-comments-auth0-domain",
+        "AUTH0_CLIENT_ID": "@universal-comments-auth0-client-id",
+        "CLIENT_SIDE_VARIABLE": "client side variable LOCAL",
+        "GRAPHQL_ENDPOINT": "@universal-comments-graphql-endpoint",
+        "HASURA_ROLE": "@universal-comments-role",
         "MAILJET_API_KEY": "@mailjet-username-api-key",
         "MAILJET_SECRET_KEY": "@mailjet-password-secret-key",
         "SERVER_SIDE_VARIABLE": "server side variable LOCAL"

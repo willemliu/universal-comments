@@ -8,6 +8,7 @@ async function mail(req: any, res: any) {
     const API_KEY = process.env.MAILJET_API_KEY;
     const SECRET_KEY = process.env.MAILJET_SECRET_KEY;
     const mailjet = Mailjet.connect(API_KEY, SECRET_KEY);
+    let mailResult;
     if (req.query.email && req.query.name) {
         const request = mailjet.post('send', { version: 'v3.1' }).request({
             Messages: [
@@ -30,7 +31,7 @@ async function mail(req: any, res: any) {
         });
         request
             .then((result) => {
-                console.log(result.body);
+                mailResult = result;
             })
             .catch((err) => {
                 console.log(err.statusCode);
@@ -38,7 +39,7 @@ async function mail(req: any, res: any) {
     }
 
     try {
-        res.status(200).json({ status: 'OK', API_KEY, SECRET_KEY });
+        res.status(200).json({ status: 'OK', API_KEY, SECRET_KEY, mailResult });
     } catch (e) {
         console.error(e);
     }
