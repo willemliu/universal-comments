@@ -4,11 +4,12 @@
     justify-content: space-between;
     user-select: none;
 
+    a span {
+        display: none;
+    }
+
     a:not(.disabled) {
         cursor: pointer;
-        span {
-            display: none;
-        }
         &:hover {
             span {
                 display: inline;

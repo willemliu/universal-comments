@@ -132,9 +132,20 @@ function Index() {
     }
 
     async function handlePageChange(offset: number) {
-        CommentsStore.setComments(
-            await getCommentsByUrl(canonical, UserStore.getUuid(), offset)
-        );
+        if (circleId) {
+            CommentsStore.setComments(
+                await getCommentsByCircleId(
+                    canonical,
+                    UserStore.getUuid(),
+                    circleId,
+                    offset
+                )
+            );
+        } else {
+            CommentsStore.setComments(
+                await getCommentsByUrl(canonical, UserStore.getUuid(), offset)
+            );
+        }
     }
 
     return (

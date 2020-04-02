@@ -204,7 +204,7 @@ function Comments(props: Props) {
                 </section>
             </h2>
 
-            {!circleId && commentCount > 2 && offset > 0 && (
+            {hasPrevious && (
                 <Pagination
                     hasPrev={hasPrevious}
                     hasNext={hasNext}
@@ -236,7 +236,7 @@ function Comments(props: Props) {
                     />
                 );
             })}
-            {!circleId && commentCount > 2 && hasNext && (
+            {hasNext && (
                 <Pagination
                     hasPrev={hasPrevious}
                     hasNext={hasNext}
