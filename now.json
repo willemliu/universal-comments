@@ -5,6 +5,7 @@
     "routes": [
         {
             "src": "/.*",
+            "methods": "GET",
             "headers": {
                 "Cache-Control": "max-age=0, s-maxage=1, stale-while-revalidate"
             },
