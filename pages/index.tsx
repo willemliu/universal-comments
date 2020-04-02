@@ -21,7 +21,7 @@ function Index() {
     const [latestComments, setLatestComments] = useState([]);
     const [circleId, setCircleId] = useState(null);
     const [circleName, setCircleName] = useState(null);
-    const [offset, setOffset] = useState(0);
+    const [latestCommentsOffset, setLatestCommentsOffset] = useState(0);
     const [allCommentsCount, setAllCommentsCount] = useState(0);
     const [hasNext, setHasNext] = useState(false);
     const [comments, setComments] = useState([]);
@@ -57,34 +57,25 @@ function Index() {
         if (circleId) {
             getAllCommentsCountByCircle(UserStore.getUuid(), circleId).then(
                 (count) => {
-                    setHasNext(offset < count - 11);
+                    setHasNext(latestCommentsOffset + PAGE_SIZE < count);
                     setAllCommentsCount(count);
                 }
             );
         } else {
             getAllCommentsCount(UserStore.getUuid()).then((count) => {
-                setHasNext(offset < count - 11);
+                setHasNext(latestCommentsOffset + PAGE_SIZE < count);
                 setAllCommentsCount(count);
             });
         }
-    }, [circleId, comments]);
+    }, [circleId, latestComments]);
 
-    async function loadComments(
+    async function loadLatestComments(
         circleId?: string,
         offset = 0,
         limit = PAGE_SIZE
     ) {
-        const url = getCanonical();
-        setCanonical(url);
         try {
             if (circleId) {
-                CommentsStore.setComments(
-                    await getCommentsByCircleId(
-                        url,
-                        UserStore.getUuid(),
-                        circleId
-                    )
-                );
                 setLatestComments(
                     await getLatestPositiveCircleComments(
                         UserStore.getUuid(),
@@ -94,9 +85,6 @@ function Index() {
                     )
                 );
             } else {
-                CommentsStore.setComments(
-                    await getCommentsByUrl(url, UserStore.getUuid())
-                );
                 setLatestComments(
                     await getLatestPositivePublicComments(
                         offset,
@@ -107,45 +95,62 @@ function Index() {
             }
         } catch (e) {
             console.error(e);
-        } finally {
-            setCommentUrl(url);
         }
     }
 
-    function handleCircleChange(circleId?: string, circleName?: string) {
-        setCircleId(circleId ?? null);
-        setCircleName(circleName ?? null);
-        loadComments(circleId);
-    }
-
-    function handlePreviousLatestComments() {
-        const tmp = Math.max(0, offset - PAGE_SIZE);
-        setOffset(tmp);
-        loadComments(circleId, tmp);
-    }
-
-    function handleNextLatestComments() {
-        const tmp = Math.min(allCommentsCount - 1, offset + PAGE_SIZE);
-        setHasNext(tmp < allCommentsCount - 1);
-        setOffset(tmp);
-        loadComments(circleId, tmp);
-    }
-
-    async function handlePageChange(offset: number) {
+    async function loadComments(
+        circleId?: string,
+        offset = 0,
+        limit = PAGE_SIZE
+    ) {
         if (circleId) {
             CommentsStore.setComments(
                 await getCommentsByCircleId(
                     canonical,
                     UserStore.getUuid(),
                     circleId,
-                    offset
+                    offset,
+                    limit
                 )
             );
         } else {
             CommentsStore.setComments(
-                await getCommentsByUrl(canonical, UserStore.getUuid(), offset)
+                await getCommentsByUrl(
+                    canonical,
+                    UserStore.getUuid(),
+                    offset,
+                    limit
+                )
             );
         }
+    }
+
+    async function handleCircleChange(circleId?: string, circleName?: string) {
+        setCircleId(circleId ?? null);
+        setCircleName(circleName ?? null);
+        setLatestCommentsOffset(0);
+        loadComments(circleId);
+        loadLatestComments(circleId);
+    }
+
+    function handlePreviousLatestComments() {
+        const tmp = Math.max(0, latestCommentsOffset - PAGE_SIZE);
+        setLatestCommentsOffset(tmp);
+        loadLatestComments(circleId, tmp);
+    }
+
+    function handleNextLatestComments() {
+        const tmp = Math.min(
+            allCommentsCount,
+            latestCommentsOffset + PAGE_SIZE
+        );
+        setHasNext(tmp < allCommentsCount - 1);
+        setLatestCommentsOffset(tmp);
+        loadLatestComments(circleId, tmp);
+    }
+
+    async function handlePageChange(offset: number) {
+        loadComments(circleId, offset);
     }
 
     return (
@@ -160,11 +165,11 @@ function Index() {
                     canonical={canonical}
                     onAccess={console.log}
                     onCircleChange={handleCircleChange}
-                    onLogin={loadComments}
+                    onLogin={loadLatestComments}
                     onPageChange={handlePageChange}
                 />
                 <Charts
-                    hasPrevious={offset > 0}
+                    hasPrevious={latestCommentsOffset > 0}
                     hasNext={hasNext}
                     onPreviousClick={handlePreviousLatestComments}
                     onNextClick={handleNextLatestComments}
