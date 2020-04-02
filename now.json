@@ -2,16 +2,6 @@
     "name": "universal-comments",
     "version": 2,
     "regions": ["dub1"],
-    "routes": [
-        {
-            "src": "/.*",
-            "methods": ["GET"],
-            "headers": {
-                "Cache-Control": "max-age=0, s-maxage=1, stale-while-revalidate"
-            },
-            "continue": true
-        }
-    ],
     "build": {
         "env": {
             "AUTH0_DOMAIN": "@universal-comments-auth0-domain",
