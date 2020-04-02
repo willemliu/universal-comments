@@ -6,6 +6,7 @@ import {
     getLatestPositiveCircleComments,
     getAllCommentsCount,
     getAllCommentsCountByCircle,
+    PAGE_SIZE,
 } from '../src/utils/apolloClient';
 import { Comments } from '../src/components/Comments';
 import Head from 'next/head';
@@ -36,9 +37,11 @@ function Index() {
             getCommentsByUrl(url, UserStore.getUuid()).then((comments) => {
                 CommentsStore.setComments(comments);
             });
-            getLatestPositivePublicComments(0, 10, UserStore.getUuid()).then(
-                setLatestComments
-            );
+            getLatestPositivePublicComments(
+                0,
+                PAGE_SIZE,
+                UserStore.getUuid()
+            ).then(setLatestComments);
         } catch (e) {
             console.error(e);
         } finally {
@@ -66,7 +69,11 @@ function Index() {
         }
     }, [circleId, comments]);
 
-    async function loadComments(circleId?: string, offset = 0, limit = 10) {
+    async function loadComments(
+        circleId?: string,
+        offset = 0,
+        limit = PAGE_SIZE
+    ) {
         const url = getCanonical();
         setCanonical(url);
         try {
@@ -112,16 +119,22 @@ function Index() {
     }
 
     function handlePreviousLatestComments() {
-        const tmp = Math.max(0, offset - 10);
+        const tmp = Math.max(0, offset - PAGE_SIZE);
         setOffset(tmp);
         loadComments(circleId, tmp);
     }
 
     function handleNextLatestComments() {
-        const tmp = Math.min(allCommentsCount - 1, offset + 10);
+        const tmp = Math.min(allCommentsCount - 1, offset + PAGE_SIZE);
         setHasNext(tmp < allCommentsCount - 1);
         setOffset(tmp);
         loadComments(circleId, tmp);
+    }
+
+    async function handlePageChange(offset: number) {
+        CommentsStore.setComments(
+            await getCommentsByUrl(canonical, UserStore.getUuid(), offset)
+        );
     }
 
     return (
@@ -137,6 +150,7 @@ function Index() {
                     onAccess={console.log}
                     onCircleChange={handleCircleChange}
                     onLogin={loadComments}
+                    onPageChange={handlePageChange}
                 />
                 <Charts
                     hasPrevious={offset > 0}

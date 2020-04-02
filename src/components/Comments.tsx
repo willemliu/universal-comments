@@ -3,9 +3,15 @@ import { CommentCard } from './CommentCard';
 import { CommentForm } from './CommentForm';
 import CommentsStore, { Comment } from '../stores/CommentsStore';
 import styles from './Comments.module.scss';
-import { getCirclesByUrl, getCircles } from '../utils/apolloClient';
+import {
+    getCirclesByUrl,
+    getCircles,
+    getCommentCount,
+    PAGE_SIZE,
+} from '../utils/apolloClient';
 import UserStore from '../stores/UserStore';
 import { Login, Provider } from './social/login/Login';
+import { Pagination } from './pagination/Pagination';
 
 function assembleDescendents(comments: Comment[]) {
     try {
@@ -34,11 +40,17 @@ interface Props {
     onAccess?: (accessToken: string, uuid: string) => void;
     onLogin?: () => void;
     onLogout?: () => void;
+    onPageChange?: (offset: number) => void;
     onCircleChange?: (circleId?: string, circleName?: string) => void;
     title?: string;
 }
 
 function Comments(props: Props) {
+    const [commentCount, setCommentCount] = useState(0);
+    const [offset, setOffset] = useState(0);
+    const [hasPrevious, setHasPrevious] = useState(false);
+    const [hasNext, setHasNext] = useState(false);
+
     const [circles, setCircles] = useState([]);
     const [circleId, setCircleId] = useState(null);
 
@@ -63,6 +75,19 @@ function Comments(props: Props) {
             CommentsStore.unsubscribe(subscriptionId);
         };
     }, []);
+
+    useEffect(() => {
+        if (props.canonical) {
+            getCommentCount(props.canonical).then((count) => {
+                setCommentCount(count);
+            });
+        }
+    }, [props.canonical]);
+
+    useEffect(() => {
+        setHasNext(offset + PAGE_SIZE < commentCount - 1);
+        setHasPrevious(offset > 0);
+    }, [offset, commentCount]);
 
     useEffect(() => {
         if (loggedIn && UserStore.getUuid()) {
@@ -102,6 +127,22 @@ function Comments(props: Props) {
             props?.onCircleChange(tmpCircleId, circle?.name);
         } else {
             props?.onCircleChange(null, null);
+        }
+    }
+
+    function handlePreviousCommentsPage() {
+        if (hasPrevious) {
+            const newOffset = offset - PAGE_SIZE;
+            setOffset(newOffset);
+            props.onPageChange(newOffset);
+        }
+    }
+
+    function handleNextCommentsPage() {
+        if (hasNext) {
+            const newOffset = offset + PAGE_SIZE;
+            setOffset(newOffset);
+            props.onPageChange(newOffset);
         }
     }
 
@@ -150,6 +191,15 @@ function Comments(props: Props) {
                     )}
                 </section>
             </h2>
+
+            {!circleId && commentCount > 2 && offset > 0 && (
+                <Pagination
+                    hasPrev={hasPrevious}
+                    hasNext={hasNext}
+                    onNext={handleNextCommentsPage}
+                    onPrevious={handlePreviousCommentsPage}
+                />
+            )}
             {comments.map((comment) => {
                 return (
                     <CommentCard
@@ -174,6 +224,15 @@ function Comments(props: Props) {
                     />
                 );
             })}
+            {!circleId && commentCount > 2 && hasNext && (
+                <Pagination
+                    hasPrev={hasPrevious}
+                    hasNext={hasNext}
+                    onNext={handleNextCommentsPage}
+                    onPrevious={handlePreviousCommentsPage}
+                />
+            )}
+
             {loggedIn && <CommentForm circleId={circleId} />}
             <Login
                 className={styles.loginContainer}

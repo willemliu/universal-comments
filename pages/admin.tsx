@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import CommentsStore from '../src/stores/CommentsStore';
-import { getAllUserComments } from '../src/utils/apolloClient';
+import { getAllUserComments, PAGE_SIZE } from '../src/utils/apolloClient';
 import { AdminComments } from '../src/components/AdminComments';
 
-const pageSize = 10;
+const pageSize = PAGE_SIZE;
 
 export default function admin() {
     const [userId, setUserId] = useState(null);

@@ -1,0 +1,22 @@
+.pagination {
+    display: flex;
+    margin: 1rem 0;
+    justify-content: space-between;
+    user-select: none;
+
+    a:not(.disabled) {
+        cursor: pointer;
+        span {
+            display: none;
+        }
+        &:hover {
+            span {
+                display: inline;
+            }
+        }
+    }
+
+    .disabled {
+        opacity: 0.5;
+    }
+}

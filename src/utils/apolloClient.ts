@@ -3,6 +3,8 @@ import ApolloClient, { gql } from 'apollo-boost';
 
 declare let process: any;
 
+export const PAGE_SIZE = 10;
+
 const headers = {
     'X-Hasura-Role': process.env.HASURA_ROLE,
 };
@@ -391,7 +393,11 @@ export async function removeCircle(id: number, name: string, password: string) {
         });
 }
 
-export async function getAllUserComments(uuid: string, offset = 0, limit = 10) {
+export async function getAllUserComments(
+    uuid: string,
+    offset = 0,
+    limit = PAGE_SIZE
+) {
     return await client
         .query({
             variables: {
@@ -795,16 +801,21 @@ export async function getAllCommentsCountByCircle(
         });
 }
 
-export async function getCommentsByUrl(url: string, uuid?: string) {
+export async function getCommentsByUrl(
+    url: string,
+    uuid?: string,
+    offset = 0,
+    limit = PAGE_SIZE
+) {
     return await client
         .query({
-            variables: { url, uuid },
+            variables: { url, uuid, offset, limit },
             query: gql`
                 query CommentsByUrl(
                     $url: String!
                     $uuid: uuid
-                    $offset: Int = 0
-                    $limit: Int = 10
+                    $offset: Int
+                    $limit: Int
                 ) {
                     comments(
                         where: {
@@ -847,6 +858,28 @@ export async function getCommentsByUrl(url: string, uuid?: string) {
                                     score
                                 }
                             }
+                        }
+                    }
+                    comments_aggregate(
+                        where: {
+                            url: { _eq: $url }
+                            circle_id: { _is_null: true }
+                            removed: { _eq: false }
+                            user: {
+                                _or: [
+                                    { active: { _eq: true } }
+                                    {
+                                        _and: [
+                                            { _not: { uuid: { _neq: $uuid } } }
+                                            { uuid: { _eq: $uuid } }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ) {
+                        aggregate {
+                            count
                         }
                     }
                 }
@@ -959,7 +992,7 @@ export async function getLatestPublicComments(limit: number) {
 
 export async function getLatestPositivePublicComments(
     offset = 0,
-    limit = 10,
+    limit = PAGE_SIZE,
     uuid?: string
 ) {
     return await client
@@ -1019,7 +1052,7 @@ export async function getLatestPositiveCircleComments(
     uuid: string,
     circleId: string,
     offset = 0,
-    limit = 10
+    limit = PAGE_SIZE
 ) {
     return await client
         .query({
