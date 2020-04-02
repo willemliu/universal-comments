@@ -800,7 +800,12 @@ export async function getCommentsByUrl(url: string, uuid?: string) {
         .query({
             variables: { url, uuid },
             query: gql`
-                query CommentsByUrl($url: String!, $uuid: uuid) {
+                query CommentsByUrl(
+                    $url: String!
+                    $uuid: uuid
+                    $offset: Int = 0
+                    $limit: Int = 10
+                ) {
                     comments(
                         where: {
                             url: { _eq: $url }
@@ -818,6 +823,8 @@ export async function getCommentsByUrl(url: string, uuid?: string) {
                             }
                         }
                         order_by: { timestamp: asc }
+                        limit: $limit
+                        offset: $offset
                     ) {
                         id
                         url
