@@ -720,6 +720,52 @@ export async function getCommentCount(url: string) {
         });
 }
 
+export async function getCircleCommentCountByUrl(
+    url: string,
+    uuid: string,
+    circleId: string
+) {
+    if (!uuid) {
+        return [];
+    }
+    return await client
+        .query({
+            variables: {
+                uuid,
+                url,
+                circleId,
+            },
+            query: gql`
+                query CircleCommentCountByUrl(
+                    $url: String!
+                    $uuid: uuid
+                    $circleId: uuid
+                ) {
+                    comments_aggregate(
+                        where: {
+                            url: { _eq: $url }
+                            circle_id: { _eq: $circleId }
+                            removed: { _eq: false }
+                            user: {
+                                active: { _eq: true }
+                                users_circles: {
+                                    user: { uuid: { _eq: $uuid } }
+                                }
+                            }
+                        }
+                    ) {
+                        aggregate {
+                            count
+                        }
+                    }
+                }
+            `,
+        })
+        .then((value) => {
+            return value?.data?.comments_aggregate?.aggregate?.count;
+        });
+}
+
 export async function getAllCommentsCount(uuid?: string) {
     return await client
         .query({
@@ -893,16 +939,20 @@ export async function getCommentsByUrl(
 export async function getCommentsByCircleId(
     url: string,
     uuid: string,
-    circleId: string
+    circleId: string,
+    offset = 0,
+    limit = PAGE_SIZE
 ) {
     return await client
         .query({
-            variables: { url, uuid, circleId },
+            variables: { url, uuid, circleId, offset, limit },
             query: gql`
                 query GetCommentsByCircleId(
                     $url: String!
                     $uuid: uuid
                     $circleId: uuid
+                    $offset: Int
+                    $limit: Int
                 ) {
                     comments(
                         where: {
@@ -926,6 +976,8 @@ export async function getCommentsByCircleId(
                             }
                         }
                         order_by: { timestamp: asc }
+                        limit: $limit
+                        offset: $offset
                     ) {
                         id
                         url

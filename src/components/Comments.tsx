@@ -8,6 +8,7 @@ import {
     getCircles,
     getCommentCount,
     PAGE_SIZE,
+    getCircleCommentCountByUrl,
 } from '../utils/apolloClient';
 import UserStore from '../stores/UserStore';
 import { Login, Provider } from './social/login/Login';
@@ -78,11 +79,22 @@ function Comments(props: Props) {
 
     useEffect(() => {
         if (props.canonical) {
-            getCommentCount(props.canonical).then((count) => {
-                setCommentCount(count);
-            });
+            if (circleId) {
+                getCircleCommentCountByUrl(
+                    props.canonical,
+                    UserStore.getUuid(),
+                    circleId
+                ).then((count) => {
+                    console.log(count);
+                    setCommentCount(count);
+                });
+            } else {
+                getCommentCount(props.canonical).then((count) => {
+                    setCommentCount(count);
+                });
+            }
         }
-    }, [props.canonical]);
+    }, [props.canonical, circleId]);
 
     useEffect(() => {
         setHasNext(offset + PAGE_SIZE < commentCount - 1);
