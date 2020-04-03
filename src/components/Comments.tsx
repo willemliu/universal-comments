@@ -236,7 +236,7 @@ function Comments(props: Props) {
                     />
                 );
             })}
-            {hasNext && (
+            {(hasPrevious || hasNext) && (
                 <Pagination
                     hasPrev={hasPrevious}
                     hasNext={hasNext}

@@ -45,23 +45,28 @@ function CommentForm(props: Props) {
             CommentsStore.addComment(insertedComment);
 
             if (props.circleId) {
-                fetch(
-                    `//${
-                        window.location.host
-                    }/api/mailCircle?uuid=${UserStore.getUuid()}&commentUuid=${
-                        insertedComment.id
-                    }&url=${url}&circleId=${props.circleId}`
-                )
+                fetch(`//${window.location.host}/api/mailCircle`, {
+                    method: 'post',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        url,
+                        uuid: UserStore.getUuid(),
+                        commentUuid: insertedComment.id,
+                        circleId: props.circleId,
+                    }),
+                })
                     .then(console.log)
                     .catch(console.error);
             } else {
-                fetch(
-                    `//${
-                        window.location.host
-                    }/api/mail?uuid=${UserStore.getUuid()}&commentUuid=${
-                        insertedComment.id
-                    }&url=${url}`
-                )
+                fetch(`//${window.location.host}/api/mail`, {
+                    method: 'post',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        url,
+                        uuid: UserStore.getUuid(),
+                        commentUuid: insertedComment.id,
+                    }),
+                })
                     .then(console.log)
                     .catch(console.error);
             }

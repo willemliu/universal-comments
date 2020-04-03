@@ -3,7 +3,8 @@ import ApolloClient, { gql } from 'apollo-boost';
 
 declare let process: any;
 
-export const PAGE_SIZE = 10;
+export const PAGE_SIZE = 100;
+export const LATEST_COMMENTS_SIZE = 10;
 
 const headers = {
     'X-Hasura-Role': process.env.HASURA_ROLE,
@@ -147,7 +148,6 @@ export async function getCirclesByUrl(url: string, uuid: string) {
                         comments_aggregate(
                             where: {
                                 url: { _eq: $url }
-                                removed: { _eq: false }
                                 _or: [{ user: { active: { _eq: true } } }]
                             }
                         ) {
@@ -704,7 +704,6 @@ export async function getCommentCount(url: string) {
                         where: {
                             url: { _eq: $url }
                             circle_id: { _is_null: true }
-                            removed: { _eq: false }
                             user: { active: { _eq: true } }
                         }
                     ) {
@@ -745,7 +744,6 @@ export async function getCircleCommentCountByUrl(
                         where: {
                             url: { _eq: $url }
                             circle_id: { _eq: $circleId }
-                            removed: { _eq: false }
                             user: {
                                 active: { _eq: true }
                                 users_circles: {
@@ -832,7 +830,6 @@ export async function getAllCommentsCountByCircle(
                                     }
                                 ]
                             }
-                            removed: { _eq: false }
                         }
                     ) {
                         aggregate {
@@ -1044,7 +1041,7 @@ export async function getLatestPublicComments(limit: number) {
 
 export async function getLatestPositivePublicComments(
     offset = 0,
-    limit = PAGE_SIZE,
+    limit = LATEST_COMMENTS_SIZE,
     uuid?: string
 ) {
     return await client
@@ -1104,7 +1101,7 @@ export async function getLatestPositiveCircleComments(
     uuid: string,
     circleId: string,
     offset = 0,
-    limit = PAGE_SIZE
+    limit = LATEST_COMMENTS_SIZE
 ) {
     return await client
         .query({

@@ -1,5 +1,3 @@
-import Cors from 'micro-cors';
-const cors = Cors({ allowMethods: ['GET', 'HEAD'] });
 import Mailjet from 'node-mailjet';
 import { getOtherUsersFromCircle } from '../../src/utils/apolloClient';
 
@@ -13,18 +11,17 @@ async function mail(req: any, res: any) {
     let otherUsers;
 
     try {
-        const url = req.query.url;
-        if (
-            req.query.uuid &&
-            req.query.commentUuid &&
-            url &&
-            req.query.circleId
-        ) {
+        const url = req.body.url;
+        const uuid = req.body.uuid;
+        const commentUuid = req.body.commentUuid;
+        const circleId = req.body.circleId;
+
+        if (uuid && commentUuid && url && circleId) {
             otherUsers = await getOtherUsersFromCircle(
                 url,
-                req.query.uuid,
-                req.query.commentUuid,
-                req.query.circleId
+                uuid,
+                commentUuid,
+                circleId
             );
             otherUsers?.users?.forEach?.((user) => {
                 if (otherUsers?.comments?.length) {
@@ -56,6 +53,8 @@ You're receiving this e-mail because you've left a comment at this url before.`,
                     });
                 }
             });
+        } else {
+            console.error('Missing values');
         }
 
         if (messages.length) {
@@ -72,4 +71,12 @@ You're receiving this e-mail because you've left a comment at this url before.`,
     }
 }
 
-export default cors(mail);
+export const config = {
+    api: {
+        bodyParser: {
+            sizeLimit: '1mb',
+        },
+    },
+};
+
+export default mail;

@@ -1,5 +1,3 @@
-import Cors from 'micro-cors';
-const cors = Cors({ allowMethods: ['GET', 'HEAD'] });
 import Mailjet from 'node-mailjet';
 import { getOtherUsers } from '../../src/utils/apolloClient';
 
@@ -13,13 +11,12 @@ async function mail(req: any, res: any) {
     let otherUsers;
 
     try {
-        const url = req.query.url;
-        if (req.query.uuid && req.query.commentUuid && url) {
-            otherUsers = await getOtherUsers(
-                url,
-                req.query.uuid,
-                req.query.commentUuid
-            );
+        const url = req.body.url;
+        const uuid = req.body.uuid;
+        const commentUuid = req.body.commentUuid;
+
+        if (uuid && commentUuid && url) {
+            otherUsers = await getOtherUsers(url, uuid, commentUuid);
             otherUsers?.users?.forEach?.((user) => {
                 if (otherUsers?.comments?.length) {
                     messages.push({
@@ -65,4 +62,4 @@ You're receiving this e-mail because you've left a comment at this url before.`,
     }
 }
 
-export default cors(mail);
+export default mail;

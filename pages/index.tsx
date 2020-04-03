@@ -7,6 +7,7 @@ import {
     getAllCommentsCount,
     getAllCommentsCountByCircle,
     PAGE_SIZE,
+    LATEST_COMMENTS_SIZE,
 } from '../src/utils/apolloClient';
 import { Comments } from '../src/components/Comments';
 import Head from 'next/head';
@@ -39,7 +40,7 @@ function Index() {
             });
             getLatestPositivePublicComments(
                 0,
-                PAGE_SIZE,
+                LATEST_COMMENTS_SIZE,
                 UserStore.getUuid()
             ).then(setLatestComments);
         } catch (e) {
@@ -57,13 +58,15 @@ function Index() {
         if (circleId) {
             getAllCommentsCountByCircle(UserStore.getUuid(), circleId).then(
                 (count) => {
-                    setHasNext(latestCommentsOffset + PAGE_SIZE < count);
+                    setHasNext(
+                        latestCommentsOffset + LATEST_COMMENTS_SIZE < count
+                    );
                     setAllCommentsCount(count);
                 }
             );
         } else {
             getAllCommentsCount(UserStore.getUuid()).then((count) => {
-                setHasNext(latestCommentsOffset + PAGE_SIZE < count);
+                setHasNext(latestCommentsOffset + LATEST_COMMENTS_SIZE < count);
                 setAllCommentsCount(count);
             });
         }
@@ -72,7 +75,7 @@ function Index() {
     async function loadLatestComments(
         circleId?: string,
         offset = 0,
-        limit = PAGE_SIZE
+        limit = LATEST_COMMENTS_SIZE
     ) {
         try {
             if (circleId) {
@@ -134,7 +137,7 @@ function Index() {
     }
 
     function handlePreviousLatestComments() {
-        const tmp = Math.max(0, latestCommentsOffset - PAGE_SIZE);
+        const tmp = Math.max(0, latestCommentsOffset - LATEST_COMMENTS_SIZE);
         setLatestCommentsOffset(tmp);
         loadLatestComments(circleId, tmp);
     }
@@ -142,7 +145,7 @@ function Index() {
     function handleNextLatestComments() {
         const tmp = Math.min(
             allCommentsCount,
-            latestCommentsOffset + PAGE_SIZE
+            latestCommentsOffset + LATEST_COMMENTS_SIZE
         );
         setHasNext(tmp < allCommentsCount - 1);
         setLatestCommentsOffset(tmp);
