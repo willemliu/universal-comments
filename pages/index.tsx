@@ -136,13 +136,22 @@ function Index() {
         loadLatestComments(circleId);
     }
 
-    function handlePreviousLatestComments() {
+    async function handlePreviousLatestComments() {
+        if (latestCommentsOffset - LATEST_COMMENTS_SIZE < 0) {
+            return;
+        }
         const tmp = Math.max(0, latestCommentsOffset - LATEST_COMMENTS_SIZE);
         setLatestCommentsOffset(tmp);
         loadLatestComments(circleId, tmp);
     }
 
-    function handleNextLatestComments() {
+    async function handleNextLatestComments() {
+        if (
+            latestCommentsOffset + LATEST_COMMENTS_SIZE >
+            allCommentsCount - 1
+        ) {
+            return;
+        }
         const tmp = Math.min(
             allCommentsCount,
             latestCommentsOffset + LATEST_COMMENTS_SIZE

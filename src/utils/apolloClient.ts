@@ -830,6 +830,7 @@ export async function getAllCommentsCountByCircle(
                                     }
                                 ]
                             }
+                            removed: { _eq: false }
                         }
                     ) {
                         aggregate {
