@@ -126,7 +126,14 @@ function CommentForm(props: Props) {
                     onChange={handleReceiveMailChange}
                     checked={receiveMail}
                 />{' '}
-                Receive notification e-mails?
+                Receive e-mail notifications{' '}
+                <a
+                    href="https://github.com/willemliu/universal-comments-plugin#receive-e-mail-notifications"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    ❔
+                </a>
             </label>
         </form>
     );
