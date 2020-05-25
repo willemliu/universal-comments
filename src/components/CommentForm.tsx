@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import styles from './CommentForm.module.scss';
-import { insertComment } from '../utils/apolloClient';
+import { insertComment, UpdateReceiveMail } from '../utils/apolloClient';
 import { useState } from 'react';
 import UserStore from '../stores/UserStore';
 import CommentsStore, { Comment } from '../stores/CommentsStore';
@@ -18,6 +18,16 @@ interface Props {
 function CommentForm(props: Props) {
     const textareaRef = useRef(null);
     const [comment, setComment] = useState('');
+    const [receiveMail, setReceiveMail] = useState(UserStore.getReceiveMail());
+
+    useEffect(() => {
+        const subscriptionId = UserStore.subscribe(() => {
+            setReceiveMail(UserStore.getReceiveMail());
+        });
+        return () => {
+            UserStore.unsubscribe(subscriptionId);
+        };
+    }, [UserStore.getReceiveMail()]);
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -87,6 +97,11 @@ function CommentForm(props: Props) {
         setComment(e.currentTarget.value);
     }
 
+    function handleReceiveMailChange(e: React.ChangeEvent<HTMLInputElement>) {
+        UserStore.setReceiveMail(e.currentTarget.checked);
+        UpdateReceiveMail(UserStore.getUuid(), e.currentTarget.checked);
+    }
+
     return (
         <form className={styles.commentForm} onSubmit={handleSubmit}>
             {props.parentId && <h2>Reply</h2>}
@@ -102,6 +117,17 @@ function CommentForm(props: Props) {
                 onChange={handleCommentChange}
             />
             <PrimaryButton title="Submit message">Submit</PrimaryButton>
+
+            <label className={styles.notificationEmails}>
+                <input
+                    type="checkbox"
+                    value="1"
+                    name="receive_mail"
+                    onChange={handleReceiveMailChange}
+                    checked={receiveMail}
+                />{' '}
+                Receive notification e-mails?
+            </label>
         </form>
     );
 }

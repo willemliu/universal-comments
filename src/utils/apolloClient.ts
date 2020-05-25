@@ -84,6 +84,32 @@ export async function createUser(
         });
 }
 
+export async function UpdateReceiveMail(uuid: string, receive_mail: boolean) {
+    return await client
+        .mutate({
+            variables: {
+                uuid,
+                receive_mail,
+            },
+            mutation: gql`
+                mutation UpdateReceiveMail(
+                    $uuid: uuid!
+                    $receive_mail: Boolean!
+                ) {
+                    update_users(
+                        where: { uuid: { _eq: $uuid } }
+                        _set: { receive_mail: $receive_mail }
+                    ) {
+                        affected_rows
+                    }
+                }
+            `,
+        })
+        .then((value: any) => {
+            return value?.data?.insert_users?.returning?.[0];
+        });
+}
+
 export async function getCircles(uuid: string) {
     if (!uuid) {
         return [];
@@ -1185,6 +1211,7 @@ export async function getOtherUsers(
                                 url: { _eq: $url }
                             }
                             active: { _eq: true }
+                            receive_mail: { _eq: true }
                         }
                     ) {
                         display_name
@@ -1232,6 +1259,7 @@ export async function getOtherUsersFromCircle(
                                 circle: { id: { _eq: $circleId } }
                             }
                             active: { _eq: true }
+                            receive_mail: { _eq: true }
                             users_circles: {
                                 circle: { id: { _eq: $circleId } }
                             }

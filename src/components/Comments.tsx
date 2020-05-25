@@ -85,7 +85,6 @@ function Comments(props: Props) {
                     UserStore.getUuid(),
                     circleId
                 ).then((count) => {
-                    console.log(count);
                     setCommentCount(count);
                 });
             } else {
