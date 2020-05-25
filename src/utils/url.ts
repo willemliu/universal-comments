@@ -14,7 +14,7 @@ function getCanonical() {
         ? canonical?.getAttribute('href')
         : window.location.origin +
           (window.location.pathname.length > 1 ? window.location.pathname : '');
-    return url;
+    return url.replace(/\/$/, '');
 }
 
 export { getCanonical, getUrlParam };
