@@ -73,13 +73,14 @@ export async function createUser(
                     ) {
                         returning {
                             uuid
+                            receive_mail
                         }
                     }
                 }
             `,
         })
         .then((value: any) => {
-            return value?.data?.insert_users?.returning?.[0]?.uuid;
+            return value?.data?.insert_users?.returning?.[0];
         });
 }
 

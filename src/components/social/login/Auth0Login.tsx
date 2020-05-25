@@ -25,7 +25,7 @@ function Auth0Login(props: Props) {
 
     async function storeUser(accessToken: string, user: any) {
         const userId = user?.sub?.split('|')?.[1];
-        const uuid = await createUser(
+        const { uuid } = await createUser(
             userId,
             user.name,
             user.email ?? `${userId}@unknown.email`,

@@ -45,13 +45,15 @@ function FacebookLogin(props: Props) {
                 '/me',
                 { fields: 'id,name,email,picture' },
                 async (response: any) => {
-                    uuid = await createUser(
+                    const { uuid2 } = await createUser(
                         response.id,
                         response.name,
                         response.email,
                         response.picture?.data?.url,
                         accessToken
                     );
+
+                    uuid = uuid2;
 
                     UserStore.setId(response.id);
                     UserStore.setName(response.name);
