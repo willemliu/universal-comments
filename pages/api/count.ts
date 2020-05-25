@@ -22,7 +22,7 @@ async function count(request: any, response: any) {
     const url = request.query.canonical;
 
     try {
-        const count = await getCommentCount(url);
+        const count = await getCommentCount(url.replace(/\/$/, ''));
 
         response.status(200).json({ count });
     } catch (e) {
