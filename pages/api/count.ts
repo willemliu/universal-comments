@@ -16,7 +16,7 @@ const cors = Cors({
 async function count(request: any, response: any) {
     response.setHeader(
         'Cache-Control',
-        'max-age=0, s-maxage=1, stale-while-revalidate'
+        'max-age=0, s-maxage=60, stale-while-revalidate'
     );
 
     const url = request.query.canonical;
