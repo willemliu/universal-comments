@@ -1,4 +1,4 @@
-import { StoreBase, AutoSubscribeStore, autoSubscribe } from 'resub';
+import { ReSubstitute } from '../utils/ReSubstitute';
 
 export interface Comment {
     id: string;
@@ -29,8 +29,7 @@ export interface Comment {
     subComments?: Comment[];
 }
 
-@AutoSubscribeStore
-class CommentsStore extends StoreBase {
+class CommentsStore extends ReSubstitute {
     private comments: Comment[] = [];
 
     setComments(comments: Comment[]) {
@@ -55,7 +54,6 @@ class CommentsStore extends StoreBase {
         this.trigger();
     }
 
-    @autoSubscribe
     getComments() {
         return this.comments;
     }

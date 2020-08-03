@@ -1,7 +1,6 @@
-import { StoreBase, AutoSubscribeStore, autoSubscribe } from 'resub';
+import { ReSubstitute } from '../utils/ReSubstitute';
 
-@AutoSubscribeStore
-class UserStore extends StoreBase {
+class UserStore extends ReSubstitute {
     private id: string;
     private name: string;
     private email: string;
@@ -57,37 +56,30 @@ class UserStore extends StoreBase {
         this.trigger();
     }
 
-    @autoSubscribe
     getId() {
         return this.id;
     }
 
-    @autoSubscribe
     getName() {
         return this.name;
     }
 
-    @autoSubscribe
     getEmail() {
         return this.email;
     }
 
-    @autoSubscribe
     getImage() {
         return this.image;
     }
 
-    @autoSubscribe
     getToken() {
         return this.token;
     }
 
-    @autoSubscribe
     getUuid() {
         return this.uuid;
     }
 
-    @autoSubscribe
     getReceiveMail() {
         return this.receiveMail;
     }

@@ -27,7 +27,7 @@ async function count(request: any, response: any) {
         response.status(200).json({ count });
     } catch (e) {
         console.error(e);
-	response.status(200).json({ count: 0 });
+        response.status(200).json({ count: 0 });
     }
 }
 

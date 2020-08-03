@@ -11,4 +11,26 @@ module.exports = {
         MAILJET_API_KEY: process.env.MAILJET_API_KEY,
         MAILJET_SECRET_KEY: process.env.MAILJET_SECRET_KEY,
     },
+    async headers() {
+        return [
+            {
+                source: '/api/count',
+                headers: [
+                    {
+                        key: 'Cache-Control',
+                        value: 'max-age=0, s-maxage=60, stale-while-revalidate',
+                    },
+                ],
+            },
+            {
+                source: '/(.*)',
+                headers: [
+                    {
+                        key: 'Cache-Control',
+                        value: 'max-age=0, s-maxage=1, stale-while-revalidate',
+                    },
+                ],
+            },
+        ];
+    },
 };
