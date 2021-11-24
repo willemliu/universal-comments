@@ -1,3 +1,5 @@
+> :exclamation: **DEPRECATED** :exclamation: : Will no longer work after [Manifest v3](https://developer.chrome.com/docs/extensions/mv3/intro/) rolled out.
+
 # universal-comments
 
 Take only memories, leave only comments
